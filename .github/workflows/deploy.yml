@@ -1,0 +1,58 @@
+name: Deploy Pristine Swap to AWS
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'yarn'
+
+      - name: Install Dependencies
+        run: yarn install --frozen-lockfile
+
+      - name: Lint and Build Project
+        run: yarn build
+
+      - name: Determine Deployment Environment
+        id: set-env
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "AWS_HOST=${{ secrets.AWS_PROD_HOST }}" >> $GITHUB_ENV
+            echo "AWS_USER=${{ secrets.AWS_PROD_USER }}" >> $GITHUB_ENV
+          elif [[ "${{ github.ref_name }}" == "staging" ]]; then
+            echo "AWS_HOST=${{ secrets.AWS_STAGING_HOST }}" >> $GITHUB_ENV
+            echo "AWS_USER=${{ secrets.AWS_STAGING_USER }}" >> $GITHUB_ENV
+          else
+            echo "Invalid branch for deployment. Deployment ending now."
+            exit 0
+          fi
+
+      - name: Setup SSH Key
+        run: |
+          echo "${{ secrets.OPENSSH_PEM }}" > private_key.pem
+          chmod 600 private_key.pem
+
+      - name: Deploy to AWS
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            scp -i private_key.pem -r dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/pristine-swap.click/
+          elif [[ "${{ github.ref_name }}" == "staging" ]]; then
+            scp -i private_key.pem -r dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/staging.pristine-swap.click/
+          rm -f private_key.pem
+
+      - name: Clean up
+        run: rm -f private_key.pem
+        if: always()
