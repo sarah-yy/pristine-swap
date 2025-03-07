@@ -48,9 +48,9 @@ jobs:
       - name: Deploy to AWS
         run: |
           if [[ "${{ github.ref_name }}" == "main" ]]; then
-            scp -i private_key.pem -r dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/pristine-swap.click/
+            scp -o StrictHostKeyChecking=no -i private_key.pem -r dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/pristine-swap.click/
           elif [[ "${{ github.ref_name }}" == "staging" ]]; then
-            scp -i private_key.pem -r dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/staging.pristine-swap.click/
+            scp -o StrictHostKeyChecking=no -i private_key.pem -r dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/staging.pristine-swap.click/
           fi
           rm -f private_key.pem
 
