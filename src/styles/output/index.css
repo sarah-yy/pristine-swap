@@ -554,20 +554,43 @@ video {
   display: none;
 }
 
+.flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
+
+.text-body2 {
+  font-size: 1rem;
+}
+
 .text-h4 {
   font-size: 1.625rem;
 }
 
-.font-bold {
-  font-weight: 700;
+.text-h5 {
+  font-size: 1.25rem;
 }
 
 .font-semibold {
   font-weight: 600;
 }
 
-.underline {
-  text-decoration-line: underline;
+.drop-shadow-md {
+  --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
 #root {
@@ -585,27 +608,27 @@ body {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
-h1 {
+h1, .text-h1 {
   font-size: 3.75rem;
 }
 
-h2 {
+h2, .text-h2 {
   font-size: 3rem;
 }
 
-h3 {
+h3, .text-h3 {
   font-size: 2rem;
 }
 
-h4 {
+h4, .text-h4 {
   font-size: 1.625rem;
 }
 
-h5 {
+h5, .text-h5 {
   font-size: 1.25rem;
 }
 
-h6 {
+h6, .text-h6 {
   font-size: 1.125rem;
 }
 
@@ -645,10 +668,40 @@ h6 {
   height: 100%;
 }
 
+.full-width {
+  width: 100%;
+}
+
 .light-background-gradient {
-  background: linear-gradient(to right, #72DFE7, #8CAAED);
+  background: linear-gradient(to right, #C9D6FF, #D5DCF1 29%, #E0E1E5 86%, #E2E2E2);
 }
 
 .dark-background-gradient {
-  background: linear-gradient(to right, #5C258D, #524E96, #4389A2);
+  background: linear-gradient(to right, #353341, #605D72 61%, #837F9A);
+}
+
+.primary-text--light {
+  color: #111928;
+}
+
+.secondary-text--light {
+  color: #637381;
+}
+
+.primary-text--dark {
+  color: #F3F4F6;
+}
+
+.secondary-text--dark {
+  color: #9CA3AF;
+}
+
+.hover\:drop-shadow-lg:hover {
+  --tw-drop-shadow: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
+.hover\:drop-shadow-xl:hover {
+  --tw-drop-shadow: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }

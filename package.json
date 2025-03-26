@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "yarn eslint && tsc -b && vite build",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "build-watch:index": "tailwindcss -i ./src/styles/input/index.input.css -o ./src/styles/output/index.css --watch",
+    "build-watch:components": "tailwindcss -i ./src/styles/input/components.input.css -o ./src/styles/output/components.css --watch"
   },
   "dependencies": {
     "clsx": "^2.1.1",
@@ -27,6 +29,7 @@
     "tailwindcss": "3",
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
-    "vite": "^6.2.0"
+    "vite": "^6.2.0",
+    "vite-plugin-svgr": "^4.3.0"
   }
 }

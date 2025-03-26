@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 import { Theme, useAppContext } from "../provider";
+import { Header } from "./components";
 
 const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
@@ -13,6 +14,7 @@ const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildre
         "dark-background-gradient": theme === Theme.Dark,
       }, "full-height")}
     >
+      <Header />
       {children}
     </div>
   );

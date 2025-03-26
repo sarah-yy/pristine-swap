@@ -1,0 +1,77 @@
+/*
+  Header component styles
+*/
+
+.header-icon {
+  width: 12.5rem;
+}
+
+.contained-button-light {
+  background: linear-gradient(to right, #36D1DC, #5B86E5);
+  color: #FFFFFF;
+}
+
+.contained-button-light:hover {
+  background: linear-gradient(to right, #2ba7b0, #496bb7);
+}
+
+.contained-button-dark {
+  background: linear-gradient(to right, #5C258D, #524E96, #4389A2);
+  color: #F3F4F6;
+  overflow: hidden;
+}
+
+.contained-button-dark::before {
+  background-color: black;
+  opacity: 0.05;
+  width: 100%;
+  height: 100%;
+  transform: translateX(calc(-100% - 16px));
+  content: "";
+  transition: transform 0.2s ease-in-out;
+  display: block;
+  position: absolute;
+  top: 0px;
+}
+
+.btn-size-normal {
+  padding: 0.5rem 0.75rem;
+}
+
+.btn-size-large {
+  padding: 1rem 2rem;
+}
+
+.contained-btn-base {
+  border: none;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.contained-btn-base::before {
+  background-color: black;
+  opacity: 0.05;
+  width: 100%;
+  height: 100%;
+  content: "";
+  transition: transform 0.2s ease-in-out;
+  display: block;
+  position: absolute;
+  top: 0px;
+}
+
+.contained-btn-base.btn-size-normal::before {
+  transform: translateX(calc(-100% - 0.75rem));
+}
+
+.contained-btn-base.btn-size-normal:hover::before {
+  transform: translateX(-0.75rem);
+}
+
+.contained-btn-base.btn-size-large::before {
+  transform: translateX(calc(-100% - 2rem));
+}
+
+.contained-btn-base.btn-size-large:hover::before {
+  transform: translateX(-2rem);
+}

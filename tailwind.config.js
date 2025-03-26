@@ -8,22 +8,27 @@ export default {
   theme: {
     colors: {
       lightPrimary: {
+        dark: "#2ba7b0",
         default: "#36D1DC",
         light: "#72DFE7",
       },
       lightSecondary: {
+        dark: "#496bb7",
         default: "#5B86E5",
         light: "#8CAAED",
       },
       darkPrimary: {
+        dark: "#366e82",
         default: "#4389A2",
         light: "#7BACBE",
       },
       darkSecondary: {
+        dark: "#423e78",
         default: "#524E96",
         light: "#8683B6",
       },
       darkTertiary: {
+        dark: "#4a1e71",
         default: "#5C258D",
         light: "#8D66AF",
       },
@@ -42,6 +47,17 @@ export default {
       darkText: {
         primary: "#F3F4F6",
         secondary: "#9CA3AF",
+      },
+      lightGradientColors: {
+        left: "#C9D6FF",
+        firstQuarter: "#D5DCF1",
+        secondQuarter: "#E0E1E5",
+        right: "#E2E2E2",
+      },
+      darkGradientColors: {
+        left: "#353341",
+        firstHalf: "#605D72",
+        right: "#837F9A",
       },
     },
     extend: {
