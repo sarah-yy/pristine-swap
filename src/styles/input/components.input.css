@@ -74,3 +74,28 @@
 .contained-btn-base.btn-size-large:hover::before {
   transform: translateX(-2rem);
 }
+
+/*
+  Card styles
+*/
+.card-base {
+  border-radius: 0.5rem;
+}
+
+.card-dark {
+  background-color: theme(colors.darkBackground.primary);
+  color: theme(colors.darkText.primary);
+}
+
+.card-light {
+  background-color: theme(colors.lightBackground.primary);
+  color: theme(colors.lightText.primary);
+}
+
+.card-small {
+  padding: 0.5rem 0.75rem;
+}
+
+.card-default {
+  padding: 1.5rem;
+}

@@ -7,7 +7,7 @@ const Header: React.FC = () => {
   const { theme } = useAppContext();
 
   return (
-    <div className="full-width flex justify-between px-6 py-5">
+    <div className="full-width flex justify-between px-5 py-4 sticky top-0">
       {theme === Theme.Dark ? <PristineSwapLogoDark className="header-icon" /> : <PristineSwapLogoLight className="header-icon" />}
       <ContainedButton>Connect Wallet</ContainedButton>
     </div>

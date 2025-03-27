@@ -19,7 +19,7 @@ const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonP
 
         "btn-size-normal": size === "normal",
         "btn-size-large": size === "large",
-        "text-body2": size === "normal",
+        "text-body3": size === "normal",
         "text-h5": size === "large",
       },
       "contained-btn-base",

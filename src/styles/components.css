@@ -75,3 +75,29 @@
 .contained-btn-base.btn-size-large:hover::before {
   transform: translateX(-2rem);
 }
+
+/*
+  Card styles
+*/
+
+.card-base {
+  border-radius: 0.5rem;
+}
+
+.card-dark {
+  background-color: #1F2A37;
+  color: #F3F4F6;
+}
+
+.card-light {
+  background-color: #FFFFFF;
+  color: #111928;
+}
+
+.card-small {
+  padding: 0.5rem 0.75rem;
+}
+
+.card-default {
+  padding: 1.5rem;
+}

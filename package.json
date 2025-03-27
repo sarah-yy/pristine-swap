@@ -8,8 +8,9 @@
     "build": "yarn eslint && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build-watch:index": "tailwindcss -i ./src/styles/input/index.input.css -o ./src/styles/output/index.css --watch",
-    "build-watch:components": "tailwindcss -i ./src/styles/input/components.input.css -o ./src/styles/output/components.css --watch"
+    "build-watch:index": "tailwindcss -i ./src/styles/input/index.input.css -o ./src/styles/index.css --watch",
+    "build-watch:components": "tailwindcss -i ./src/styles/input/components.input.css -o ./src/styles/components.css --watch",
+    "build-watch:custom": "tailwindcss -i ./src/styles/input/custom.input.css -o ./src/styles/custom.css --watch"
   },
   "dependencies": {
     "clsx": "^2.1.1",
