@@ -6,8 +6,8 @@ const Swap: React.FC = () => {
   const { handleChangeTheme } = useAppContext();
 
   return (
-    <div className="full-width flex justify-center">
-      <Card className="main-form-card full-width">
+    <div className="w-full flex justify-center items-center">
+      <Card className="main-form-card w-full">
         <h4 className="text-h4 font-semibold">
           Hello world!
         </h4>

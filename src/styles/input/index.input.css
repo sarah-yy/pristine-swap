@@ -75,12 +75,8 @@ h6, .text-h6 {
   font-weight: theme(fontWeight.semibold);
 }
 
-.full-height {
-  height: 100%;
-}
-
-.full-width {
-  width: 100%;
+.background-base {
+  min-height: 100vh;
 }
 
 .light-background-gradient {

@@ -12,7 +12,12 @@ const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildre
       className={clsx({
         "light-background-gradient": theme === Theme.Light,
         "dark-background-gradient": theme === Theme.Dark,
-      }, "full-height")}
+      },
+      "h-full",
+      "min-h-screen",
+      "grid",
+      "grid-rows-[68px_auto_38px]"
+      )}
     >
       <Header />
       {children}
