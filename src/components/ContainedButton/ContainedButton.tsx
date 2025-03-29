@@ -1,8 +1,9 @@
 import clsx from "clsx";
 import React from "react";
-import { Theme, useAppContext } from "../../provider";
+import { BaseButtonProps, Theme } from "../../constants";
+import { useAppContext } from "../../provider";
 
-interface ContainedButtonProps extends React.PropsWithChildren {
+interface ContainedButtonProps extends BaseButtonProps {
   className?: string;
   size?: "normal" | "large";
 }

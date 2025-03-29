@@ -5,6 +5,9 @@
   width: 12.5rem;
 }
 
+/*
+  ContainedButton component styles
+*/
 .contained-button-light {
   background: linear-gradient(to right, theme(colors.lightPrimary.default), theme(colors.lightSecondary.default));
   color: theme(colors.lightBackground.primary);
@@ -76,6 +79,32 @@
 }
 
 /*
+  IconButton component styles
+*/
+.icon-button-base {
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+.icon-button-light:hover {
+  background-color: theme(colors.lightBackground.secondary);
+}
+.icon-button-dark:hover {
+  background-color: theme(colors.darkBackground.secondary);
+}
+.icon-button-dark.fill > svg path {
+  fill: theme(colors.darkText.secondary);
+}
+.icon-button-light.fill > svg path {
+  fill: theme(colors.lightText.secondary);
+}
+.icon-button-dark.stroke > svg path {
+  stroke: theme(colors.darkText.secondary);
+}
+.icon-button-light.stroke > svg path {
+  stroke: theme(colors.lightText.secondary);
+}
+
+/*
   Card styles
 */
 .card-base {
@@ -97,5 +126,11 @@
 }
 
 .card-default {
-  padding: 1.5rem;
+  padding: 1rem 1rem 1.5rem;
+}
+
+@media (min-width: theme(screens.md)) {
+  .card-default {
+    padding: 1.5rem;
+  }
 }

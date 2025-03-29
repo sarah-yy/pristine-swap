@@ -1,1 +1,1 @@
-export { AppProvider, Theme, useAppContext } from "./AppProvider";
+export { AppProvider, useAppContext } from "./AppProvider";

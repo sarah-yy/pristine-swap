@@ -6,6 +6,10 @@
   width: 12.5rem;
 }
 
+/*
+  ContainedButton component styles
+*/
+
 .contained-button-light {
   background: linear-gradient(to right, #36D1DC, #5B86E5);
   color: #FFFFFF;
@@ -77,6 +81,39 @@
 }
 
 /*
+  IconButton component styles
+*/
+
+.icon-button-base {
+  border-radius: 50%;
+  padding: 0.5rem;
+}
+
+.icon-button-light:hover {
+  background-color: #F3F4FF;
+}
+
+.icon-button-dark:hover {
+  background-color: #374151;
+}
+
+.icon-button-dark.fill > svg path {
+  fill: #9CA3AF;
+}
+
+.icon-button-light.fill > svg path {
+  fill: #637381;
+}
+
+.icon-button-dark.stroke > svg path {
+  stroke: #9CA3AF;
+}
+
+.icon-button-light.stroke > svg path {
+  stroke: #637381;
+}
+
+/*
   Card styles
 */
 
@@ -99,5 +136,11 @@
 }
 
 .card-default {
-  padding: 1.5rem;
+  padding: 1rem 1rem 1.5rem;
+}
+
+@media (min-width: 600px) {
+  .card-default {
+    padding: 1.5rem;
+  }
 }

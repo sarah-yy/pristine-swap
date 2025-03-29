@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import React from "react";
-import { Theme, useAppContext } from "../provider";
+import { Theme } from "../constants";
+import { useAppContext } from "../provider";
 import { Footer, Header } from "./components";
 
 const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
@@ -16,7 +17,8 @@ const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildre
       "h-full",
       "min-h-screen",
       "grid",
-      "grid-rows-[68px_auto_38px]"
+      "grid-rows-[68px_auto_44px]",
+      "md: grid-rows-[68px_auto_38px]",
       )}
     >
       <Header />

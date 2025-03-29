@@ -102,3 +102,19 @@ h6, .text-h6 {
 .secondary-text--dark {
   color: theme(colors.darkText.secondary);
 }
+
+.svg-fill--light path {
+  fill: theme(colors.lightText.secondary);
+}
+
+.svg-stroke--light path {
+  stroke: theme(colors.lightText.secondary);
+}
+
+.svg-fill--dark path {
+  fill: theme(colors.darkText.secondary);
+}
+
+.svg-stroke--dark path {
+  stroke: theme(colors.darkText.secondary);
+}

@@ -1,18 +1,10 @@
-import React, { useEffect } from 'react'
-
-export enum Theme {
-  Dark = "dark",
-  Light = "light",
-}
+import React, { useEffect } from "react";
+import { fallbackTheme, Theme, localStorageKeys } from "../constants";
 
 interface AppContextProps {
   handleChangeTheme: () => void;
   theme: Theme;
 }
-
-const fallbackTheme = Theme.Light;
-
-const localThemeKey = "@app/SET_THEME";
 
 const AppContext = React.createContext<AppContextProps | undefined>(undefined);
 
@@ -31,7 +23,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = (props: React.Prop
   useEffect(() => {
     let defaultTheme: Theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? Theme.Dark : Theme.Light;
     try {
-      const localStoreMode = localStorage.getItem(localThemeKey);
+      const localStoreMode = localStorage.getItem(localStorageKeys.theme);
       if (localStoreMode !== null) {
         defaultTheme = localStoreMode as Theme;
       }
@@ -42,7 +34,7 @@ export const AppProvider: React.FC<React.PropsWithChildren> = (props: React.Prop
   const handleChangeTheme = () => {
     const nextTheme = theme === Theme.Dark ? Theme.Light : Theme.Dark;
     setTheme(nextTheme);
-    localStorage.setItem(localThemeKey, nextTheme);
+    localStorage.setItem(localStorageKeys.theme, nextTheme);
   };
 
   return (
