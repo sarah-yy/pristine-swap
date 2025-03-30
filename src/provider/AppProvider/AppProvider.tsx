@@ -1,33 +1,28 @@
 import React, { useEffect } from "react";
-import { fallbackTheme, Theme, localStorageKeys } from "../constants";
+import { fallbackTheme, Theme, localStorageKeys } from "../../constants";
+
+export type ThemeValue = typeof Theme[keyof typeof Theme];
 
 interface AppContextProps {
   handleChangeTheme: () => void;
-  theme: Theme;
+  theme: ThemeValue;
 }
 
-const AppContext = React.createContext<AppContextProps | undefined>(undefined);
-
-export const useAppContext = () => {
-  const appCtx = React.useContext(AppContext);
-  if (appCtx === undefined) {
-    throw new Error("Expected an Context Provider somewhere in the react tree to set context value");
-  }
-  return appCtx;
-}
+// eslint-disable-next-line react-refresh/only-export-components
+export const AppContext = React.createContext<AppContextProps | undefined>(undefined);
 
 export const AppProvider: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
-  const [theme, setTheme] = React.useState<Theme>(fallbackTheme);
+  const [theme, setTheme] = React.useState<ThemeValue>(fallbackTheme);
 
   useEffect(() => {
-    let defaultTheme: Theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? Theme.Dark : Theme.Light;
+    let defaultTheme: string = window.matchMedia("(prefers-color-scheme: dark)").matches ? Theme.Dark : Theme.Light;
     try {
       const localStoreMode = localStorage.getItem(localStorageKeys.theme);
       if (localStoreMode !== null) {
-        defaultTheme = localStoreMode as Theme;
+        defaultTheme = localStoreMode as ThemeValue;
       }
-    } catch {};
+    } catch { }; // eslint-disable-line no-empty
     setTheme(defaultTheme);
   }, []);
 
@@ -41,5 +36,5 @@ export const AppProvider: React.FC<React.PropsWithChildren> = (props: React.Prop
     <AppContext.Provider value={{ handleChangeTheme, theme }}>
       {children}
     </AppContext.Provider>
-  )
+  );
 };

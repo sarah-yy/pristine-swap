@@ -4,7 +4,7 @@ import PristineSwapLogoMobileDark from "../../../assets/logos/PristineSwapLogoMo
 import PristineSwapLogoMobileLight from "../../../assets/logos/PristineSwapLogoMobileLight.png";
 import { ContainedButton } from "../../../components";
 import { Theme } from "../../../constants";
-import { useAppContext } from "../../../provider";
+import { useAppContext } from "../../../hooks";
 
 const Header: React.FC = () => {
   const { theme } = useAppContext();

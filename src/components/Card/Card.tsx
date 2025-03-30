@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React from "react";
-import { useAppContext } from "../../provider";
+import { useAppContext } from "../../hooks";
 
 interface Props extends React.PropsWithChildren {
   className?: string;

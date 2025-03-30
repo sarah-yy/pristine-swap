@@ -2,7 +2,7 @@ import React from "react";
 import { MoonIcon, ReloadIcon, SunIcon, SettingsIcon } from "../../../../assets";
 import { Theme } from "../../../../constants";
 import { IconButton } from "../../../../components";
-import { useAppContext } from "../../../../provider";
+import { useAppContext } from "../../../../hooks";
 
 const SettingsBar: React.FC = () => {
   const { theme, handleChangeTheme } = useAppContext();

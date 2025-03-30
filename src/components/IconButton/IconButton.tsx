@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import React from "react";
-import { BaseButtonProps, FillType, Theme } from "../../constants";
-import { useAppContext } from "../../provider";
+import { BaseButtonProps, PathColor, Theme } from "../../constants";
+import { useAppContext } from "../../hooks";
 
 interface Props extends BaseButtonProps {
   className?: string;
-  fillType?: FillType;
+  fillType?: typeof PathColor[keyof typeof PathColor];
 }
 
 const IconButton: React.FC<Props> = (props: Props) => {
@@ -21,7 +21,7 @@ const IconButton: React.FC<Props> = (props: Props) => {
     >
       {children}
     </button>
-  )
+  );
 };
 
 export default IconButton;

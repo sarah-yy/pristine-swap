@@ -3,7 +3,7 @@ import React from "react";
 import { SkipConnectLogo } from "../../assets";
 import { Theme } from "../../constants";
 import { Card } from "../../components";
-import { useAppContext } from "../../provider";
+import { useAppContext } from "../../hooks";
 import { SettingsBar } from "./components";
 
 const Swap: React.FC = () => {

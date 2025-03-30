@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 import { BaseButtonProps, Theme } from "../../constants";
-import { useAppContext } from "../../provider";
+import { useAppContext } from "../../hooks";
 
 interface ContainedButtonProps extends BaseButtonProps {
   className?: string;

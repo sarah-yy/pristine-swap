@@ -7,7 +7,7 @@ const Footer: React.FC = () => {
         Copyright © 2025 Thong Yuan Yu Sarah
       </div>
     </div>
-  )
+  );
 };
 
 export default Footer;
