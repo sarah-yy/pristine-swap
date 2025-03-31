@@ -1,0 +1,120 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./components.input.css";
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  text-align: center;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: theme(fontFamily.display);
+}
+
+h1, .text-h1 {
+  font-size: theme(fontSize.h1);
+}
+
+h2, .text-h2 {
+  font-size: theme(fontSize.h2);
+}
+
+h3, .text-h3 {
+  font-size: theme(fontSize.h3);
+}
+
+h4, .text-h4 {
+  font-size: theme(fontSize.h4);
+}
+
+h5, .text-h5 {
+  font-size: theme(fontSize.h5);
+}
+
+h6, .text-h6 {
+  font-size: theme(fontSize.h6);
+}
+
+.text-body1 {
+  font-size: theme(fontSize.body1); 
+}
+
+.text-body2 {
+  font-size: theme(fontSize.body2); 
+}
+
+.text-body3 {
+  font-size: theme(fontSize.body3); 
+}
+
+.text-body4 {
+  font-size: theme(fontSize.body4); 
+}
+
+.text-tooltip {
+  font-size: theme(fontSize.tooltip); 
+}
+
+.font-normal {
+  font-weight: theme(fontWeight.normal);
+}
+
+.font-medium {
+  font-weight: theme(fontWeight.medium);
+}
+
+.font-semibold {
+  font-weight: theme(fontWeight.semibold);
+}
+
+.background-base {
+  min-height: 100vh;
+}
+
+.light-background-gradient {
+  background: linear-gradient(to right, theme(colors.lightGradientColors.left), theme(colors.lightGradientColors.firstQuarter) 29%, theme(colors.lightGradientColors.secondQuarter) 86%, theme(colors.lightGradientColors.right));
+}
+
+.dark-background-gradient {
+  background: linear-gradient(to right, theme(colors.darkGradientColors.left), theme(colors.darkGradientColors.firstHalf) 61%, theme(colors.darkGradientColors.right));
+}
+
+.primary-text--light {
+  color: theme(colors.lightText.primary);
+}
+
+.secondary-text--light {
+  color: theme(colors.lightText.secondary);
+}
+
+.primary-text--dark {
+  color: theme(colors.darkText.primary);
+}
+
+.secondary-text--dark {
+  color: theme(colors.darkText.secondary);
+}
+
+.svg-fill--light path {
+  fill: theme(colors.lightText.secondary);
+}
+
+.svg-stroke--light path {
+  stroke: theme(colors.lightText.secondary);
+}
+
+.svg-fill--dark path {
+  fill: theme(colors.darkText.secondary);
+}
+
+.svg-stroke--dark path {
+  stroke: theme(colors.darkText.secondary);
+}
