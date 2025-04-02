@@ -7,6 +7,26 @@
 }
 
 /*
+  OutlinedButton component styles
+*/
+
+.outlined-btn-base {
+  border-radius: 0.5rem;
+}
+
+.outlined-button-light {
+  background-color: rgb(91 134 229 / 15%);
+  border: 1px solid rgb(91 134 229 / 50%);
+  color: #5B86E5;
+}
+
+.outlined-button-dark {
+  background-color: rgb(67 137 162 / 15%);
+  border: 1px solid rgb(67 137 162 / 50%);
+  color: #4389A2;
+}
+
+/*
   ContainedButton component styles
 */
 
@@ -38,11 +58,19 @@
   top: 0px;
 }
 
-.btn-size-normal {
+.btn-size-xs {
+  padding: 0.125rem 0.25rem;
+}
+
+.btn-size-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-size-md {
   padding: 0.5rem 0.75rem;
 }
 
-.btn-size-large {
+.btn-size-lg {
   padding: 1rem 2rem;
 }
 

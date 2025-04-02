@@ -3,20 +3,20 @@ import React from "react";
 import { BaseButtonProps, ButtonSize, Theme } from "../../constants";
 import { useAppContext } from "../../hooks";
 
-interface ContainedButtonProps extends BaseButtonProps {
+interface Props extends BaseButtonProps {
   className?: string;
   size?: typeof ButtonSize[keyof typeof ButtonSize];
 }
 
-const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonProps) => {
-  const { children, className, size = ButtonSize.MD, ...rest } = props;
+const OutlinedButton: React.FC<Props> = (props: Props) => {
+  const { children, className, size, ...rest } = props;
   const { theme } = useAppContext();
 
   return (
     <button
       className={clsx({
-        "contained-button-light": theme === Theme.Light,
-        "contained-button-dark": theme === Theme.Dark,
+        "outlined-button-light": theme === Theme.Light,
+        "outlined-button-dark": theme === Theme.Dark,
 
         "btn-size-sm": size === ButtonSize.SM,
         "btn-size-xs": size === ButtonSize.XS,
@@ -27,8 +27,7 @@ const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonP
         "text-body3": size === ButtonSize.MD,
         "text-h5": size === ButtonSize.LG,
       },
-      "contained-btn-base",
-      "drop-shadow-md",
+      "outlined-btn-base",
       "font-semibold",
       className,
     )}
@@ -39,4 +38,4 @@ const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonP
   );
 };
 
-export default ContainedButton;
+export default OutlinedButton;

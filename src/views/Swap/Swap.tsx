@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import React from "react";
 import { SkipConnectLogo } from "../../assets";
-import { Theme } from "../../constants";
-import { Card } from "../../components";
+import { ButtonSize, Theme } from "../../constants";
+import { Card, ContainedButton, OutlinedButton } from "../../components";
 import { useAppContext } from "../../hooks";
 import { SettingsBar } from "./components";
 
@@ -15,10 +15,26 @@ const Swap: React.FC = () => {
         <SettingsBar />
 
         {/* Main Form section */}
-        <div className="mt-2">
-          <h4 className="text-h4 font-semibold">
-            This is the main form section
-          </h4>
+        <div className="mt-[0.875rem] w-full">
+          {/* Connect sub-section */}
+          <div className="flex justify-end">
+            <OutlinedButton size={ButtonSize.SM}>
+              Connect
+            </OutlinedButton>
+          </div>
+
+          {/* Form Inputs */}
+          <div className="mt-[0.375rem]">
+            Form Inputs here
+          </div>
+        </div>
+
+
+        {/* CTA Button */}
+        <div className="mt-[0.625rem] w-full">
+          <ContainedButton className="w-full" size={ButtonSize.LG}>
+            Connect Wallet
+          </ContainedButton>
         </div>
 
         {/* Powered by Logo */}
