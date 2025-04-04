@@ -6,3 +6,97 @@
   width: 2.5rem;
   height: 2.5rem;
 }
+
+.form-input {
+  padding: 1rem 1.25rem;
+}
+
+.form-input-light {
+  background-color: theme(colors.lightBackground.secondary);
+}
+
+.form-input-dark {
+  background-color: theme(colors.darkBackground.secondary);
+}
+
+/*
+  Swap Button styles
+*/
+.swap-button-base {
+  border-radius: 50%;
+  height: 3rem;
+  padding: 0.375rem;
+  width: 3rem;
+  overflow: hidden;
+}
+
+.swap-button-light {
+  background: linear-gradient(to right, theme(colors.lightPrimary.default), theme(colors.lightSecondary.default));
+}
+
+.swap-button-dark {
+  background: linear-gradient(to right, theme(colors.darkTertiary.default), theme(colors.darkSecondary.default), theme(colors.darkPrimary.default));
+}
+
+.swap-icon {
+  width: 32px;
+  height: 29px;
+  transform: rotate(0deg);
+  transition: transform 0.5s;
+}
+
+.swap-button-base::before {
+  opacity: 0.05;
+  width: calc(100% + 0.5rem);
+  height: calc(100% + 0.5rem);
+  content: "";
+  transition: transform 0.2s ease-in-out;
+  display: block;
+  position: absolute;
+  top: -0.25rem;
+  transform: translateX(calc(-100% - 0.75rem));
+}
+.swap-button-dark::before {
+  background-color: white;
+}
+.swap-button-light::before {
+  background-color: black;
+}
+.swap-button-base:hover::before {
+  transform: translateX(0);
+}
+
+.rotate .swap-icon {
+  transform: rotate(180deg);
+}
+
+/*
+  Token Selection button
+*/
+.token-select-btn::before {
+  opacity: 0.05;
+  width: calc(100% + 0.5rem);
+  height: calc(100% + 0.5rem);
+  content: "";
+  transition: transform 0.2s ease-in-out;
+  display: block;
+  position: absolute;
+  top: -0.25rem;
+  transform: translateX(calc(-100% - 0.75rem));
+}
+.token-select-btn-dark::before {
+  background-color: white;
+}
+.token-select-btn-light::before {
+  background-color: black;
+}
+.token-select-btn:hover::before {
+  transform: translateX(-0.25rem);
+}
+
+/*
+  Amount Input styles
+*/
+.amount-input {
+  background-color: transparent;
+}

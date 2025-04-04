@@ -4,7 +4,6 @@ import { BaseButtonProps, ButtonSize, Theme } from "../../constants";
 import { useAppContext } from "../../hooks";
 
 interface ContainedButtonProps extends BaseButtonProps {
-  className?: string;
   size?: typeof ButtonSize[keyof typeof ButtonSize];
 }
 

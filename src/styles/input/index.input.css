@@ -2,8 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@import "./components.input.css";
-
 #root {
   width: 100%;
   min-height: 100vh;
@@ -17,6 +15,21 @@ body {
   min-width: 320px;
   min-height: 100vh;
   font-family: theme(fontFamily.display);
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input[type="number"]:focus {
+  border-color: transparent;
+  border: none;
+  outline: none;
 }
 
 h1, .text-h1 {
@@ -33,6 +46,7 @@ h3, .text-h3 {
 
 h4, .text-h4 {
   font-size: theme(fontSize.h4);
+  line-height: 2rem;
 }
 
 h5, .text-h5 {
@@ -48,11 +62,13 @@ h6, .text-h6 {
 }
 
 .text-body2 {
-  font-size: theme(fontSize.body2); 
+  font-size: theme(fontSize.body2);
+  line-height: 1.125rem;
 }
 
 .text-body3 {
   font-size: theme(fontSize.body3); 
+  line-height: 0.875rem;
 }
 
 .text-body4 {
@@ -77,6 +93,10 @@ h6, .text-h6 {
 
 .background-base {
   min-height: 100vh;
+}
+
+.border-radius {
+  border-radius: 0.5rem;
 }
 
 .light-background-gradient {

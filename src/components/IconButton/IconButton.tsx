@@ -1,10 +1,11 @@
 import clsx from "clsx";
 import React from "react";
-import { BaseButtonProps, PathColor, Theme } from "../../constants";
+import { BaseButtonProps, FillTypeProps, PathColor, Theme } from "../../constants";
 import { useAppContext } from "../../hooks";
 
-interface Props extends BaseButtonProps {
-  className?: string;
+type PropsType = BaseButtonProps & FillTypeProps;
+
+interface Props extends PropsType {
   fillType?: typeof PathColor[keyof typeof PathColor];
 }
 
