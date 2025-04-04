@@ -8,3 +8,9 @@ declare module "*.svg" {
 
   export { ReactComponent };
 }
+
+declare type SVGComponent = React.FunctionComponent<React.SVGProps<SVGSVGElement> & { title?: string }>;
+
+declare interface PropsWithClassName {
+  className?: string;
+}

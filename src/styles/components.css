@@ -7,6 +7,55 @@
 }
 
 /*
+  OutlinedButton component styles
+*/
+
+.outlined-btn-base {
+  border-radius: 0.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.outlined-button-light {
+  background-color: rgb(91 134 229 / 15%);
+  border: 1px solid rgb(91 134 229 / 50%);
+  color: #5B86E5;
+}
+
+.outlined-button-dark {
+  background-color: rgb(67 137 162 / 15%);
+  border: 1px solid rgb(67 137 162 / 50%);
+  color: #4389A2;
+}
+
+.outlined-btn-base::before {
+  opacity: 0.05;
+  width: calc(100% + 0.5rem);
+  height: calc(100% + 0.5rem);
+  content: "";
+  transition: transform 0.2s ease-in-out;
+  display: block;
+  position: absolute;
+  top: -0.25rem;
+}
+
+.outlined-button-dark::before {
+  background-color: white;
+}
+
+.outlined-button-light::before {
+  background-color: black;
+}
+
+.outlined-btn-base.btn-size-sm::before {
+  transform: translateX(calc(-100% - 0.75rem));
+}
+
+.outlined-btn-base.btn-size-sm:hover::before {
+  transform: translateX(-0.75rem);
+}
+
+/*
   ContainedButton component styles
 */
 
@@ -25,24 +74,19 @@
   overflow: hidden;
 }
 
-.contained-button-dark::before {
-  background-color: black;
-  opacity: 0.05;
-  width: 100%;
-  height: 100%;
-  transform: translateX(calc(-100% - 16px));
-  content: "";
-  transition: transform 0.2s ease-in-out;
-  display: block;
-  position: absolute;
-  top: 0px;
+.btn-size-xs {
+  padding: 0.125rem 0.25rem;
 }
 
-.btn-size-normal {
+.btn-size-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-size-md {
   padding: 0.5rem 0.75rem;
 }
 
-.btn-size-large {
+.btn-size-lg {
   padding: 1rem 2rem;
 }
 
@@ -64,19 +108,19 @@
   top: 0px;
 }
 
-.contained-btn-base.btn-size-normal::before {
+.contained-btn-base.btn-size-md::before {
   transform: translateX(calc(-100% - 0.75rem));
 }
 
-.contained-btn-base.btn-size-normal:hover::before {
+.contained-btn-base.btn-size-md:hover::before {
   transform: translateX(-0.75rem);
 }
 
-.contained-btn-base.btn-size-large::before {
+.contained-btn-base.btn-size-lg::before {
   transform: translateX(calc(-100% - 2rem));
 }
 
-.contained-btn-base.btn-size-large:hover::before {
+.contained-btn-base.btn-size-lg:hover::before {
   transform: translateX(-2rem);
 }
 
@@ -87,6 +131,7 @@
 .icon-button-base {
   border-radius: 50%;
   padding: 0.5rem;
+  transition: background-color 0.2s;
 }
 
 .icon-button-light:hover {

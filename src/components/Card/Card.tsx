@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import React from "react";
+import { BaseDivProps } from "../../constants";
 import { useAppContext } from "../../hooks";
 
-interface Props extends React.PropsWithChildren {
-  className?: string;
+interface Props extends BaseDivProps {
   size?: "default" | "small"
 }
 
