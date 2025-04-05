@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React from "react";
-import { FillTypeProps, PathColor, Theme } from "../../constants";
+import { FillTypeProps, PathColor } from "../../constants";
 import { useAppContext } from "../../hooks";
 
 type PropsType = PropsWithClassName & FillTypeProps;

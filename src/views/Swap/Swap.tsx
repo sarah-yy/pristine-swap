@@ -12,7 +12,7 @@ const Swap: React.FC = () => {
 
   const onClickSwapBtn = () => {
     setRotate((prev: boolean) => !prev);
-  }
+  };
 
   return (
     <div className="w-full flex justify-center items-center">
