@@ -7,7 +7,7 @@ import { Theme } from "../../../constants";
 import { useAppContext } from "../../../hooks";
 
 const Header: React.FC = () => {
-  const { theme } = useAppContext();
+  const { theme, handleOpenConnectDialog } = useAppContext();
 
   return (
     <div className="w-full flex justify-between px-4 md:px-5 py-4 sticky top-0">
@@ -19,7 +19,7 @@ const Header: React.FC = () => {
         <img className="w-[2.25rem]" src={theme === Theme.Dark ? PristineSwapLogoMobileDark : PristineSwapLogoMobileLight} />
       </div>
 
-      <ContainedButton>Connect Wallet</ContainedButton>
+      <ContainedButton onClick={handleOpenConnectDialog}>Connect Wallet</ContainedButton>
     </div>
   );
 };

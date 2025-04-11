@@ -164,11 +164,18 @@
 }
 
 .card-default {
-  padding: 1rem 1rem 1.5rem;
+  padding: 1.5rem;
 }
 
-@media (min-width: theme(screens.md)) {
-  .card-default {
-    padding: 1.5rem;
-  }
+/*
+  StandardDialog component
+*/
+.standard-dialog-base {
+  cursor: pointer;
+}
+.standard-dialog-dark {
+  background-color: theme(colors.darkBackground.primary / 65%);
+}
+.standard-dialog-light {
+  background-color: theme(colors.lightBackground.primary / 65%);
 }

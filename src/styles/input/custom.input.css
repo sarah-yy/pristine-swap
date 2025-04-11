@@ -100,3 +100,55 @@
 .amount-input {
   background-color: transparent;
 }
+
+/*
+  ConnectWalletDialog styles
+*/
+@media (min-width: theme(screens.md)) {
+  .connect-wallet-dialog {
+    padding: 1.75rem 2rem;
+  }
+}
+
+/*
+  WalletConnectBtn styles
+*/
+.wallet-connect-btn {
+  overflow: hidden;
+}
+.wallet-connect-btn-dark {
+  background-color: theme(colors.darkBackground.secondary);
+}
+.wallet-connect-btn-light {
+  background-color: theme(colors.lightBackground.secondary);
+}
+.wallet-btn-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+.wallet-connect-btn::before {
+  opacity: 0.05;
+  width: calc(100% + 1rem);
+  height: calc(100% + 1rem);
+  content: "";
+  transition: transform 0.2s ease-in-out;
+  display: block;
+  position: absolute;
+  top: -0.25rem;
+  transform: translateX(calc(-100% - 1rem));
+}
+.wallet-connect-btn-dark::before {
+  background-color: white;
+}
+.wallet-connect-btn-light::before {
+  background-color: black;
+}
+.wallet-connect-btn:hover::before {
+  transform: translateX(-1rem);
+}
+@media (min-width: theme(screens.md)) {
+  .wallet-btn-icon {
+    width: 1.75rem;
+    height: 1.75rem;
+  }
+}

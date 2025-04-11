@@ -6,6 +6,10 @@ export type ThemeValue = typeof Theme[keyof typeof Theme];
 interface AppContextProps {
   handleChangeTheme: () => void;
   theme: ThemeValue;
+
+  handleOpenConnectDialog: () => void;
+  handleCloseConnectDialog: () => void;
+  openConnectDialog: boolean
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -14,6 +18,7 @@ export const AppContext = React.createContext<AppContextProps | undefined>(undef
 export const AppProvider: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
   const [theme, setTheme] = React.useState<ThemeValue>(fallbackTheme);
+  const [openConnectDialog, setOpenConnectDialog] = React.useState<boolean>(false);
 
   useEffect(() => {
     let defaultTheme: string = window.matchMedia("(prefers-color-scheme: dark)").matches ? Theme.Dark : Theme.Light;
@@ -32,8 +37,18 @@ export const AppProvider: React.FC<React.PropsWithChildren> = (props: React.Prop
     localStorage.setItem(localStorageKeys.theme, nextTheme);
   };
 
+  const handleOpenConnectDialog = () => setOpenConnectDialog(true);
+  const handleCloseConnectDialog = () => setOpenConnectDialog(false);
+
   return (
-    <AppContext.Provider value={{ handleChangeTheme, theme }}>
+    <AppContext.Provider value={{
+      handleChangeTheme,
+      theme,
+
+      handleCloseConnectDialog,
+      handleOpenConnectDialog,
+      openConnectDialog,
+    }}>
       {children}
     </AppContext.Provider>
   );

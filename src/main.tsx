@@ -5,12 +5,14 @@ import App from "./App.tsx";
 import "./styles/index.css";
 import "./styles/components.css";
 import "./styles/custom.css";
-import { AppProvider } from "./provider";
+import { AppProvider, Web3Provider } from "./provider";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <AppProvider>
-      <App />
+      <Web3Provider>
+        <App />
+      </Web3Provider>
     </AppProvider>
   </StrictMode>,
 );
