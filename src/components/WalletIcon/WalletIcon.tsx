@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import React from "react";
-import { MetamaskIcon, RabbyIcon, RainbowWalletIcon } from "../../assets";
+import { CoinbaseWalletIcon, MetamaskIcon, RabbyIcon, RainbowWalletIcon, TrustWalletIcon, WalletConnectIcon } from "../../assets";
 import { WalletKey } from "../../constants";
 
 const walletIcons: {
@@ -9,6 +9,9 @@ const walletIcons: {
   [WalletKey.Metamask]: MetamaskIcon,
   [WalletKey.Rabby]: RabbyIcon,
   [WalletKey.Rainbow]: RainbowWalletIcon,
+  [WalletKey.Coinbase]: CoinbaseWalletIcon,
+  [WalletKey.Trust]: TrustWalletIcon,
+  [WalletKey.WalletConnect]: WalletConnectIcon,
 };
 
 interface Props extends PropsWithClassName {

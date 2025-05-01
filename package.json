@@ -18,8 +18,8 @@
     "clsx": "^2.1.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "viem": "2.x",
-    "wagmi": "^2.14.16"
+    "viem": "2.23.9",
+    "wagmi": "2.14.15"
   },
   "devDependencies": {
     "@eslint/js": "^9.21.0",
@@ -36,5 +36,9 @@
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0",
     "vite-plugin-svgr": "^4.3.0"
+  },
+  "resolutions": {
+    "viem": "2.23.9",
+    "wagmi": "2.14.15"
   }
 }

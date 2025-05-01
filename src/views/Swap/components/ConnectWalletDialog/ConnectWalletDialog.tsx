@@ -1,4 +1,4 @@
-import { WalletButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton, WalletButton } from '@rainbow-me/rainbowkit';
 import clsx from "clsx";
 import React from "react";
 import { WalletKey, WalletItem, wallets } from "../../../../constants";
@@ -7,6 +7,7 @@ import { useAppContext } from "../../../../hooks";
 
 const ConnectWalletDialog: React.FC = () => {
   const { openConnectDialog, handleCloseConnectDialog } = useAppContext();
+  const isEvenItems = (wallets.length + 1) % 2 === 0;
 
   return (
     <StandardDialog open={openConnectDialog} onClose={handleCloseConnectDialog} cardClass="connect-wallet-dialog">
@@ -15,11 +16,10 @@ const ConnectWalletDialog: React.FC = () => {
 
         <div className="grid grid-cols-2 gap-2">
           {wallets.map((wallet: WalletItem) => (
-            <WalletButton.Custom wallet={wallet.key}>
+            <WalletButton.Custom wallet={wallet.key} key={wallet.key}>
               {({ ready, connect }) => {
                 return (
                   <WalletConnectBtn
-                    key={wallet.key}
                     walletKey={wallet.key}
                     ready={ready}
                     connect={connect}
@@ -29,6 +29,27 @@ const ConnectWalletDialog: React.FC = () => {
               }}
             </WalletButton.Custom>
           ))}
+
+          {/* In case desired wallet is not found */}
+          <ConnectButton.Custom>
+            {({
+              openConnectModal,
+              authenticationStatus,
+              mounted,
+            }) => {
+              // Note: If your app doesn't use authentication, you
+              // can remove all 'authenticationStatus' checks
+              const ready = mounted && authenticationStatus !== 'loading';
+
+              return (
+                <OthersConnectBtn
+                  connect={openConnectModal}
+                  isEvenItems={isEvenItems}
+                  ready={ready}
+                />
+              );
+            }}
+          </ConnectButton.Custom>
         </div>
       </div>
     </StandardDialog>
@@ -36,6 +57,7 @@ const ConnectWalletDialog: React.FC = () => {
 };
 
 interface WalletConnectProps {
+  className?: string;
   connect: () => void;
   label: string;
   ready: boolean;
@@ -43,20 +65,52 @@ interface WalletConnectProps {
 }
 
 const WalletConnectBtn: React.FC<WalletConnectProps> = (props: WalletConnectProps) => {
-  const { connect, label, ready, walletKey } = props;
+  const { className, connect, label, ready, walletKey } = props;
   const { theme } = useAppContext();
   return (
     <button
       type="button"
       className={clsx(
-        `wallet-connect-btn wallet-connect-btn-${theme} text-body3 md:text-body2 px-3 py-1 md:px-4 md:py-3 rounded-lg font-semibold flex items-center gap-2 drop-shadow-md w-full h-[3rem] md:h-[3.25rem]`
+        `wallet-connect-btn wallet-connect-btn-${theme} text-body3 md:text-body2 px-3 py-1 md:px-4 md:py-3 rounded-lg font-semibold flex items-center gap-2 drop-shadow-md w-full h-[3rem] md:h-[3.25rem]`,
+        className,
       )}
       disabled={!ready}
       onClick={connect}
     >
       <WalletIcon walletKey={walletKey} className="wallet-btn-icon" />
-      {label}
+      <div className="mt-[0.125rem] lg:mt-1">{label}</div>
     </button>
+  );
+};
+
+interface OthersConnectProps {
+  connect: () => void;
+  isEvenItems: boolean;
+  ready: boolean;
+}
+
+const OthersConnectBtn: React.FC<OthersConnectProps> = (props: OthersConnectProps) => {
+  const { connect, isEvenItems, ready } = props;
+
+  return (
+    <div
+      {...(!ready && {
+        'aria-hidden': true,
+        'style': {
+          opacity: 0,
+          pointerEvents: 'none',
+          userSelect: 'none',
+        },
+      })}
+      className={!isEvenItems ? "col-span-2" : ""}
+    >
+      <WalletConnectBtn
+        connect={connect}
+        label="Others"
+        ready={ready}
+        walletKey={WalletKey.WalletConnect}
+      />
+    </div>
   );
 };
 

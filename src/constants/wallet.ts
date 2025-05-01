@@ -1,7 +1,10 @@
 export enum WalletKey {
+  Coinbase = "coinbase",
   Metamask = "metamask",
   Rabby = "rabby",
   Rainbow = "rainbow",
+  Trust = "trust",
+  WalletConnect = "connect",
 }
 
 export interface WalletItem {
@@ -18,4 +21,7 @@ export const wallets: WalletItem[] = [{
 }, {
   key: WalletKey.Rainbow,
   label: "Rainbow",
+}, {
+  key: WalletKey.Coinbase,
+  label: "Coinbase",
 }];

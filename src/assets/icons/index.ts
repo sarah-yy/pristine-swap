@@ -1,6 +1,9 @@
 export { ReactComponent as ChevronIcon } from "./Chevron.svg";
+export { ReactComponent as CopyIcon } from "./Copy.svg";
 export { ReactComponent as ExchangeIcon } from "./Exchange.svg";
 export { ReactComponent as MoonIcon } from "./Moon.svg";
+export { ReactComponent as PowerIcon } from "./Power.svg";
 export { ReactComponent as ReloadIcon } from "./Reload.svg";
 export { ReactComponent as SettingsIcon } from "./Settings.svg";
 export { ReactComponent as SunIcon } from "./Sun.svg";
+export { ReactComponent as SwitchIcon } from "./Switch.svg";
