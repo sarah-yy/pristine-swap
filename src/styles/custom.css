@@ -257,3 +257,33 @@
     height: 1.25rem;
   }
 }
+
+/*
+  ConnectSubsectionWalletBtn styles
+*/
+
+.connect-subsection-wallet-label {
+  text-align: start;
+  width: 3.5rem;
+  overflow: hidden;
+}
+
+.connect-subsection-wallet-label > span {
+  transition: 0.25s ease;
+  position: relative;
+}
+
+.connect-subsection-wallet-label::after {
+  content: "Disconnect";
+  position: absolute;
+  transform: translateX(4rem);
+  transition: transform 0.25s ease;
+}
+
+.connect-subsection-wallet-btn:hover .connect-subsection-wallet-label > span {
+  left: -4rem;
+}
+
+.connect-subsection-wallet-btn:hover .connect-subsection-wallet-label::after {
+  transform: translateX(-3.5rem);
+}

@@ -5,12 +5,13 @@ import PristineSwapLogoMobileDark from "../../../assets/logos/PristineSwapLogoMo
 import PristineSwapLogoMobileLight from "../../../assets/logos/PristineSwapLogoMobileLight.png";
 import { ContainedButton } from "../../../components";
 import { Theme } from "../../../constants";
-import { useAppContext } from "../../../hooks";
+import { useAppContext, useConnectStateContext } from "../../../hooks";
 
 import { WalletDropdown } from "./components";
 
 const Header: React.FC = () => {
-  const { theme, handleOpenConnectDialog } = useAppContext();
+  const { theme } = useAppContext();
+  const { handleOpenConnectDialog } = useConnectStateContext();
   const { address } = useAccount();
 
   return (

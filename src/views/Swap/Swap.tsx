@@ -1,13 +1,13 @@
 import clsx from "clsx";
 import React from "react";
 import { ExchangeIcon, SkipConnectLogo } from "../../assets";
-import { ButtonSize, ExchangeTx, Theme } from "../../constants";
-import { Card, ContainedButton, OutlinedButton, ThemedSvgIcon } from "../../components";
+import { ExchangeTx, Theme } from "../../constants";
+import { Card, ThemedSvgIcon } from "../../components";
 import { useAppContext } from "../../hooks";
-import { ConnectWalletDialog, FormInput, SettingsBar } from "./components";
+import { ConnectSubsection, ConnectWalletDialog, FormInput, SettingsBar, SwapCTASection } from "./components";
 
 const Swap: React.FC = () => {
-  const { theme, handleOpenConnectDialog } = useAppContext();
+  const { theme } = useAppContext();
   const [rotate, setRotate] = React.useState<boolean>(false);
 
   const onClickSwapBtn = () => {
@@ -23,11 +23,7 @@ const Swap: React.FC = () => {
           {/* Main Form section */}
           <div className="mt-[0.875rem] w-full">
             {/* Connect sub-section */}
-            <div className="flex justify-end">
-              <OutlinedButton size={ButtonSize.SM} onClick={handleOpenConnectDialog}>
-                Connect
-              </OutlinedButton>
-            </div>
+            <ConnectSubsection />
 
             {/* Form Inputs */}
             <div className="mt-[0.375rem] grid grid-cols-1">
@@ -53,12 +49,8 @@ const Swap: React.FC = () => {
           </div>
 
 
-          {/* CTA Button */}
-          <div className="mt-[0.625rem] w-full">
-            <ContainedButton className="w-full" size={ButtonSize.LG} onClick={handleOpenConnectDialog}>
-              Connect Wallet
-            </ContainedButton>
-          </div>
+          {/* CTA Button section */}
+          <SwapCTASection />
 
           {/* Powered by Logo */}
           <div className={clsx(

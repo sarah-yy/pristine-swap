@@ -138,3 +138,16 @@ h6, .text-h6 {
 .svg-stroke--dark path {
   stroke: theme(colors.darkText.secondary);
 }
+
+.svg-alt-fill--dark path {
+  fill: theme(colors.darkPrimary.default);
+}
+.svg-alt-fill--light path {
+  fill: theme(colors.lightSecondary.default);
+}
+.svg-alt-stroke--dark path {
+  stroke: theme(colors.darkPrimary.default);
+}
+.svg-alt-stroke--light path {
+  stroke: theme(colors.lightSecondary.default);
+}

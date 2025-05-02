@@ -6,7 +6,7 @@ import ConnectedWalletBtn from "../ConnectedWalletBtn";
 
 const WalletDropdown: React.FC = () => {
   const [open, setOpen] = React.useState<boolean>(false);
-  const { handleDisconnect, shortAddr } = useConnectStateContext();
+  const { handleDisconnect, handleOpenConnectDialog, shortAddr } = useConnectStateContext();
 
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
@@ -15,13 +15,13 @@ const WalletDropdown: React.FC = () => {
     return [{
       icon: SwitchIcon,
       label: "Switch Wallet",
-      onClick: () => { },
+      onClick: handleOpenConnectDialog,
     }, {
       icon: PowerIcon,
       label: "Disconnect",
       onClick: handleDisconnect,
     }] as [MenuItem, ...MenuItem[]];
-  }, [handleDisconnect])
+  }, [handleDisconnect, handleOpenConnectDialog])
 
   return (
     <Dropdown

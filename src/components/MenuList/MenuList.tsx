@@ -19,7 +19,7 @@ export const MenuList: React.FC<Props> = (props: Props) => {
   const { theme } = useAppContext();
   return (
     <div className="flex flex-col gap-1">
-      {items.map((item: MenuItem) => {
+      {items.map((item: MenuItem, index: number) => {
         const { label, icon, onClick } = item;
         return (
           <div
@@ -34,6 +34,7 @@ export const MenuList: React.FC<Props> = (props: Props) => {
               "menu-list-item",
             )}
             onClick={onClick}
+            key={`${item.label}-${index}`}
           >
             {typeof icon !== "undefined" && (
               <ThemedSvgIcon svgComponent={icon} />

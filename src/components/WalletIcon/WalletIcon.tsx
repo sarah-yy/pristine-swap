@@ -23,7 +23,12 @@ const WalletIcon: React.FC<Props> = (props: Props) => {
   const WalletSvg = walletIcons[walletKey];
 
   return (
-    <WalletSvg className={clsx("rounded-lg", className)} />
+    <WalletSvg
+      className={clsx(
+        { "rounded-lg": walletKey !== WalletKey.Metamask },
+        className
+      )}
+    />
   );
 };
 
