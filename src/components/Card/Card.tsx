@@ -12,7 +12,7 @@ const Card: React.FC<Props> = (props: Props) => {
   const { theme } = useAppContext();
 
   return (
-    <div className={clsx("card-base", "drop-shadow-sm", `card-${theme}`, `card-${size}`, className)} {...rest}>
+    <div className={clsx("card-base", "drop-shadow-md", `card-${theme}`, `card-${size}`, className)} {...rest}>
       {children}
     </div>
   );

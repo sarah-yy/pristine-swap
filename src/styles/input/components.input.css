@@ -160,15 +160,85 @@
 }
 
 .card-small {
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem;
 }
 
 .card-default {
-  padding: 1rem 1rem 1.5rem;
+  padding: 1.5rem;
 }
 
-@media (min-width: theme(screens.md)) {
-  .card-default {
-    padding: 1.5rem;
-  }
+/*
+  Dropdown styles
+*/
+.dropdown-div {
+  transform: translateY(-10%);
+  transition: transform 0.2s ease;
+}
+.dropdown-div.open {
+  transform: translateY(0);
+}
+.dropdown-card {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+.dropdown-card.open {
+  opacity: 1;
+  z-index: 1000;
+}
+
+/*
+  StandardDialog component
+*/
+.standard-dialog-base {
+  cursor: pointer;
+}
+.standard-dialog-dark {
+  background-color: theme(colors.darkBackground.primary / 80%);
+}
+.standard-dialog-light {
+  background-color: theme(colors.lightBackground.primary / 30%);
+}
+
+/*
+  MenuList component
+*/
+.menu-list-item {
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: theme(fontWeight.semibold);
+  transition: 0.25s ease;
+  user-select: none;
+}
+.menu-list-item.dark:hover {
+  color: theme(colors.darkPrimary.default);
+  background-color: theme(colors.darkPrimary.default / 15%);
+}
+.menu-list-item.dark:hover svg path {
+  fill: theme(colors.darkPrimary.default);
+}
+.menu-list-item.light:hover {
+  background-color: theme(colors.lightSecondary.default / 15%);
+  color: theme(colors.lightSecondary.default);
+}
+.menu-list-item.light:hover svg path {
+  fill: theme(colors.lightSecondary.default);
+}
+
+/*
+  CircularLoader styles
+*/
+.default-loader-background-color--light {
+  color: theme(colors.lightSecondary.default / 30%);
+}
+
+.default-loader-background-color--dark {
+  color: theme(colors.darkPrimary.default / 30%);
+}
+
+.white-loader-background-color {
+  color: #E5E7EB;
+}
+
+.white-loader-color {
+  fill: #FFFFFF;
 }

@@ -33,7 +33,10 @@ export const AppProvider: React.FC<React.PropsWithChildren> = (props: React.Prop
   };
 
   return (
-    <AppContext.Provider value={{ handleChangeTheme, theme }}>
+    <AppContext.Provider value={{
+      handleChangeTheme,
+      theme,
+    }}>
       {children}
     </AppContext.Provider>
   );

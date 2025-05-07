@@ -1,5 +1,10 @@
 export type BaseButtonProps = React.ButtonHTMLAttributes<any> & React.PropsWithChildren & PropsWithClassName;
 
+export interface RectangleButtonProps extends BaseButtonProps {
+  loading?: boolean
+  size?: typeof Size[keyof typeof Size];
+}
+
 export type BaseDivProps = React.PropsWithChildren & PropsWithClassName;
 
 export type PathColorType = {
@@ -12,14 +17,14 @@ export const PathColor: PathColorType = {
   Stroke: "stroke",
 };
 
-export type ButtonSizeType = {
+export type SizeType = {
   XS: string;
   SM: string;
   MD: string;
   LG: string;
 };
 
-export const ButtonSize: ButtonSizeType = {
+export const Size: SizeType = {
   XS: "xs",
   SM: "sm",
   MD: "md",

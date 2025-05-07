@@ -177,15 +177,100 @@
 }
 
 .card-small {
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem;
 }
 
 .card-default {
-  padding: 1rem 1rem 1.5rem;
+  padding: 1.5rem;
 }
 
-@media (min-width: 600px) {
-  .card-default {
-    padding: 1.5rem;
-  }
+/*
+  Dropdown styles
+*/
+
+.dropdown-div {
+  transform: translateY(-10%);
+  transition: transform 0.2s ease;
+}
+
+.dropdown-div.open {
+  transform: translateY(0);
+}
+
+.dropdown-card {
+  opacity: 0;
+  transition: 0.2s ease;
+}
+
+.dropdown-card.open {
+  opacity: 1;
+  z-index: 1000;
+}
+
+/*
+  StandardDialog component
+*/
+
+.standard-dialog-base {
+  cursor: pointer;
+}
+
+.standard-dialog-dark {
+  background-color: rgb(31 42 55 / 80%);
+}
+
+.standard-dialog-light {
+  background-color: rgb(255 255 255 / 30%);
+}
+
+/*
+  MenuList component
+*/
+
+.menu-list-item {
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: 0.25s ease;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+
+.menu-list-item.dark:hover {
+  color: #4389A2;
+  background-color: rgb(67 137 162 / 15%);
+}
+
+.menu-list-item.dark:hover svg path {
+  fill: #4389A2;
+}
+
+.menu-list-item.light:hover {
+  background-color: rgb(91 134 229 / 15%);
+  color: #5B86E5;
+}
+
+.menu-list-item.light:hover svg path {
+  fill: #5B86E5;
+}
+
+/*
+  CircularLoader styles
+*/
+
+.default-loader-background-color--light {
+  color: rgb(91 134 229 / 30%);
+}
+
+.default-loader-background-color--dark {
+  color: rgb(67 137 162 / 30%);
+}
+
+.white-loader-background-color {
+  color: #E5E7EB;
+}
+
+.white-loader-color {
+  fill: #FFFFFF;
 }

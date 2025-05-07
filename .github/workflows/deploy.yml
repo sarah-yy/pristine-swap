@@ -23,6 +23,19 @@ jobs:
       - name: Install Dependencies
         run: yarn install --frozen-lockfile
 
+      - name: Initialise env variables
+        run: |
+          if [[ "${{ github.ref_name }}" == "main" ]]; then
+            echo "VITE_WALLET_CONNECT_ID=${{ secrets.VITE_WALLET_CONNECT_ID_PROD }}" >> .env
+            echo "VITE_WALLET_CONNECT_PROJECT_NAME=${{ secrets.VITE_WALLET_CONNECT_PROJECT_NAME_PROD }}" >> .env
+          elif [[ "${{ github.ref_name }}" == "staging" ]]; then
+            echo "VITE_WALLET_CONNECT_ID=${{ secrets.VITE_WALLET_CONNECT_ID_STAGING }}" >> .env
+            echo "VITE_WALLET_CONNECT_PROJECT_NAME=${{ secrets.VITE_WALLET_CONNECT_PROJECT_NAME_STAGING }}" >> .env
+          else
+            echo "Invalid branch for deployment. Deployment ending now."
+            exit 0
+          fi
+
       - name: Lint and Build Project
         run: yarn build
 
@@ -48,9 +61,9 @@ jobs:
       - name: Deploy to AWS
         run: |
           if [[ "${{ github.ref_name }}" == "main" ]]; then
-            scp -o StrictHostKeyChecking=no -i private_key.pem -r dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/pristine-swap.click/
+            rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i private_key.pem" dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/pristine-swap.click/
           elif [[ "${{ github.ref_name }}" == "staging" ]]; then
-            scp -o StrictHostKeyChecking=no -i private_key.pem -r dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/staging.pristine-swap.click/
+            rsync -avz --delete -e "ssh -o StrictHostKeyChecking=no -i private_key.pem" dist/* $AWS_USER@$AWS_HOST:/usr/share/nginx/html/staging.pristine-swap.click/
           fi
           rm -f private_key.pem
 

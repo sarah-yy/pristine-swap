@@ -6,7 +6,7 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'src/types/*'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}'],
@@ -47,10 +47,12 @@ export default tseslint.config(
       "@typescript-eslint/no-inferrable-types": "off",
       "@typescript-eslint/no-namespace": "off",
       "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-empty-object-type": "off",
       camelcase: "off",
       "default-case": "error",
       "no-dupe-args": "error",
       "no-unused-vars": "error",
+      "no-extra-boolean-cast": "off",
     },
   },
 );
