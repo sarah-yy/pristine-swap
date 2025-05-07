@@ -6,7 +6,7 @@ import ConnectedWalletBtn from "../ConnectedWalletBtn";
 
 const WalletDropdown: React.FC = () => {
   const [open, setOpen] = React.useState<boolean>(false);
-  const { handleDisconnect, handleOpenConnectDialog, shortAddr } = useConnectStateContext();
+  const { handleDisconnect, handleOpenConnectDialog, aggWalletDetails } = useConnectStateContext();
 
   const handleClose = () => setOpen(false);
   const handleOpen = () => setOpen(true);
@@ -37,7 +37,7 @@ const WalletDropdown: React.FC = () => {
       handleClose={handleClose}
     >
       <div className="px-2 py-[0.75rem] flex items-center text-body2 font-semibold gap-1">
-        {shortAddr}
+        {aggWalletDetails?.shortAddress ?? ''}
         <IconButton className="wallet-dropdown-copy-icon">
           <CopyIcon />
         </IconButton>

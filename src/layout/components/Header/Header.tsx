@@ -10,7 +10,7 @@ import { WalletDropdown } from "./components";
 
 const Header: React.FC = () => {
   const { theme } = useAppContext();
-  const { handleOpenConnectDialog, shortAddr } = useConnectStateContext();
+  const { handleOpenConnectDialog, isWalletConnecting, isWalletConnected } = useConnectStateContext();
 
   return (
     <div className="w-full flex justify-between px-4 md:px-5 py-4 sticky top-0 header">
@@ -22,10 +22,10 @@ const Header: React.FC = () => {
         <img className="w-[2.25rem]" src={theme === Theme.Dark ? PristineSwapLogoMobileDark : PristineSwapLogoMobileLight} />
       </div>
 
-      {!!shortAddr ? (
+      {!!isWalletConnected ? (
         <WalletDropdown />
       ) : (
-        <ContainedButton onClick={handleOpenConnectDialog}>
+        <ContainedButton className="header-connect-btn" disabled={isWalletConnecting} onClick={handleOpenConnectDialog} loading={isWalletConnecting}>
           Connect Wallet
         </ContainedButton>
       )}

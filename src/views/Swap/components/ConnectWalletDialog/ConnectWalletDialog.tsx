@@ -15,8 +15,10 @@ const ConnectWalletDialog: React.FC = () => {
     let walletsCount = evmWallets.length + 1;
     if (!!keplrInstance) walletsCount++;
     if (!!leapInstance) walletsCount++;
+    // If wallet is already connected, deduct the current wallet
+    if (connectorId) walletsCount--;
     return walletsCount % 2 === 0;
-  }, [keplrInstance, leapInstance]);
+  }, [keplrInstance, leapInstance, connectorId]);
 
   const onConnectKeplr = async () => {
     await handleConnectKeplr();
@@ -79,6 +81,8 @@ const ConnectWalletDialog: React.FC = () => {
                   }
                   connect();
                 };
+
+                if (connectorId === wallet.key) return null;
 
                 return (
                   <WalletConnectBtn

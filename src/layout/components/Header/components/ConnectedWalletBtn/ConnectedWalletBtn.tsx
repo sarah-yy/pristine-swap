@@ -14,7 +14,7 @@ interface Props {
 const ConnectedWalletBtn: React.FC<Props> = (props: Props) => {
   const { handleClose, handleOpen, open } = props;
   const { theme } = useAppContext();
-  const { connectorId, shortAddr } = useConnectStateContext();
+  const { aggWalletDetails } = useConnectStateContext();
 
   const handleToggleOpen = () => {
     if (open) {
@@ -41,11 +41,11 @@ const ConnectedWalletBtn: React.FC<Props> = (props: Props) => {
       "gap-2")}
       onClick={handleToggleOpen}
     >
-      {connectorId && (
-        <WalletIcon className="connected-wallet-btn-icon" walletKey={connectorId} />
+      {!!aggWalletDetails?.connectorId && (
+        <WalletIcon className="connected-wallet-btn-icon" walletKey={aggWalletDetails.connectorId} />
       )}
-      {shortAddr && (
-        <div className="mt-[0.25rem]">{shortAddr}</div>
+      {!!aggWalletDetails?.shortAddress && (
+        <div className="mt-[0.25rem]">{aggWalletDetails.shortAddress}</div>
       )}
       <ThemedSvgIcon className="w-[1rem] h-[1rem] connected-wallet-dropdown-arrow" svgComponent={ChevronIcon} />
     </div>

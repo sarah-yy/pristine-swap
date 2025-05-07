@@ -5,9 +5,11 @@ import { KeplrTypes, LeapTypes } from "../../types";
 import { getWalletType, truncateStr } from "../../utils";
 
 interface ConnectStateContextProps {
-  connectorId?: WalletKey;
-  shortAddr?: string;
+  // Wallet connection status
+  isWalletConnecting: boolean;
   isWalletConnected: boolean;
+
+  aggWalletDetails?: WalletDetails;
 
   handleConnectKeplr: () => Promise<void>;
   keplrInstance?: KeplrTypes.Keplr.Keplr;
@@ -28,6 +30,7 @@ interface ConnectStateContextProps {
 interface WalletDetails {
   address?: string;
   connectorId?: WalletKey;
+  shortAddress?: string;
 }
 
 const tempCosmosChain: string = "cosmoshub-4";
@@ -38,24 +41,36 @@ export const ConnectStateContext = React.createContext<ConnectStateContextProps 
 export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
 
-  const { address: evmAddress, connector, isConnected } = useAccount();
+  const { address: evmAddress, connector, isConnected, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
 
   const [keplrInstance, setKeplrInstance] = React.useState<KeplrTypes.Keplr.Keplr | undefined>(undefined);
   const [leapInstance, setLeapInstance] = React.useState<LeapTypes.Leap.Leap | undefined>(undefined);
   const [cosmosWalletDetails, setCosmosWalletDetails] = React.useState<WalletDetails | undefined>(undefined);
-  // const [isCosmosWalletConnecting, setIsCosmosWalletConnecting] = React.useState<boolean>(false);
+  const [isCosmosWalletConnecting, setIsCosmosWalletConnecting] = React.useState<boolean>(false);
   const [openConnectDialog, setOpenConnectDialog] = React.useState<boolean>(false);
 
-  const connectorId = React.useMemo(() => cosmosWalletDetails?.connectorId ?? getWalletType(connector?.id), [cosmosWalletDetails, connector]);
-  const shortAddr = React.useMemo(() => {
+  const aggWalletDetails = React.useMemo((): WalletDetails => {
     const address: string | undefined = cosmosWalletDetails?.address ?? evmAddress;
-    return address ? truncateStr(address, 5, 2) : undefined;
-  }, [evmAddress, cosmosWalletDetails]);
+    return {
+      address,
+      connectorId: cosmosWalletDetails?.connectorId ?? getWalletType(connector?.id),
+      shortAddress: cosmosWalletDetails?.shortAddress ?? (
+        address ? truncateStr(address, 5, 2) : undefined
+      ),
+    };
+  }, [cosmosWalletDetails, connector, evmAddress])
+
   const isWalletConnected = React.useMemo(() => {
-    if (cosmosWalletDetails) return true
-    return isConnected
-  }, [cosmosWalletDetails, isConnected])
+    if (cosmosWalletDetails) return true;
+    return isConnected;
+  }, [cosmosWalletDetails, isConnected]);
+
+  const isWalletConnecting = React.useMemo(() => {
+    if (isCosmosWalletConnecting) return true;
+    if (isConnecting) return true;
+    return false;
+  }, [isCosmosWalletConnecting, isConnecting]);
 
   const handleDisconnectCosmosWallets = () => {
     setCosmosWalletDetails(undefined);
@@ -72,6 +87,8 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
   const handleConnectKeplr = React.useCallback(async () => {
     if (!keplrInstance) throw new Error("Pls download Keplr extension.");
 
+    setIsCosmosWalletConnecting(true);
+
     // Disconnect all other wallets before reconnecting
     handleDisconnect();
   
@@ -80,11 +97,16 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
     setCosmosWalletDetails({
       address: key.bech32Address,
       connectorId: WalletKey.Keplr,
+      shortAddress: truncateStr(key.bech32Address, 5, 2),
     });
+  
+    setIsCosmosWalletConnecting(false);
   }, [keplrInstance, handleDisconnect]);
 
   const handleConnectLeap = React.useCallback(async () => {
     if (!leapInstance) throw new Error("Pls download Leap extension.");
+
+    setIsCosmosWalletConnecting(true);
 
     // Disconnect all other wallets before reconnecting
     handleDisconnect();
@@ -94,7 +116,10 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
     setCosmosWalletDetails({
       address: key.bech32Address,
       connectorId: WalletKey.Leap,
+      shortAddress: truncateStr(key.bech32Address, 5, 2),
     });
+
+    setIsCosmosWalletConnecting(false);
   }, [leapInstance]);
 
   const handleOpenConnectDialog = () => setOpenConnectDialog(true);
@@ -102,9 +127,10 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
 
   return (
     <ConnectStateContext.Provider value={{
-      connectorId,
-      shortAddr,
+      isWalletConnecting,
       isWalletConnected,
+
+      aggWalletDetails,
 
       handleConnectKeplr,
       keplrInstance,

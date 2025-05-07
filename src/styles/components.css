@@ -254,3 +254,23 @@
 .menu-list-item.light:hover svg path {
   fill: #5B86E5;
 }
+
+/*
+  CircularLoader styles
+*/
+
+.default-loader-background-color--light {
+  color: rgb(91 134 229 / 30%);
+}
+
+.default-loader-background-color--dark {
+  color: rgb(67 137 162 / 30%);
+}
+
+.white-loader-background-color {
+  color: #E5E7EB;
+}
+
+.white-loader-color {
+  fill: #FFFFFF;
+}

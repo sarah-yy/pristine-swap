@@ -23,6 +23,10 @@
   background-color: #374151;
 }
 
+.header-connect-btn {
+  width: 7.5rem;
+}
+
 /*
   Swap Button styles
 */

@@ -1,15 +1,25 @@
 import clsx from "clsx";
 import React from "react";
-import { BaseButtonProps, Size, Theme } from "../../constants";
+import { RectangleButtonProps, Size, Theme } from "../../constants";
 import { useAppContext } from "../../hooks";
+import CircularLoader from "../CircularLoader";
 
-interface ContainedButtonProps extends BaseButtonProps {
-  size?: typeof Size[keyof typeof Size];
-}
+interface ContainedButtonProps extends RectangleButtonProps { }
 
 const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonProps) => {
-  const { children, className, size = Size.MD, ...rest } = props;
+  const { children, className, loading, size = Size.MD, ...rest } = props;
   const { theme } = useAppContext();
+
+  const loaderSize = React.useMemo(() => {
+    switch (size) {
+      case Size.LG:
+        return 20;
+      case Size.MD:
+        return 13;
+      default:
+        return 11;
+    }
+  }, [size]);
 
   return (
     <button
@@ -33,7 +43,9 @@ const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonP
     )}
       {...rest}
     >
-      {children}
+      {loading ? (
+        <CircularLoader color="white" size={loaderSize} />
+      ) : children}
     </button>
   );
 };

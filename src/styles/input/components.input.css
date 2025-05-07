@@ -193,10 +193,10 @@
   cursor: pointer;
 }
 .standard-dialog-dark {
-  background-color: theme(colors.darkBackground.primary / 65%);
+  background-color: theme(colors.darkBackground.primary / 80%);
 }
 .standard-dialog-light {
-  background-color: theme(colors.lightBackground.primary / 65%);
+  background-color: theme(colors.lightBackground.primary / 30%);
 }
 
 /*
@@ -222,4 +222,23 @@
 }
 .menu-list-item.light:hover svg path {
   fill: theme(colors.lightSecondary.default);
+}
+
+/*
+  CircularLoader styles
+*/
+.default-loader-background-color--light {
+  color: theme(colors.lightSecondary.default / 30%);
+}
+
+.default-loader-background-color--dark {
+  color: theme(colors.darkPrimary.default / 30%);
+}
+
+.white-loader-background-color {
+  color: #E5E7EB;
+}
+
+.white-loader-color {
+  fill: #FFFFFF;
 }

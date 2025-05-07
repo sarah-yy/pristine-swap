@@ -1,5 +1,10 @@
 export type BaseButtonProps = React.ButtonHTMLAttributes<any> & React.PropsWithChildren & PropsWithClassName;
 
+export interface RectangleButtonProps extends BaseButtonProps {
+  loading?: boolean
+  size?: typeof Size[keyof typeof Size];
+}
+
 export type BaseDivProps = React.PropsWithChildren & PropsWithClassName;
 
 export type PathColorType = {

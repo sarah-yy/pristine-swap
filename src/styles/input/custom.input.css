@@ -23,6 +23,10 @@
   background-color: theme(colors.darkBackground.secondary);
 }
 
+.header-connect-btn {
+  width: 7.5rem;
+}
+
 /*
   Swap Button styles
 */

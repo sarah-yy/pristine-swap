@@ -630,6 +630,10 @@ video {
   display: block;
 }
 
+.inline {
+  display: inline;
+}
+
 .flex {
   display: flex;
 }
@@ -706,8 +710,26 @@ video {
   width: 100%;
 }
 
+.w-12 {
+  width: 3rem;
+}
+
+.w-16 {
+  width: 4rem;
+}
+
 .max-w-md {
   max-width: 28rem;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 .grid-cols-1 {
@@ -1066,19 +1088,19 @@ h6, .text-h6 {
   stroke: #9CA3AF;
 }
 
-.svg-alt-fill--dark path {
+.svg-alt-fill--dark {
   fill: #4389A2;
 }
 
-.svg-alt-fill--light path {
+.svg-alt-fill--light {
   fill: #5B86E5;
 }
 
-.svg-alt-stroke--dark path {
+.svg-alt-stroke--dark {
   stroke: #4389A2;
 }
 
-.svg-alt-stroke--light path {
+.svg-alt-stroke--light {
   stroke: #5B86E5;
 }
 

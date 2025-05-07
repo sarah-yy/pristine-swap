@@ -4,12 +4,12 @@ import { Size } from "../../../../constants";
 import { useConnectStateContext } from "../../../../hooks";
 
 const SwapCTASection: React.FC = () => {
-  const { handleOpenConnectDialog, shortAddr } = useConnectStateContext();
+  const { handleOpenConnectDialog, isWalletConnected, isWalletConnecting } = useConnectStateContext();
 
   return (
     <div className="mt-[0.625rem] w-full">
-      {!shortAddr ? (
-        <ContainedButton className="w-full" size={Size.LG} onClick={handleOpenConnectDialog}>
+      {!isWalletConnected ? (
+        <ContainedButton className="w-full" disabled={isWalletConnecting} size={Size.LG} onClick={handleOpenConnectDialog} loading={isWalletConnecting}>
           Connect Wallet
         </ContainedButton>
       ) : (

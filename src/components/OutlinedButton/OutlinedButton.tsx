@@ -1,15 +1,25 @@
 import clsx from "clsx";
 import React from "react";
-import { BaseButtonProps, Size, Theme } from "../../constants";
+import { RectangleButtonProps, Size, Theme } from "../../constants";
 import { useAppContext } from "../../hooks";
+import CircularLoader from "../CircularLoader";
 
-interface Props extends BaseButtonProps {
-  size?: typeof Size[keyof typeof Size];
-}
+interface Props extends RectangleButtonProps { }
 
 const OutlinedButton: React.FC<Props> = (props: Props) => {
-  const { children, className, size, ...rest } = props;
+  const { children, className, size, loading, ...rest } = props;
   const { theme } = useAppContext();
+
+  const loaderSize = React.useMemo(() => {
+    switch (size) {
+      case Size.LG:
+        return 20;
+      case Size.MD:
+        return 13;
+      default:
+        return 11;
+    }
+  }, [size]);
 
   return (
     <button
@@ -32,7 +42,9 @@ const OutlinedButton: React.FC<Props> = (props: Props) => {
     )}
       {...rest}
     >
-      {children}
+      {loading ? (
+        <CircularLoader color="default" size={loaderSize} />
+      ) : children}
     </button>
   );
 };
