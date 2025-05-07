@@ -1,6 +1,6 @@
 import React from "react";
 import { useAccount, useDisconnect } from "wagmi";
-import { WalletKey } from "../../constants";
+import { WalletKey, WalletKeyEnumType } from "../../constants";
 import { KeplrTypes, LeapTypes } from "../../types";
 import { getWalletType, truncateStr } from "../../utils";
 
@@ -29,7 +29,7 @@ interface ConnectStateContextProps {
 
 interface WalletDetails {
   address?: string;
-  connectorId?: WalletKey;
+  connectorId?: WalletKeyEnumType;
   shortAddress?: string;
 }
 
