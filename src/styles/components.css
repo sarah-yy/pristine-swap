@@ -216,11 +216,11 @@
 }
 
 .standard-dialog-dark {
-  background-color: rgb(31 42 55 / 65%);
+  background-color: rgb(31 42 55 / 80%);
 }
 
 .standard-dialog-light {
-  background-color: rgb(255 255 255 / 65%);
+  background-color: rgb(255 255 255 / 30%);
 }
 
 /*

@@ -8,7 +8,7 @@ import { useAppContext, useConnectStateContext } from "../../../../hooks";
 import { KeplrTypes, LeapTypes } from '../../../../types';
 
 const ConnectWalletDialog: React.FC = () => {
-  const { connectorId, handleDisconnectCosmosWallets, openConnectDialog, handleConnectKeplr, handleConnectLeap, handleCloseConnectDialog, keplrInstance, setKeplrInstance, leapInstance, setLeapInstance } = useConnectStateContext();
+  const { aggWalletDetails, handleDisconnectCosmosWallets, openConnectDialog, handleConnectKeplr, handleConnectLeap, handleCloseConnectDialog, keplrInstance, setKeplrInstance, leapInstance, setLeapInstance } = useConnectStateContext();
   const { disconnect } = useDisconnect();
   const { switchAccount } = useSwitchAccount();
   const isEvenItems = React.useMemo((): boolean => {
@@ -16,9 +16,9 @@ const ConnectWalletDialog: React.FC = () => {
     if (!!keplrInstance) walletsCount++;
     if (!!leapInstance) walletsCount++;
     // If wallet is already connected, deduct the current wallet
-    if (connectorId) walletsCount--;
+    if (aggWalletDetails?.connectorId) walletsCount--;
     return walletsCount % 2 === 0;
-  }, [keplrInstance, leapInstance, connectorId]);
+  }, [keplrInstance, leapInstance, aggWalletDetails]);
 
   const onConnectKeplr = async () => {
     await handleConnectKeplr();
@@ -51,7 +51,7 @@ const ConnectWalletDialog: React.FC = () => {
         <h4 className="font-semibold text-start text-h5 md:text-h4">Connect Wallet</h4>
 
         <div className="grid grid-cols-2 gap-2">
-          {!!keplrInstance && connectorId !== WalletKey.Keplr && (
+          {!!keplrInstance && aggWalletDetails?.connectorId !== WalletKey.Keplr && (
             <WalletConnectBtn
               walletKey={keplrWallet.key}
               ready
@@ -60,7 +60,7 @@ const ConnectWalletDialog: React.FC = () => {
             />
           )}
 
-          {!!leapInstance && connectorId !== WalletKey.Leap && (
+          {!!leapInstance && aggWalletDetails?.connectorId !== WalletKey.Leap && (
             <WalletConnectBtn
               walletKey={leapWallet.key}
               ready
@@ -82,7 +82,7 @@ const ConnectWalletDialog: React.FC = () => {
                   connect();
                 };
 
-                if (connectorId === wallet.key) return null;
+                if (aggWalletDetails?.connectorId === wallet.key) return null;
 
                 return (
                   <WalletConnectBtn

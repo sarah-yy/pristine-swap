@@ -26,9 +26,11 @@ const Dropdown: React.FC<Props> = (props: Props) => {
             "dropdown-div"
           )}
         >
-          <Card className={clsx("dropdown-card", { open })} size="small">
-            {children}
-          </Card>
+          {open && (
+            <Card className={clsx("dropdown-card", { open })} size="small">
+              {children}
+            </Card>
+          )}
         </div>
       </div>
 
