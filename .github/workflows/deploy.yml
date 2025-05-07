@@ -25,12 +25,13 @@ jobs:
 
       - name: Initialise env variables
         run: |
+          mkdir envs
           if [[ "${{ github.ref_name }}" == "main" ]]; then
-            echo "VITE_WALLET_CONNECT_ID=${{ secrets.VITE_WALLET_CONNECT_ID_PROD }}" >> .env
-            echo "VITE_WALLET_CONNECT_PROJECT_NAME=${{ secrets.VITE_WALLET_CONNECT_PROJECT_NAME_PROD }}" >> .env
+            echo "VITE_WALLET_CONNECT_ID=${{ secrets.VITE_WALLET_CONNECT_ID_PROD }}" >> envs/.env
+            echo "VITE_WALLET_CONNECT_PROJECT_NAME=${{ secrets.VITE_WALLET_CONNECT_PROJECT_NAME_PROD }}" >> envs/.env
           elif [[ "${{ github.ref_name }}" == "staging" ]]; then
-            echo "VITE_WALLET_CONNECT_ID=${{ secrets.VITE_WALLET_CONNECT_ID_STAGING }}" >> .env
-            echo "VITE_WALLET_CONNECT_PROJECT_NAME=${{ secrets.VITE_WALLET_CONNECT_PROJECT_NAME_STAGING }}" >> .env
+            echo "VITE_WALLET_CONNECT_ID=${{ secrets.VITE_WALLET_CONNECT_ID_STAGING }}" >> envs/.env
+            echo "VITE_WALLET_CONNECT_PROJECT_NAME=${{ secrets.VITE_WALLET_CONNECT_PROJECT_NAME_STAGING }}" >> envs/.env
           else
             echo "Invalid branch for deployment. Deployment ending now."
             exit 0
@@ -68,5 +69,7 @@ jobs:
           rm -f private_key.pem
 
       - name: Clean up
-        run: rm -f private_key.pem
+        run: |
+          rm -f private_key.pem
+          rm -rf envs
         if: always()
