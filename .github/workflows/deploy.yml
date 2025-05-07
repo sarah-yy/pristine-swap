@@ -25,7 +25,6 @@ jobs:
 
       - name: Initialise env variables
         run: |
-          mkdir envs
           if [[ "${{ github.ref_name }}" == "main" ]]; then
             echo "VITE_WALLET_CONNECT_ID=${{ secrets.VITE_WALLET_CONNECT_ID_PROD }}" >> envs/.env
             echo "VITE_WALLET_CONNECT_PROJECT_NAME=${{ secrets.VITE_WALLET_CONNECT_PROJECT_NAME_PROD }}" >> envs/.env
