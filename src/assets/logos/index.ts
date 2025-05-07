@@ -1,4 +1,6 @@
 export { ReactComponent as CoinbaseWalletIcon } from "./CoinbaseWallet.svg";
+export { ReactComponent as KeplrWalletIcon } from "./KeplrWallet.svg";
+export { ReactComponent as LeapWalletIcon } from "./LeapWallet.svg";
 export { ReactComponent as MetamaskIcon } from "./Metamask.svg";
 export { ReactComponent as PristineSwapLogoDark } from "./PristineSwapLogoDark.svg";
 export { ReactComponent as PristineSwapLogoLight } from "./PristineSwapLogoLight.svg";

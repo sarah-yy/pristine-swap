@@ -1,6 +1,6 @@
 import React from "react";
 import { ContainedButton } from "../../../../components";
-import { ButtonSize } from "../../../../constants";
+import { Size } from "../../../../constants";
 import { useConnectStateContext } from "../../../../hooks";
 
 const SwapCTASection: React.FC = () => {
@@ -9,11 +9,11 @@ const SwapCTASection: React.FC = () => {
   return (
     <div className="mt-[0.625rem] w-full">
       {!shortAddr ? (
-        <ContainedButton className="w-full" size={ButtonSize.LG} onClick={handleOpenConnectDialog}>
+        <ContainedButton className="w-full" size={Size.LG} onClick={handleOpenConnectDialog}>
           Connect Wallet
         </ContainedButton>
       ) : (
-        <ContainedButton className="w-full" size={ButtonSize.LG}>
+        <ContainedButton className="w-full" size={Size.LG}>
           Swap
         </ContainedButton>
       )}

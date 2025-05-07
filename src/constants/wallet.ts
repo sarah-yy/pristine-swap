@@ -5,6 +5,8 @@ export enum WalletKey {
   Rainbow = "rainbow",
   Trust = "trust",
   WalletConnect = "connect",
+  Keplr = "keplr",
+  Leap = "leap",
 }
 
 export interface WalletItem {
@@ -12,7 +14,17 @@ export interface WalletItem {
   label: string;
 }
 
-export const wallets: WalletItem[] = [{
+export const keplrWallet: WalletItem = {
+  key: WalletKey.Keplr,
+  label: "Keplr",
+};
+
+export const leapWallet: WalletItem = {
+  key: WalletKey.Leap,
+  label: "Leap",
+};
+
+export const evmWallets: WalletItem[] = [{
   key: WalletKey.Metamask,
   label: "Metamask",
 }, {

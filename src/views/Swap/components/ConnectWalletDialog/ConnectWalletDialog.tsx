@@ -1,15 +1,47 @@
 import { ConnectButton, WalletButton } from '@rainbow-me/rainbowkit';
 import clsx from "clsx";
-import React from "react";
-import { useSwitchAccount } from 'wagmi';
-import { WalletKey, WalletItem, wallets } from "../../../../constants";
+import React, { useEffect } from "react";
+import { useDisconnect, useSwitchAccount } from 'wagmi';
+import { WalletKey, WalletItem, evmWallets, keplrWallet, leapWallet } from "../../../../constants";
 import { StandardDialog, WalletIcon } from "../../../../components";
 import { useAppContext, useConnectStateContext } from "../../../../hooks";
+import { KeplrTypes, LeapTypes } from '../../../../types';
 
 const ConnectWalletDialog: React.FC = () => {
-  const { connectorId, openConnectDialog, handleCloseConnectDialog } = useConnectStateContext();
+  const { connectorId, handleDisconnectCosmosWallets, openConnectDialog, handleConnectKeplr, handleConnectLeap, handleCloseConnectDialog, keplrInstance, setKeplrInstance, leapInstance, setLeapInstance } = useConnectStateContext();
+  const { disconnect } = useDisconnect();
   const { switchAccount } = useSwitchAccount();
-  const isEvenItems = (wallets.length + 1) % 2 === 0;
+  const isEvenItems = React.useMemo((): boolean => {
+    let walletsCount = evmWallets.length + 1;
+    if (!!keplrInstance) walletsCount++;
+    if (!!leapInstance) walletsCount++;
+    return walletsCount % 2 === 0;
+  }, [keplrInstance, leapInstance]);
+
+  const onConnectKeplr = async () => {
+    await handleConnectKeplr();
+  }
+
+  const onConnectLeap = async () => {
+    await handleConnectLeap();
+  }
+
+  useEffect(() => {
+    const keplrInstance = (window as any).keplr;
+    if (!!keplrInstance) {
+      setKeplrInstance(keplrInstance as KeplrTypes.Keplr.Keplr);
+    }
+
+    const leapInstance = (window as any).leap;
+    if (!!leapInstance) {
+      setLeapInstance(leapInstance as LeapTypes.Leap.Leap);
+    }
+
+    return () => {
+      setKeplrInstance(undefined);
+      setLeapInstance(undefined);
+    };
+  }, []);
 
   return (
     <StandardDialog open={openConnectDialog} onClose={handleCloseConnectDialog} cardClass="connect-wallet-dialog">
@@ -17,11 +49,31 @@ const ConnectWalletDialog: React.FC = () => {
         <h4 className="font-semibold text-start text-h5 md:text-h4">Connect Wallet</h4>
 
         <div className="grid grid-cols-2 gap-2">
-          {wallets.map((wallet: WalletItem) => (
+          {!!keplrInstance && connectorId !== WalletKey.Keplr && (
+            <WalletConnectBtn
+              walletKey={keplrWallet.key}
+              ready
+              label={keplrWallet.label}
+              connectFunc={onConnectKeplr}
+            />
+          )}
+
+          {!!leapInstance && connectorId !== WalletKey.Leap && (
+            <WalletConnectBtn
+              walletKey={leapWallet.key}
+              ready
+              label={leapWallet.label}
+              connectFunc={onConnectLeap}
+            />
+          )}
+
+          {evmWallets.map((wallet: WalletItem) => (
             <WalletButton.Custom wallet={wallet.key} key={wallet.key}>
-              {({ ready, connect, connector }) => {
+              {({ ready, connect, connected, connector }) => {
                 const handleConnect = () => {
-                  if (connectorId) {
+                  handleDisconnectCosmosWallets();
+
+                  if (connected && connector) {
                     switchAccount({ connector });
                     return;
                   }
@@ -41,27 +93,35 @@ const ConnectWalletDialog: React.FC = () => {
           ))}
 
           {/* In case desired wallet is not found */}
-          {!connectorId && (
-            <ConnectButton.Custom>
-              {({
-                openConnectModal,
-                authenticationStatus,
-                mounted,
-              }) => {
-                // Note: If your app doesn't use authentication, you
-                // can remove all 'authenticationStatus' checks
-                const ready = mounted && authenticationStatus !== 'loading';
+          <ConnectButton.Custom>
+            {({
+              account,
+              openConnectModal,
+              authenticationStatus,
+              mounted,
+            }) => {
+              // Note: If your app doesn't use authentication, you
+              // can remove all 'authenticationStatus' checks
+              const ready = mounted && authenticationStatus !== 'loading';
 
-                return (
-                  <OthersConnectBtn
-                    connectFunc={openConnectModal}
-                    isEvenItems={isEvenItems}
-                    ready={ready}
-                  />
-                );
-              }}
-            </ConnectButton.Custom>
-          )}
+              const handleConnectSwitch = () => {
+                handleDisconnectCosmosWallets();
+
+                if (!!account) {
+                  disconnect();
+                }
+                openConnectModal();
+              }
+
+              return (
+                <OthersConnectBtn
+                  connectFunc={handleConnectSwitch}
+                  isEvenItems={isEvenItems}
+                  ready={ready}
+                />
+              );
+            }}
+          </ConnectButton.Custom>
         </div>
       </div>
     </StandardDialog>

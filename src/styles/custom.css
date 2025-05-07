@@ -276,8 +276,9 @@
 .connect-subsection-wallet-label::after {
   content: "Disconnect";
   position: absolute;
-  transform: translateX(4rem);
-  transition: transform 0.25s ease;
+  right: -4.5rem;
+  transition: right 0.25s ease;
+  top: 5px;
 }
 
 .connect-subsection-wallet-btn:hover .connect-subsection-wallet-label > span {
@@ -285,5 +286,5 @@
 }
 
 .connect-subsection-wallet-btn:hover .connect-subsection-wallet-label::after {
-  transform: translateX(-3.5rem);
+  right: calc(0.25rem + 1px);
 }

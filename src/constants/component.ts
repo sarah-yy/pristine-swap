@@ -12,14 +12,14 @@ export const PathColor: PathColorType = {
   Stroke: "stroke",
 };
 
-export type ButtonSizeType = {
+export type SizeType = {
   XS: string;
   SM: string;
   MD: string;
   LG: string;
 };
 
-export const ButtonSize: ButtonSizeType = {
+export const Size: SizeType = {
   XS: "xs",
   SM: "sm",
   MD: "md",
