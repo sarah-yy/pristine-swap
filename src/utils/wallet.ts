@@ -1,6 +1,6 @@
-import { WalletKey } from "../constants";
+import { WalletKeyEnumType } from "../constants";
 
-export const getWalletType = (connector: string | undefined): WalletKey | undefined => {
+export const getWalletType = (connector: string | undefined): WalletKeyEnumType | undefined => {
   const connectorLower = connector?.toLowerCase();
-  return connectorLower ? connectorLower as WalletKey : undefined 
+  return connectorLower ? connectorLower as WalletKeyEnumType : undefined;
 };

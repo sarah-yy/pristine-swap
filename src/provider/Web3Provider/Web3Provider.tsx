@@ -31,7 +31,10 @@ const config = getDefaultConfig({
   appName: import.meta.env.VITE_WALLET_CONNECT_PROJECT_NAME,
   projectId: import.meta.env.VITE_WALLET_CONNECT_ID,
   chains: chains as any,
-  transports: chains.reduce((acc, { id }) => { acc[id] = http(); return acc }, {} as SimpleMap<HttpTransport>),
+  transports: chains.reduce((acc, { id }) => {
+    acc[id] = http();
+    return acc;
+  }, {} as SimpleMap<HttpTransport>),
   wallets: [{
     groupName: "Recommended",
     wallets: [metaMaskWallet, walletConnectWallet, rabbyWallet, rainbowWallet, rabbyWallet, coinbaseWallet, trustWallet],

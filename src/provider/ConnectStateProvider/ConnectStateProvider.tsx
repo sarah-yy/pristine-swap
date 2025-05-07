@@ -59,7 +59,7 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
         address ? truncateStr(address, 5, 2) : undefined
       ),
     };
-  }, [cosmosWalletDetails, connector, evmAddress])
+  }, [cosmosWalletDetails, connector, evmAddress]);
 
   const isWalletConnected = React.useMemo(() => {
     if (cosmosWalletDetails) return true;
@@ -80,7 +80,7 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
     handleDisconnectCosmosWallets();
 
     if (isConnected) {
-      disconnect()
+      disconnect();
     }
   }, [disconnect, isConnected]);
 
@@ -120,7 +120,7 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
     });
 
     setIsCosmosWalletConnecting(false);
-  }, [leapInstance]);
+  }, [leapInstance, handleDisconnect]);
 
   const handleOpenConnectDialog = () => setOpenConnectDialog(true);
   const handleCloseConnectDialog = () => setOpenConnectDialog(false);

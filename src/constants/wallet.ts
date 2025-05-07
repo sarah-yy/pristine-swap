@@ -1,16 +1,29 @@
-export enum WalletKey {
-  Coinbase = "coinbase",
-  Metamask = "metamask",
-  Rabby = "rabby",
-  Rainbow = "rainbow",
-  Trust = "trust",
-  WalletConnect = "connect",
-  Keplr = "keplr",
-  Leap = "leap",
-}
+export type WalletKeyType = {
+  Coinbase: string;
+  Metamask: string;
+  Rabby: string;
+  Rainbow: string;
+  Trust: string;
+  WalletConnect: string;
+  Keplr: string;
+  Leap: string;
+};
+
+export const WalletKey: WalletKeyType = {
+  Coinbase: "coinbase",
+  Metamask: "metamask",
+  Rabby: "rabby",
+  Rainbow: "rainbow",
+  Trust: "trust",
+  WalletConnect: "connect",
+  Keplr: "keplr",
+  Leap: "leap",
+};
+
+export type WalletKeyEnumType = typeof WalletKey[keyof typeof WalletKey];
 
 export interface WalletItem {
-  key: WalletKey;
+  key: WalletKeyEnumType;
   label: string;
 }
 

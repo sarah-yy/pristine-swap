@@ -1,11 +1,11 @@
-import { ConnectButton, WalletButton } from '@rainbow-me/rainbowkit';
+import { ConnectButton, WalletButton } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
 import React, { useEffect } from "react";
-import { useDisconnect, useSwitchAccount } from 'wagmi';
-import { WalletKey, WalletItem, evmWallets, keplrWallet, leapWallet } from "../../../../constants";
+import { useDisconnect, useSwitchAccount } from "wagmi";
+import { WalletKey, WalletKeyEnumType, WalletItem, evmWallets, keplrWallet, leapWallet } from "../../../../constants";
 import { StandardDialog, WalletIcon } from "../../../../components";
 import { useAppContext, useConnectStateContext } from "../../../../hooks";
-import { KeplrTypes, LeapTypes } from '../../../../types';
+import { KeplrTypes, LeapTypes } from "../../../../types";
 
 const ConnectWalletDialog: React.FC = () => {
   const { aggWalletDetails, handleDisconnectCosmosWallets, openConnectDialog, handleConnectKeplr, handleConnectLeap, handleCloseConnectDialog, keplrInstance, setKeplrInstance, leapInstance, setLeapInstance } = useConnectStateContext();
@@ -22,11 +22,11 @@ const ConnectWalletDialog: React.FC = () => {
 
   const onConnectKeplr = async () => {
     await handleConnectKeplr();
-  }
+  };
 
   const onConnectLeap = async () => {
     await handleConnectLeap();
-  }
+  };
 
   useEffect(() => {
     const keplrInstance = (window as any).keplr;
@@ -43,7 +43,7 @@ const ConnectWalletDialog: React.FC = () => {
       setKeplrInstance(undefined);
       setLeapInstance(undefined);
     };
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <StandardDialog open={openConnectDialog} onClose={handleCloseConnectDialog} cardClass="connect-wallet-dialog">
@@ -106,7 +106,7 @@ const ConnectWalletDialog: React.FC = () => {
             }) => {
               // Note: If your app doesn't use authentication, you
               // can remove all 'authenticationStatus' checks
-              const ready = mounted && authenticationStatus !== 'loading';
+              const ready = mounted && authenticationStatus !== "loading";
 
               const handleConnectSwitch = () => {
                 handleDisconnectCosmosWallets();
@@ -115,7 +115,7 @@ const ConnectWalletDialog: React.FC = () => {
                   disconnect();
                 }
                 openConnectModal();
-              }
+              };
 
               return (
                 <OthersConnectBtn
@@ -137,7 +137,7 @@ interface WalletConnectProps {
   connectFunc: () => void;
   label: string;
   ready: boolean;
-  walletKey: WalletKey;
+  walletKey: WalletKeyEnumType;
 }
 
 const WalletConnectBtn: React.FC<WalletConnectProps> = (props: WalletConnectProps) => {
@@ -171,11 +171,11 @@ const OthersConnectBtn: React.FC<OthersConnectProps> = (props: OthersConnectProp
   return (
     <div
       {...(!ready && {
-        'aria-hidden': true,
-        'style': {
+        "aria-hidden": true,
+        "style": {
           opacity: 0,
-          pointerEvents: 'none',
-          userSelect: 'none',
+          pointerEvents: "none",
+          userSelect: "none",
         },
       })}
       className={!isEvenItems ? "col-span-2" : ""}

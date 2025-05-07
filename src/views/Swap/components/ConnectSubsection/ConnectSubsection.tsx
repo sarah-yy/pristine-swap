@@ -12,7 +12,7 @@ const ConnectSubsection: React.FC = () => {
         <OutlinedButton className="flex items-center gap-[0.375rem] connect-subsection-wallet-btn" size={Size.SM} onClick={handleDisconnect}>
           {!!aggWalletDetails?.connectorId && <WalletIcon borderRadiusSize="md" className="w-[1rem] h-[1rem]" walletKey={aggWalletDetails.connectorId} />}
           <div className="mt-[1px] connect-subsection-wallet-label">
-            <span>{aggWalletDetails.shortAddress ?? ''}</span>
+            <span>{aggWalletDetails.shortAddress ?? ""}</span>
           </div>
         </OutlinedButton>
       ) : (

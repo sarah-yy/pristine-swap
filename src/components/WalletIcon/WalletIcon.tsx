@@ -1,10 +1,10 @@
 import clsx from "clsx";
 import React from "react";
 import { CoinbaseWalletIcon, KeplrWalletIcon, LeapWalletIcon, MetamaskIcon, RabbyIcon, RainbowWalletIcon, TrustWalletIcon, WalletConnectIcon } from "../../assets";
-import { Size, WalletKey } from "../../constants";
+import { Size, WalletKey, WalletKeyEnumType } from "../../constants";
 
 const walletIcons: {
-  [key in WalletKey]: SVGComponent;
+  [key: WalletKeyEnumType]: SVGComponent;
 } = {
   [WalletKey.Metamask]: MetamaskIcon,
   [WalletKey.Rabby]: RabbyIcon,
@@ -17,7 +17,7 @@ const walletIcons: {
 };
 
 interface Props extends PropsWithClassName {
-  walletKey: WalletKey;
+  walletKey: WalletKeyEnumType;
   borderRadiusSize?: typeof Size[keyof typeof Size];
 }
 

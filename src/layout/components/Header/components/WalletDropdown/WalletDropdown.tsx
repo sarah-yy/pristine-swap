@@ -21,7 +21,7 @@ const WalletDropdown: React.FC = () => {
       label: "Disconnect",
       onClick: handleDisconnect,
     }] as [MenuItem, ...MenuItem[]];
-  }, [handleDisconnect, handleOpenConnectDialog])
+  }, [handleDisconnect, handleOpenConnectDialog]);
 
   return (
     <Dropdown
@@ -37,7 +37,7 @@ const WalletDropdown: React.FC = () => {
       handleClose={handleClose}
     >
       <div className="px-2 py-[0.75rem] flex items-center text-body2 font-semibold gap-1">
-        {aggWalletDetails?.shortAddress ?? ''}
+        {aggWalletDetails?.shortAddress ?? ""}
         <IconButton className="wallet-dropdown-copy-icon">
           <CopyIcon />
         </IconButton>
@@ -45,7 +45,7 @@ const WalletDropdown: React.FC = () => {
 
       <MenuList items={walletItems} />
     </Dropdown>
-  )
+  );
 };
 
 export default WalletDropdown;

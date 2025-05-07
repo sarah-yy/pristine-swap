@@ -23,7 +23,7 @@ const Dropdown: React.FC<Props> = (props: Props) => {
             "absolute",
             { open },
             align === "start" ? "left-0" : "right-0",
-            "dropdown-div"
+            "dropdown-div",
           )}
         >
           {open && (
