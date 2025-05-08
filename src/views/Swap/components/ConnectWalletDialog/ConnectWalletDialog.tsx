@@ -5,20 +5,23 @@ import { useDisconnect, useSwitchAccount } from "wagmi";
 import { WalletKey, WalletKeyEnumType, WalletItem, evmWallets, keplrWallet, leapWallet } from "../../../../constants";
 import { StandardDialog, WalletIcon } from "../../../../components";
 import { useAppContext, useConnectStateContext } from "../../../../hooks";
-import { KeplrTypes, LeapTypes } from "../../../../types";
 
 const ConnectWalletDialog: React.FC = () => {
-  const { aggWalletDetails, handleDisconnectCosmosWallets, openConnectDialog, handleConnectKeplr, handleConnectLeap, handleCloseConnectDialog, keplrInstance, setKeplrInstance, leapInstance, setLeapInstance } = useConnectStateContext();
+  const { aggWalletDetails, handleDisconnectCosmosWallets, openConnectDialog, handleConnectKeplr, handleConnectLeap, handleCloseConnectDialog } = useConnectStateContext();
   const { disconnect } = useDisconnect();
   const { switchAccount } = useSwitchAccount();
+
+  const [hasKeplr, setHasKeplr] = React.useState<boolean>(false);
+  const [hasLeap, setHasLeap] = React.useState<boolean>(false);
+
   const isEvenItems = React.useMemo((): boolean => {
     let walletsCount = evmWallets.length + 1;
-    if (!!keplrInstance) walletsCount++;
-    if (!!leapInstance) walletsCount++;
-    // If wallet is already connected, deduct the current wallet
+    if (hasKeplr) walletsCount++;
+    if (hasLeap) walletsCount++;
+    // If wallet is already connected, remove the current wallet from the count
     if (aggWalletDetails?.connectorId) walletsCount--;
     return walletsCount % 2 === 0;
-  }, [keplrInstance, leapInstance, aggWalletDetails]);
+  }, [hasKeplr, hasLeap, aggWalletDetails]);
 
   const onConnectKeplr = async () => {
     await handleConnectKeplr();
@@ -30,20 +33,16 @@ const ConnectWalletDialog: React.FC = () => {
 
   useEffect(() => {
     const keplrInstance = (window as any).keplr;
-    if (!!keplrInstance) {
-      setKeplrInstance(keplrInstance as KeplrTypes.Keplr.Keplr);
-    }
+    setHasKeplr(!!keplrInstance);
 
     const leapInstance = (window as any).leap;
-    if (!!leapInstance) {
-      setLeapInstance(leapInstance as LeapTypes.Leap.Leap);
-    }
+    setHasLeap(!!leapInstance);
 
     return () => {
-      setKeplrInstance(undefined);
-      setLeapInstance(undefined);
+      setHasKeplr(false);
+      setHasLeap(false);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [openConnectDialog]);
 
   return (
     <StandardDialog open={openConnectDialog} onClose={handleCloseConnectDialog} cardClass="connect-wallet-dialog">
@@ -51,7 +50,7 @@ const ConnectWalletDialog: React.FC = () => {
         <h4 className="font-semibold text-start text-h5 md:text-h4">Connect Wallet</h4>
 
         <div className="grid grid-cols-2 gap-2">
-          {!!keplrInstance && aggWalletDetails?.connectorId !== WalletKey.Keplr && (
+          {hasKeplr && aggWalletDetails?.connectorId !== WalletKey.Keplr && (
             <WalletConnectBtn
               walletKey={keplrWallet.key}
               ready
@@ -60,7 +59,7 @@ const ConnectWalletDialog: React.FC = () => {
             />
           )}
 
-          {!!leapInstance && aggWalletDetails?.connectorId !== WalletKey.Leap && (
+          {hasLeap && aggWalletDetails?.connectorId !== WalletKey.Leap && (
             <WalletConnectBtn
               walletKey={leapWallet.key}
               ready

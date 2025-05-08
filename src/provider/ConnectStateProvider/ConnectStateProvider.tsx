@@ -12,12 +12,7 @@ interface ConnectStateContextProps {
   aggWalletDetails?: WalletDetails;
 
   handleConnectKeplr: () => Promise<void>;
-  keplrInstance?: KeplrTypes.Keplr.Keplr;
-  setKeplrInstance: React.Dispatch<React.SetStateAction<KeplrTypes.Keplr.Keplr | undefined>>;
-
   handleConnectLeap: () => Promise<void>;
-  leapInstance?: LeapTypes.Leap.Leap;
-  setLeapInstance: React.Dispatch<React.SetStateAction<LeapTypes.Leap.Leap | undefined>>;
 
   handleDisconnect: () => void;
   handleDisconnectCosmosWallets: () => void;
@@ -44,8 +39,6 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
   const { address: evmAddress, connector, isConnected, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
 
-  const [keplrInstance, setKeplrInstance] = React.useState<KeplrTypes.Keplr.Keplr | undefined>(undefined);
-  const [leapInstance, setLeapInstance] = React.useState<LeapTypes.Leap.Leap | undefined>(undefined);
   const [cosmosWalletDetails, setCosmosWalletDetails] = React.useState<WalletDetails | undefined>(undefined);
   const [isCosmosWalletConnecting, setIsCosmosWalletConnecting] = React.useState<boolean>(false);
   const [openConnectDialog, setOpenConnectDialog] = React.useState<boolean>(false);
@@ -85,7 +78,8 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
   }, [disconnect, isConnected]);
 
   const handleConnectKeplr = React.useCallback(async () => {
-    if (!keplrInstance) throw new Error("Pls download Keplr extension.");
+    if (!(window as any).keplr) throw new Error("Pls download Keplr extension.");
+    const keplrInstance = (window as any).keplr as KeplrTypes.Keplr.Keplr;
 
     setIsCosmosWalletConnecting(true);
 
@@ -101,10 +95,11 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
     });
   
     setIsCosmosWalletConnecting(false);
-  }, [keplrInstance, handleDisconnect]);
+  }, [handleDisconnect]);
 
   const handleConnectLeap = React.useCallback(async () => {
-    if (!leapInstance) throw new Error("Pls download Leap extension.");
+    if (!(window as any).leap) throw new Error("Pls download Leap extension.");
+    const leapInstance = (window as any).leap as LeapTypes.Leap.Leap;
 
     setIsCosmosWalletConnecting(true);
 
@@ -120,7 +115,7 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
     });
 
     setIsCosmosWalletConnecting(false);
-  }, [leapInstance, handleDisconnect]);
+  }, [handleDisconnect]);
 
   const handleOpenConnectDialog = () => setOpenConnectDialog(true);
   const handleCloseConnectDialog = () => setOpenConnectDialog(false);
@@ -133,12 +128,8 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
       aggWalletDetails,
 
       handleConnectKeplr,
-      keplrInstance,
-      setKeplrInstance,
 
       handleConnectLeap,
-      leapInstance,
-      setLeapInstance,
 
       handleDisconnect,
       handleDisconnectCosmosWallets,
