@@ -1,1 +1,2 @@
-export { appActions, appReducer, appSaga } from "./app";
+export { appActions, appReducer } from "./app";
+export { chainActions, chainReducer, chainSaga } from "./chain";

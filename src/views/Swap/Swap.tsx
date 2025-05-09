@@ -8,6 +8,8 @@ import { ConnectSubsection, ConnectWalletDialog, FormInput, SettingsBar, SwapCTA
 
 const Swap: React.FC = () => {
   const theme = useSelect((store) => store.app.theme);
+  const chains = useSelect((store) => store.chain.chains);
+  console.log("chains", chains);
   const [rotate, setRotate] = React.useState<boolean>(false);
 
   const onClickSwapBtn = () => {

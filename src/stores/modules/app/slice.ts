@@ -1,10 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Theme, ThemeValue, localStorageKeys, ChainsMap } from "../../../constants";
+import { Theme, ThemeValue, localStorageKeys } from "../../../constants";
+import { SkipClient } from "../../../utils";
 
 interface AppState {
   theme: ThemeValue;
 
-  chains: ChainsMap;
+  skipClient: SkipClient;
 }
 
 let defaultTheme: string = window.matchMedia("(prefers-color-scheme: dark)").matches ? Theme.Dark : Theme.Light;
@@ -18,19 +19,19 @@ try {
 const initialState: AppState = {
   theme: defaultTheme,
 
-  chains: {},
+  skipClient: new SkipClient(),
 };
 
 const appSlice = createSlice({
   name: "app",
   initialState,
   reducers: {
+    setSkipClient: (state, action: PayloadAction<SkipClient>) => {
+      state.skipClient = action.payload;
+    },
     setTheme: (state, action: PayloadAction<ThemeValue>) => {
       localStorage.setItem(localStorageKeys.theme, action.payload);
       state.theme = action.payload;
-    },
-    setChainsMap: (state, action: PayloadAction<ChainsMap>) => {
-      state.chains = action.payload;
     },
   },
 });
