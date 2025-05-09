@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 import { Theme } from "../../constants";
-import { useAppContext } from "../../hooks";
+import { useSelect } from "../../hooks";
 
 interface Props {
   size: number;
@@ -10,7 +10,7 @@ interface Props {
 
 const CircularLoader: React.FC<Props> = (props: Props) => {
   const { color, size } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((state) => state.app.theme);
 
   const colorStyles = React.useMemo(() => {
     return {

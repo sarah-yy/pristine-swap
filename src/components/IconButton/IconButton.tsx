@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 import { BaseButtonProps, FillTypeProps, PathColor, Theme } from "../../constants";
-import { useAppContext } from "../../hooks";
+import { useSelect } from "../../hooks";
 
 type PropsType = BaseButtonProps & FillTypeProps;
 
@@ -11,7 +11,7 @@ interface Props extends PropsType {
 
 const IconButton: React.FC<Props> = (props: Props) => {
   const { className, children, fillType = "fill", ...rest } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
   return (
     <button
       className={clsx({

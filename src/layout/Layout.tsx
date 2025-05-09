@@ -1,12 +1,12 @@
 import clsx from "clsx";
 import React from "react";
 import { Theme } from "../constants";
-import { useAppContext } from "../hooks";
+import { useSelect } from "../hooks";
 import { Footer, Header } from "./components";
 
 const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
 
   return (
     <div

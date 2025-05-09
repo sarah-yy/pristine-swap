@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 import { BaseDivProps } from "../../constants";
-import { useAppContext } from "../../hooks";
+import { useSelect } from "../../hooks";
 
 interface Props extends BaseDivProps {
   size?: "default" | "small"
@@ -9,7 +9,7 @@ interface Props extends BaseDivProps {
 
 const Card: React.FC<Props> = (props: Props) => {
   const { className, children, size = "default", ...rest } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((state) => state.app.theme);
 
   return (
     <div className={clsx("card-base", "drop-shadow-md", `card-${theme}`, `card-${size}`, className)} {...rest}>

@@ -3,11 +3,11 @@ import React from "react";
 import { ExchangeIcon, SkipConnectLogo } from "../../assets";
 import { ExchangeTx, Theme } from "../../constants";
 import { Card, ThemedSvgIcon } from "../../components";
-import { useAppContext } from "../../hooks";
+import { useSelect } from "../../hooks";
 import { ConnectSubsection, ConnectWalletDialog, FormInput, SettingsBar, SwapCTASection } from "./components";
 
 const Swap: React.FC = () => {
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
   const [rotate, setRotate] = React.useState<boolean>(false);
 
   const onClickSwapBtn = () => {
