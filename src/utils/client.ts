@@ -1,7 +1,8 @@
-import { QueryChainsReq, SkipChainJson, SimpleMap } from "../constants";
+import { QueryChainsReq, SkipChainJson, QueryTokensReq, SkipTokenJson, SimpleMap } from "../constants";
 
 const Paths: SimpleMap<string> = {
   ChainList: "info/chains",
+  TokenList: "fungible/assets",
 };
 
 export class SkipClient {
@@ -14,6 +15,13 @@ export class SkipClient {
     const response = await fetch(queryUrl);
     const json = await response.json();
     return json.chains as SkipChainJson[];
+  }
+
+  public async TokensList(req: QueryTokensReq): Promise<SimpleMap<SkipTokenJson[]>> {
+    const queryUrl = getReqUrl(this.url, Paths.TokenList, req as BaseRequest);
+    const response = await fetch(queryUrl);
+    const json = await response.json();
+    return json.chain_to_assets_map as SimpleMap<SkipTokenJson[]>;
   }
 }
 

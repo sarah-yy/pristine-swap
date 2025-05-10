@@ -9,7 +9,7 @@ const initialState: ChainState = {
   chains: {},
 };
 
-const appSlice = createSlice({
+const chainSlice = createSlice({
   name: "chain",
   initialState,
   reducers: {
@@ -22,4 +22,4 @@ const appSlice = createSlice({
 export const {
   actions: chainActions,
   reducer: chainReducer,
-} = appSlice;
+} = chainSlice;
