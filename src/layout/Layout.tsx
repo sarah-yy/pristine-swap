@@ -1,8 +1,10 @@
 import clsx from "clsx";
-import React from "react";
+import React, { Suspense } from "react";
 import { Theme } from "../constants";
 import { useSelect } from "../hooks";
-import { Footer, Header } from "./components";
+import { Header } from "./components";
+
+const Footer = React.lazy(() => import("./components/Footer"));
 
 const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
@@ -23,7 +25,10 @@ const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildre
     >
       <Header />
       {children}
-      <Footer />
+
+      <Suspense>
+        <Footer />
+      </Suspense>
     </div>
   );
 };

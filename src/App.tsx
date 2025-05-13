@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
-import Layout from "./layout";
 import { PreLoader } from "./views";
 
+const Layout = React.lazy(() => import("./layout"));
 const Swap = React.lazy(() => import("./views/Swap"));
 
 function App() {
@@ -9,11 +9,11 @@ function App() {
     <React.Fragment>
       <PreLoader />
 
-      <Layout>
-        <Suspense>
+      <Suspense>
+        <Layout>
           <Swap />
-        </Suspense>
-      </Layout>
+        </Layout>
+      </Suspense>
     </React.Fragment>
   );
 }
