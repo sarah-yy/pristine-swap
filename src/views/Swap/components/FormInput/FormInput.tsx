@@ -3,7 +3,7 @@ import React from "react";
 import { ChevronIcon } from "../../../../assets";
 import { ThemedSvgIcon } from "../../../../components";
 import { BaseDivProps, ExchangeTx, Theme } from "../../../../constants";
-import { useAppContext } from "../../../../hooks";
+import { useSelect } from "../../../../hooks";
 
 interface Props extends BaseDivProps {
   type?: typeof ExchangeTx[keyof typeof ExchangeTx];
@@ -11,7 +11,7 @@ interface Props extends BaseDivProps {
 
 const FormInput: React.FC<Props> = (props: Props) => {
   const { className, type = ExchangeTx.Buy } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
   return (
     <div
       className={clsx({

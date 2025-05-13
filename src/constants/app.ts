@@ -10,6 +10,8 @@ export const Theme: ThemeType = {
 
 export const fallbackTheme = Theme.Light;
 
+export type ThemeValue = typeof Theme[keyof typeof Theme];
+
 export const localStorageKeys: { [key: string]: string } = {
   theme: "@app/SET_THEME",
 };

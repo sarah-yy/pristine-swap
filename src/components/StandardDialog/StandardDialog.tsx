@@ -2,7 +2,7 @@ import clsx from "clsx";
 import React from "react";
 import Card from "../Card";
 import { BaseDivProps } from "../../constants";
-import { useAppContext } from "../../hooks";
+import { useSelect } from "../../hooks";
 
 interface DialogProps extends BaseDivProps {
   cardClass?: string;
@@ -12,7 +12,7 @@ interface DialogProps extends BaseDivProps {
 
 const StandardDialog: React.FC<DialogProps> = (props: DialogProps) => {
   const { cardClass, children, className, open, onClose } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
 
   if (!open) return null;
 

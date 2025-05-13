@@ -1,14 +1,14 @@
 import clsx from "clsx";
 import React from "react";
 import { RectangleButtonProps, Size, Theme } from "../../constants";
-import { useAppContext } from "../../hooks";
+import { useSelect } from "../../hooks";
 import CircularLoader from "../CircularLoader";
 
 interface Props extends RectangleButtonProps { }
 
 const OutlinedButton: React.FC<Props> = (props: Props) => {
   const { children, className, size, loading, ...rest } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
 
   const loaderSize = React.useMemo(() => {
     switch (size) {

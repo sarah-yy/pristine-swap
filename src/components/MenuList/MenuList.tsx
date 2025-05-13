@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import React from "react";
 
-import { useAppContext } from "../../hooks";
+import { useSelect } from "../../hooks";
 import ThemedSvgIcon from "../ThemedSvgIcon";
 
 export interface MenuItem {
@@ -16,7 +16,7 @@ interface Props {
 
 export const MenuList: React.FC<Props> = (props: Props) => {
   const { items } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
   return (
     <div className="flex flex-col gap-1">
       {items.map((item: MenuItem, index: number) => {

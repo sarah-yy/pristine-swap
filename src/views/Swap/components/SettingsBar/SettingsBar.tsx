@@ -1,11 +1,19 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { MoonIcon, ReloadIcon, SunIcon, SettingsIcon } from "../../../../assets";
 import { Theme } from "../../../../constants";
 import { IconButton } from "../../../../components";
-import { useAppContext } from "../../../../hooks";
+import { useSelect } from "../../../../hooks";
+import { appActions } from "../../../../stores";
 
 const SettingsBar: React.FC = () => {
-  const { theme, handleChangeTheme } = useAppContext();
+  const dispatch = useDispatch();
+  const theme = useSelect((store) => store.app.theme);
+
+  const handleChangeTheme = () => {
+    const nextTheme = theme === Theme.Dark ? Theme.Light : Theme.Dark;
+    dispatch(appActions.setTheme(nextTheme));
+  };
 
   return (
     <div className="flex justify-end items-center gap-x-3">

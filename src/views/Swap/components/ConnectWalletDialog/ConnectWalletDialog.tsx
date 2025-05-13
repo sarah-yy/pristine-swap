@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { useDisconnect, useSwitchAccount } from "wagmi";
 import { WalletKey, WalletKeyEnumType, WalletItem, evmWallets, keplrWallet, leapWallet } from "../../../../constants";
 import { StandardDialog, WalletIcon } from "../../../../components";
-import { useAppContext, useConnectStateContext } from "../../../../hooks";
+import { useConnectStateContext, useSelect } from "../../../../hooks";
 
 const ConnectWalletDialog: React.FC = () => {
   const { aggWalletDetails, handleDisconnectCosmosWallets, openConnectDialog, handleConnectKeplr, handleConnectLeap, handleCloseConnectDialog } = useConnectStateContext();
@@ -141,7 +141,7 @@ interface WalletConnectProps {
 
 const WalletConnectBtn: React.FC<WalletConnectProps> = (props: WalletConnectProps) => {
   const { className, connectFunc, label, ready, walletKey } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
   return (
     <button
       type="button"

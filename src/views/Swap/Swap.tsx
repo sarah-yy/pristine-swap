@@ -1,13 +1,16 @@
 import clsx from "clsx";
-import React from "react";
+import React, { Suspense } from "react";
 import { ExchangeIcon, SkipConnectLogo } from "../../assets";
 import { ExchangeTx, Theme } from "../../constants";
 import { Card, ThemedSvgIcon } from "../../components";
-import { useAppContext } from "../../hooks";
-import { ConnectSubsection, ConnectWalletDialog, FormInput, SettingsBar, SwapCTASection } from "./components";
+import { useSelect } from "../../hooks";
+import { FormInput, SettingsBar, SwapCTASection } from "./components";
+
+const ConnectSubsection = React.lazy(() => import("./components/ConnectSubsection"));
+const ConnectWalletDialog = React.lazy(() => import("./components/ConnectWalletDialog"));
 
 const Swap: React.FC = () => {
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
   const [rotate, setRotate] = React.useState<boolean>(false);
 
   const onClickSwapBtn = () => {
@@ -23,7 +26,9 @@ const Swap: React.FC = () => {
           {/* Main Form section */}
           <div className="mt-[0.875rem] w-full">
             {/* Connect sub-section */}
-            <ConnectSubsection />
+            <Suspense>
+              <ConnectSubsection />
+            </Suspense>
 
             {/* Form Inputs */}
             <div className="mt-[0.375rem] grid grid-cols-1">
@@ -63,7 +68,9 @@ const Swap: React.FC = () => {
         </Card>
       </div>
 
-      <ConnectWalletDialog />
+      <Suspense>
+        <ConnectWalletDialog />
+      </Suspense>
     </React.Fragment>
   );
 };

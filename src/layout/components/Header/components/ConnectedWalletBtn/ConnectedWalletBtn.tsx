@@ -3,7 +3,7 @@ import React from "react";
 import { ChevronIcon } from "../../../../../assets";
 import { ThemedSvgIcon, WalletIcon } from "../../../../../components";
 import { Theme } from "../../../../../constants";
-import { useAppContext, useConnectStateContext } from "../../../../../hooks";
+import { useConnectStateContext, useSelect } from "../../../../../hooks";
 
 interface Props {
   handleClose: () => void;
@@ -13,7 +13,7 @@ interface Props {
 
 const ConnectedWalletBtn: React.FC<Props> = (props: Props) => {
   const { handleClose, handleOpen, open } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
   const { aggWalletDetails } = useConnectStateContext();
 
   const handleToggleOpen = () => {

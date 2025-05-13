@@ -1,12 +1,14 @@
 import clsx from "clsx";
-import React from "react";
+import React, { Suspense } from "react";
 import { Theme } from "../constants";
-import { useAppContext } from "../hooks";
-import { Footer, Header } from "./components";
+import { useSelect } from "../hooks";
+import { Header } from "./components";
+
+const Footer = React.lazy(() => import("./components/Footer"));
 
 const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
-  const { theme } = useAppContext();
+  const theme = useSelect((store) => store.app.theme);
 
   return (
     <div
@@ -23,7 +25,10 @@ const Layout: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildre
     >
       <Header />
       {children}
-      <Footer />
+
+      <Suspense>
+        <Footer />
+      </Suspense>
     </div>
   );
 };
