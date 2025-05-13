@@ -17,4 +17,29 @@ export default defineConfig({
     }),
   ],
   envDir: "./envs",
+  build: {
+    rollupOptions: {
+      onwarn(warning, warn) {
+        // Ignore specific warnings
+        if (warning.code === "PURE_COMMENT_HAS_SIDE_EFFECTS") return;
+        if (warning.message.includes("/*#__PURE__*/")) return;
+        // Use default warning behavior for other warnings
+        warn(warning);
+      },
+      output: {
+        manualChunks: {
+          "react-vendor": [
+            "react",
+            "react-dom",
+          ],
+          "@reduxjs/toolkit": ["@reduxjs/toolkit"],
+          "redux-saga": ["redux-saga"],
+          "viem": ["viem"],
+          "@tanstack/react-query": ["@tanstack/react-query"],
+          "@rainbow-me/rainbowkit": ["@rainbow-me/rainbowkit"],
+          "wagmi": ["wagmi"],
+        },
+      },
+    },
+  },
 });
