@@ -4,7 +4,7 @@ export const truncateStr = (str: string, startLen: number = 4, endLen: number = 
 };
 
 export const generateId = () => {
-  if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
     return crypto.randomUUID();
   }
   return (

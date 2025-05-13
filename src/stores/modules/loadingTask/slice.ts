@@ -28,7 +28,7 @@ const loadingTaskSlice = createSlice({
       };
     },
     removeBackgroundLoading: (state, action: PayloadAction<string>) => {
-      const taskName = state.registry[action.payload]
+      const taskName = state.registry[action.payload];
       if (taskName) {
         delete state.registry[action.payload];
         delete state.tasksList[taskName];

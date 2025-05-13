@@ -1,4 +1,4 @@
-import clsx from "clsx"
+import clsx from "clsx";
 import React from "react";
 import { PristineSwapLogoDark, PristineSwapLogoLight } from "../../assets";
 import { ChainTaskNames, Theme, TokenTaskNames } from "../../constants";

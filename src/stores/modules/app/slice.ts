@@ -14,7 +14,7 @@ try {
   if (localStoreMode !== null) {
     defaultTheme = localStoreMode as ThemeValue;
   }
-} catch {};
+} catch {}; // eslint-disable-line no-empty
 
 const initialState: AppState = {
   theme: defaultTheme,
