@@ -1,9 +1,13 @@
 import { all, call, put, select } from "redux-saga/effects";
-import { SkipTokenJson, SymbolToTokenInfoMap, TokenInfo, TokensMap, SkipToken, SimpleMap } from "../../../constants";
-import { SkipClient } from "../../../utils";
+import { SkipTokenJson, SymbolToTokenInfoMap, TokenInfo, TokensMap, TokenTaskNames, SkipToken, SimpleMap } from "../../../constants";
+import { SkipClient, generateId } from "../../../utils";
 import { tokenActions } from "./slice";
+import { loadingTaskActions } from "../loadingTask";
 
 function* handleQueryTokensMap() {
+  const tokenUuid = generateId();
+
+  yield put(loadingTaskActions.addBackgroundLoading({ name: TokenTaskNames.QueryTokens, uuid: tokenUuid }));
   try {
     const skipClient = (yield select((state) => state.app.skipClient)) as SkipClient;
     const tokensResponse = (yield call([skipClient, skipClient.TokensList], {
@@ -34,7 +38,9 @@ function* handleQueryTokensMap() {
   } catch (e) {
     console.error((e as Error).message);
     yield put(tokenActions.setTokensMap({}));
-        yield put(tokenActions.setSymbolToTokenInfoMap({}));
+    yield put(tokenActions.setSymbolToTokenInfoMap({}));
+  } finally {
+    yield put(loadingTaskActions.removeBackgroundLoading(tokenUuid));
   }
 }
 

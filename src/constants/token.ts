@@ -92,3 +92,7 @@ export interface QueryTokensReq {
   include_evm_assets?: boolean;
   include_svm_assets?: boolean;
 }
+
+export const TokenTaskNames: SimpleMap<string> = {
+  QueryTokens: "runQueryTokensMap",
+};

@@ -1,11 +1,20 @@
+import React, { Suspense } from "react";
 import Layout from "./layout";
-import { Swap } from "./views";
+import { PreLoader } from "./views";
+
+const Swap = React.lazy(() => import("./views/Swap"));
 
 function App() {
   return (
-    <Layout>
-      <Swap />
-    </Layout>
+    <React.Fragment>
+      <PreLoader />
+
+      <Layout>
+        <Suspense>
+          <Swap />
+        </Suspense>
+      </Layout>
+    </React.Fragment>
   );
 }
 

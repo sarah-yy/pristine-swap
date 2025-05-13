@@ -94,3 +94,7 @@ export interface QueryChainsReq {
   include_evm?: boolean;
   include_svm?: boolean;
 }
+
+export const ChainTaskNames: SimpleMap<string> = {
+  QueryChains: "runQueryChains",
+};

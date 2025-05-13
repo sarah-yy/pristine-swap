@@ -1,9 +1,13 @@
 import { all, call, put, select } from "redux-saga/effects";
-import { SkipChainJson, ChainsMap, SkipChain, ChainInfoOpts } from "../../../constants";
-import { SkipClient } from "../../../utils";
+import { SkipChainJson, ChainsMap, SkipChain, ChainInfoOpts, ChainTaskNames } from "../../../constants";
+import { generateId, SkipClient } from "../../../utils";
 import { chainActions } from "./slice";
+import { loadingTaskActions } from "../loadingTask";
 
 function* handleQueryChains() {
+  const chainUuid = generateId();
+
+  yield put(loadingTaskActions.addBackgroundLoading({ name: ChainTaskNames.QueryChains, uuid: chainUuid }));
   try {
     const skipClient = (yield select((state) => state.app.skipClient)) as SkipClient;
     const chainsResponse = (yield call([skipClient, skipClient.ChainsList], {
@@ -18,6 +22,8 @@ function* handleQueryChains() {
   } catch (e) {
     console.error((e as Error).message);
     yield put(chainActions.setChainsMap({}));
+  } finally {
+    yield put(loadingTaskActions.removeBackgroundLoading(chainUuid));
   }
 }
 

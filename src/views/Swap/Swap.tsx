@@ -8,9 +8,7 @@ import { ConnectSubsection, ConnectWalletDialog, FormInput, SettingsBar, SwapCTA
 
 const Swap: React.FC = () => {
   const theme = useSelect((store) => store.app.theme);
-  const symbolToTokenInfoMap = useSelect((store) => store.token.symbolToTokenInfoMap);
   const [rotate, setRotate] = React.useState<boolean>(false);
-  console.log("symbolToTokenInfoMap", symbolToTokenInfoMap);
 
   const onClickSwapBtn = () => {
     setRotate((prev: boolean) => !prev);
