@@ -37,7 +37,6 @@ export default defineConfig({
           "viem": ["viem"],
           "@tanstack/react-query": ["@tanstack/react-query"],
           "@rainbow-me/rainbowkit": ["@rainbow-me/rainbowkit"],
-          "wagmi": ["wagmi"],
         },
       },
     },
