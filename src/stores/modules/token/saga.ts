@@ -33,6 +33,8 @@ function* handleQueryTokensMap() {
       });
       tokensMap[chain] = tokensObj;
     }, {});
+    console.log("tokensMap", tokensMap);
+    console.log("symbolToTokenMap", symbolToTokenMap);
     yield put(tokenActions.setTokensMap(tokensMap));
     yield put(tokenActions.setSymbolToTokenInfoMap(symbolToTokenMap));
   } catch (e) {

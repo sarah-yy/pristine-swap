@@ -17,11 +17,11 @@ export class SkipClient {
     return json.chains as SkipChainJson[];
   }
 
-  public async TokensList(req: QueryTokensReq): Promise<SimpleMap<SkipTokenJson[]>> {
+  public async TokensList(req: QueryTokensReq): Promise<SimpleMap<{ assets: SkipTokenJson[] }>> {
     const queryUrl = getReqUrl(this.url, Paths.TokenList, req as BaseRequest);
     const response = await fetch(queryUrl);
     const json = await response.json();
-    return json.chain_to_assets_map as SimpleMap<SkipTokenJson[]>;
+    return json.chain_to_assets_map as SimpleMap<{ assets: SkipTokenJson[] }>;
   }
 }
 

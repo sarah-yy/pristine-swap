@@ -3,7 +3,7 @@ import React from "react";
 import { ChevronIcon } from "../../../../assets";
 import { ThemedSvgIcon } from "../../../../components";
 import { BaseDivProps, ExchangeTx, Theme } from "../../../../constants";
-import { useSelect } from "../../../../hooks";
+import { useSelect, useTokenSelectionContext } from "../../../../hooks";
 
 interface Props extends BaseDivProps {
   type?: typeof ExchangeTx[keyof typeof ExchangeTx];
@@ -12,6 +12,7 @@ interface Props extends BaseDivProps {
 const FormInput: React.FC<Props> = (props: Props) => {
   const { className, type = ExchangeTx.Buy } = props;
   const theme = useSelect((store) => store.app.theme);
+  const { handleOpenTokenDialog } = useTokenSelectionContext();
   return (
     <div
       className={clsx({
@@ -32,6 +33,7 @@ const FormInput: React.FC<Props> = (props: Props) => {
             "token-select-btn-light": theme === Theme.Light,
             "token-select-btn-dark": theme === Theme.Dark,
           }, "flex gap-x-[0.75rem] items-center p-[0.25rem] token-select-btn rounded-lg relative overflow-hidden")}
+          onClick={handleOpenTokenDialog}
         >
           {/* Asset Icon */}
           <div className="flex items-center">
@@ -67,7 +69,7 @@ const FormInput: React.FC<Props> = (props: Props) => {
       <div className="grid grid-cols-1 gap-y-[0.25rem] justify-end">
         <div className="text-body3">&nbsp;</div>
 
-        <input type="number" className="amount-input text-h4 font-semibold bg-transparent text-right" />
+        <input type="number" className="blank-input text-h4 font-semibold text-right" />
 
         <div className="text-body3 secondary-text--light flex items-end justify-end">$0</div>
       </div>

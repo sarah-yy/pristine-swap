@@ -1,10 +1,12 @@
 export { default as Card } from "./Card";
 export { default as CircularLoader } from "./CircularLoader";
 export { default as ContainedButton } from "./ContainedButton";
+export { default as Divider } from "./Divider";
 export { default as Dropdown } from "./Dropdown";
 export { default as IconButton } from "./IconButton";
 export { type MenuItem, MenuList } from "./MenuList";
 export { default as OutlinedButton } from "./OutlinedButton";
 export { default as StandardDialog } from "./StandardDialog";
 export { default as ThemedSvgIcon } from "./ThemedSvgIcon";
+export { default as TokenIcon } from "./TokenIcon";
 export { default as WalletIcon } from "./WalletIcon";

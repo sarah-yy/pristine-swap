@@ -4,11 +4,15 @@ import { RectangleButtonProps, Size, Theme } from "../../constants";
 import { useSelect } from "../../hooks";
 import CircularLoader from "../CircularLoader";
 
-interface ContainedButtonProps extends RectangleButtonProps { }
+interface ContainedButtonProps extends RectangleButtonProps {
+  color?: "default" | "plain";
+}
 
 const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonProps) => {
-  const { children, className, loading, size = Size.MD, ...rest } = props;
+  const { children, color = "default", className, loading, size = Size.MD, ...rest } = props;
   const theme = useSelect((state) => state.app.theme);
+  const isDefaultColor = color === "default";
+  const isPlainColor = color === "plain";
 
   const loaderSize = React.useMemo(() => {
     switch (size) {
@@ -24,8 +28,10 @@ const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonP
   return (
     <button
       className={clsx({
-        "contained-button-light": theme === Theme.Light,
-        "contained-button-dark": theme === Theme.Dark,
+        "default-contained-button-light": theme === Theme.Light && isDefaultColor,
+        "default-contained-button-dark": theme === Theme.Dark && isDefaultColor,
+        "plain-contained-button-light": theme === Theme.Light && isPlainColor,
+        "plain-contained-button-dark": theme === Theme.Dark && isPlainColor,
 
         "btn-size-sm": size === Size.SM,
         "btn-size-xs": size === Size.XS,

@@ -35,10 +35,12 @@ export default {
       lightBackground: {
         primary: "#FFFFFF",
         secondary: "#F3F4FF",
+        tertiary: "rgba(99, 115, 129, 0.12)",
       },
       darkBackground: {
         primary: "#1F2A37",
         secondary: "#374151",
+        tertiary: "rgba(255, 255, 255, 0.08)",
       },
       lightText: {
         primary: "#111928",

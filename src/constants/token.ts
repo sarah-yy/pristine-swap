@@ -1,4 +1,3 @@
-// https://api.skip.build/v2/fungible/assets?include_evm_assets=true
 import { SimpleMap } from "./types";
 
 export interface SkipTokenJson {
