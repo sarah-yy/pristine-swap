@@ -1,5 +1,5 @@
 import { all, call, put, select } from "redux-saga/effects";
-import { SkipTokenJson, SymbolToTokenInfoMap, TokenInfo, TokensMap, TokenTaskNames, SkipToken, SimpleMap } from "../../../constants";
+import { SkipTokenJson, SymbolToTokenAndChainMap, TokenAndChain, TokensMap, TokenTaskNames, SkipToken, SimpleMap } from "../../../constants";
 import { SkipClient, generateId } from "../../../utils";
 import { tokenActions } from "./slice";
 import { loadingTaskActions } from "../loadingTask";
@@ -14,15 +14,15 @@ function* handleQueryTokensMap() {
       include_evm_assets: true,
     })) as SimpleMap<{ assets: SkipTokenJson[] }>;
     const tokensMap: TokensMap = {};
-    const symbolToTokenMap: SymbolToTokenInfoMap = {};
+    const symbolToTokenMap: SymbolToTokenAndChainMap = {};
     Object.entries(tokensResponse).forEach(([chain, tokens]: [string, { assets: SkipTokenJson[] }]) => {
       const tokensObj: SimpleMap<SkipToken> = {};
       tokens.assets.forEach((tokenJson: SkipTokenJson) => {
         const skipToken = new SkipToken(tokenJson);
-        tokensObj[tokenJson.denom] = skipToken;
+        tokensObj[tokenJson.denom.toLowerCase()] = skipToken;
 
-        const skipTokenInfo: TokenInfo = {
-          denom: skipToken.denom,
+        const skipTokenInfo: TokenAndChain = {
+          denom: skipToken.denom.toLowerCase(),
           chainId: skipToken.chainId,
         };
         if (skipToken.symbol && symbolToTokenMap[skipToken.symbol]) {
@@ -33,14 +33,12 @@ function* handleQueryTokensMap() {
       });
       tokensMap[chain] = tokensObj;
     }, {});
-    console.log("tokensMap", tokensMap);
-    console.log("symbolToTokenMap", symbolToTokenMap);
     yield put(tokenActions.setTokensMap(tokensMap));
-    yield put(tokenActions.setSymbolToTokenInfoMap(symbolToTokenMap));
+    yield put(tokenActions.setSymbolToTokenAndChainMap(symbolToTokenMap));
   } catch (e) {
     console.error((e as Error).message);
     yield put(tokenActions.setTokensMap({}));
-    yield put(tokenActions.setSymbolToTokenInfoMap({}));
+    yield put(tokenActions.setSymbolToTokenAndChainMap({}));
   } finally {
     yield put(loadingTaskActions.removeBackgroundLoading(tokenUuid));
   }

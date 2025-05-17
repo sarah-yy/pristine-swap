@@ -112,10 +112,12 @@
   background-color: black;
 }
 
+.contained-btn-base.btn-size-sm::before,
 .contained-btn-base.btn-size-md::before {
   transform: translateX(calc(-100% - 0.75rem));
 }
 
+.contained-btn-base.btn-size-sm:hover::before,
 .contained-btn-base.btn-size-md:hover::before {
   transform: translateX(-0.75rem);
 }

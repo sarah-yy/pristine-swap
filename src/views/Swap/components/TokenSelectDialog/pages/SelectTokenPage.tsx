@@ -3,26 +3,26 @@ import clsx from "clsx";
 import React, { ChangeEvent } from "react";
 import { SearchIcon } from "../../../../../assets";
 import { ContainedButton, ThemedSvgIcon, TokenIcon } from "../../../../../components";
-import { PathColor, SkipToken, TokenInfo } from "../../../../../constants";
+import { PathColor, SkipToken, TokenAndChain } from "../../../../../constants";
 import { useSelect, useTokenSelectionContext } from "../../../../../hooks";
 
 const SelectTokenPage: React.FC = () => {
   const theme = useSelect((store) => store.app.theme);
   const parentRef = React.useRef<HTMLDivElement>(null);
-  const symbolToTokenInfoMap = useSelect((store) => store.token.symbolToTokenInfoMap);
+  const symbolToTokenAndChainMap = useSelect((store) => store.token.symbolToTokenAndChainMap);
   const [search, setSearch] = React.useState<string>("");
 
-  const symbolTokenInfoEntries = React.useMemo(() => {
+  const symbolTokenChainEntries = React.useMemo(() => {
     const searchLower = search.toLowerCase();
-    return Object.entries(symbolToTokenInfoMap).filter(([symbol, _]: [string, TokenInfo[]]) => {
+    return Object.entries(symbolToTokenAndChainMap).filter(([symbol, _]: [string, TokenAndChain[]]) => {
       return symbol.toLowerCase().includes(searchLower);
     });
-  }, [symbolToTokenInfoMap, search]);
+  }, [symbolToTokenAndChainMap, search]);
 
   const virtualizer = useVirtualizer({
-    count: symbolTokenInfoEntries.length,
+    count: symbolTokenChainEntries.length,
     getScrollElement: () => parentRef.current,
-    estimateSize: () => 45,
+    estimateSize: () => 48,
     scrollToFn: () => null,
     gap: 6,
   });
@@ -71,7 +71,7 @@ const SelectTokenPage: React.FC = () => {
           style={{ height: virtualizer.getTotalSize() }}
         >
           {items.map((virtualRow: VirtualItem) => {
-            const [symbol, chains] = symbolTokenInfoEntries[virtualRow.index];
+            const [symbol, chains] = symbolTokenChainEntries[virtualRow.index];
             return (
               <TokenOption
                 chains={chains}
@@ -90,7 +90,7 @@ const SelectTokenPage: React.FC = () => {
 };
 
 interface TokenOptionProps {
-  chains: TokenInfo[];
+  chains: TokenAndChain[];
   dataIndex: number;
   height: number;
   startPos: number;
@@ -101,7 +101,7 @@ const TokenOption: React.FC<TokenOptionProps> = (props: TokenOptionProps) => {
   const { chains, dataIndex, height, startPos, symbol } = props;
   const theme = useSelect((store) => store.app.theme);
   const firstChain = chains[0];
-  const firstTokenData: SkipToken | undefined = useSelect((store) => store.token.tokens[firstChain?.chainId ?? '']?.[firstChain?.denom ?? '']);
+  const firstTokenData: SkipToken | undefined = useSelect((store) => store.token.tokens[firstChain?.chainId ?? ""]?.[firstChain?.denom ?? ""]);
   const { goToNextPage, handleSelectToken } = useTokenSelectionContext();
 
   const handleClickToken = () => {

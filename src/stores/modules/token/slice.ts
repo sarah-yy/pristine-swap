@@ -1,14 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SymbolToTokenInfoMap, TokensMap } from "../../../constants";
+import { SymbolToTokenAndChainMap, TokensMap } from "../../../constants";
 
 interface TokenState {
   tokens: TokensMap;
-  symbolToTokenInfoMap: SymbolToTokenInfoMap;
+  symbolToTokenAndChainMap: SymbolToTokenAndChainMap;
 }
 
 const initialState: TokenState = {
   tokens: {},
-  symbolToTokenInfoMap: {},
+  symbolToTokenAndChainMap: {},
 };
 
 const tokenSlice = createSlice({
@@ -18,8 +18,8 @@ const tokenSlice = createSlice({
     setTokensMap: (state, action: PayloadAction<TokensMap>) => {
       state.tokens = action.payload;
     },
-    setSymbolToTokenInfoMap: (state, action: PayloadAction<SymbolToTokenInfoMap>) => {
-      state.symbolToTokenInfoMap = action.payload;
+    setSymbolToTokenAndChainMap: (state, action: PayloadAction<SymbolToTokenAndChainMap>) => {
+      state.symbolToTokenAndChainMap = action.payload;
     },
   },
 });

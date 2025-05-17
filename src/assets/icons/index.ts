@@ -8,5 +8,7 @@ export { ReactComponent as SearchIcon } from "./Search.svg";
 export { ReactComponent as SettingsIcon } from "./Settings.svg";
 export { ReactComponent as SunIcon } from "./Sun.svg";
 export { ReactComponent as SwitchIcon } from "./Switch.svg";
+export { ReactComponent as UnknownChainDark } from "./UnknownChainDark.svg";
+export { ReactComponent as UnknownChainLight } from "./UnknownChainLight.svg";
 export { ReactComponent as UnknownCoinDark } from "./UnknownCoinDark.svg";
 export { ReactComponent as UnknownCoinLight } from "./UnknownCoinLight.svg";

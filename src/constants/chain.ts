@@ -59,9 +59,10 @@ export class SkipChain {
   readonly isCosmosChain: boolean;
   readonly isTestnet: boolean;
   readonly displayName: string;
+  readonly logoUrl?: string;
 
   constructor(chainInfo: ChainInfoOpts) {
-    const { chain_name, chain_id, pfm_enabled, supports_memo, fee_assets, chain_type, is_testnet, pretty_name } = chainInfo;
+    const { chain_name, chain_id, pfm_enabled, supports_memo, fee_assets, logo_uri, chain_type, is_testnet, pretty_name } = chainInfo;
     this.chainName = chain_name;
     this.chainId = chain_id;
     this.pfmEnabled = pfm_enabled;
@@ -85,6 +86,7 @@ export class SkipChain {
     this.isCosmosChain = chain_type === "cosmos";
     this.isTestnet = is_testnet;
     this.displayName = pretty_name;
+    this.logoUrl = logo_uri ?? undefined;
   }
 }
 

@@ -35,8 +35,8 @@ const Swap: React.FC = () => {
 
               {/* Form Inputs */}
               <div className="mt-[0.375rem] grid grid-cols-1">
-                {/* Buy Input */}
-                <FormInput />
+                {/* Sell Input */}
+                <FormInput type={ExchangeTx.Sell} />
 
                 <div className="flex justify-center h-[1.125rem] w-full z-50 items-center">
                   <button
@@ -51,8 +51,8 @@ const Swap: React.FC = () => {
                   </button>
                 </div>
 
-                {/* Sell Input */}
-                <FormInput type={ExchangeTx.Sell} />
+                {/* Buy Input */}
+                <FormInput />
               </div>
             </div>
 

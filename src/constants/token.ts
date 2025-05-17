@@ -80,12 +80,12 @@ export class SkipToken {
 
 export type TokensMap = SimpleMap<SimpleMap<SkipToken>>;
 
-export interface TokenInfo {
+export interface TokenAndChain {
   denom: string;
   chainId: string;
 }
 
-export type SymbolToTokenInfoMap = SimpleMap<TokenInfo[]>;
+export type SymbolToTokenAndChainMap = SimpleMap<TokenAndChain[]>;
 
 export interface QueryTokensReq {
   include_evm_assets?: boolean;
@@ -95,3 +95,10 @@ export interface QueryTokensReq {
 export const TokenTaskNames: SimpleMap<string> = {
   QueryTokens: "runQueryTokensMap",
 };
+
+// Blockchain and Token details
+export const ethChainId: number = 1;
+export const usdcETHTokenContract: string = "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48";
+
+export const optimismChainId: number = 10;
+export const usdcOPTokenContract: string = "0x0b2c639c533813f4aa9d7837caf62653d097ff85";

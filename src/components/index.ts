@@ -1,4 +1,5 @@
 export { default as Card } from "./Card";
+export { default as ChainIcon } from "./ChainIcon";
 export { default as CircularLoader } from "./CircularLoader";
 export { default as ContainedButton } from "./ContainedButton";
 export { default as Divider } from "./Divider";
