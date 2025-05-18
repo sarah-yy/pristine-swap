@@ -1,5 +1,4 @@
 import clsx from "clsx";
-import React from "react";
 import { ToastContentProps } from "react-toastify";
 import { CloseIcon, ErrorIcon, InfoIcon, SuccessIcon, WarningIcon } from "../../assets";
 import { IconButton } from "../../components";
