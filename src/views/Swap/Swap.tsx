@@ -1,10 +1,12 @@
 import clsx from "clsx";
 import React, { Suspense } from "react";
+import { useDispatch } from "react-redux";
 import { ExchangeIcon, SkipConnectLogo } from "../../assets";
-import { ExchangeTx, Theme } from "../../constants";
+import { ExchangeTx, Theme, TokenAndChain } from "../../constants";
 import { Card, ThemedSvgIcon } from "../../components";
 import { useSelect } from "../../hooks";
 import { TokenSelectionProvider } from "../../provider";
+import { formActions } from "../../stores";
 import { FormInput, SettingsBar, SwapCTASection } from "./components";
 
 const ConnectSubsection = React.lazy(() => import("./components/ConnectSubsection"));
@@ -12,10 +14,22 @@ const ConnectWalletDialog = React.lazy(() => import("./components/ConnectWalletD
 const TokenSelectDialog = React.lazy(() => import("./components/TokenSelectDialog"));
 
 const Swap: React.FC = () => {
+  const dispatch = useDispatch();
+  const srcToken = useSelect((store) => store.form.form.srcToken);
+  const destToken = useSelect((store) => store.form.form.destToken);
   const theme = useSelect((store) => store.app.theme);
   const [rotate, setRotate] = React.useState<boolean>(false);
 
   const onClickSwapBtn = () => {
+    const destTokenNew = { ...srcToken } as TokenAndChain;
+    dispatch(formActions.setFormToken({
+      type: "srcToken",
+      token: { ...destToken } as TokenAndChain,
+    }));
+    dispatch(formActions.setFormToken({
+      type: "destToken",
+      token: destTokenNew,
+    }));
     setRotate((prev: boolean) => !prev);
   };
 
