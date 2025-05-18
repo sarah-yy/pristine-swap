@@ -4,7 +4,7 @@ import { ExchangeKeyType, ExchangeTx, TokenAndChain } from "../../constants";
 import { formActions } from "../../stores";
 
 interface TokenSelectionContextProps {
-  handleOpenTokenDialog: (inputType: ExchangeKeyType) => void;
+  handleOpenTokenDialog: (inputType: ExchangeKeyType) => void; // eslint-disable-line no-unused-vars
   handleCloseTokenDialog: () => void;
   openTokenDialog: boolean;
 
@@ -12,11 +12,11 @@ interface TokenSelectionContextProps {
   goToPreviousPage: () => void;
   currentPage: SlideNum;
 
-  handleSelectToken: (symbol: string) => void;
+  handleSelectToken: (symbol: string) => void; // eslint-disable-line no-unused-vars
   resetSelectToken: () => void;
   selectedToken?: string;
 
-  handleSelectFormToken: (formToken: TokenAndChain) => void;
+  handleSelectFormToken: (formToken: TokenAndChain) => void; // eslint-disable-line no-unused-vars
 }
 
 type SlideNum = 0 | 1;
@@ -38,14 +38,14 @@ export const TokenSelectionProvider: React.FC<React.PropsWithChildren> = (props:
 
   const handleOpenTokenDialog = (inputType: ExchangeKeyType) => {
     setInputType(inputType);
-    setOpenTokenDialog(true)
+    setOpenTokenDialog(true);
   };
 
   const handleCloseTokenDialog = () => {
     setOpenTokenDialog(false);
     resetSelectToken();
     setInputType(undefined);
-  }
+  };
 
   const goToNextPage = () => setCurrentPage(1);
   const goToPreviousPage = () => setCurrentPage(0);

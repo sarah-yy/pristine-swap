@@ -46,7 +46,7 @@ const ConnectWalletDialog: React.FC = () => {
       setShowKeplr(false);
       setShowLeap(false);
     };
-  }, [openConnectDialog]);
+  }, [openConnectDialog]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <StandardDialog open={openConnectDialog} onClose={handleCloseConnectDialog} cardClass="connect-wallet-dialog">
@@ -84,7 +84,12 @@ const ConnectWalletDialog: React.FC = () => {
                         switchAccount({ connector });
                         return;
                       }
-                      connect();
+
+                      try {
+                        connect();
+                      } catch (err) {
+                        console.log(err);
+                      }
                     };
 
                     if (aggWalletDetails?.connectorId === wallet.key) return null;
@@ -148,6 +153,7 @@ interface WalletConnectProps {
 }
 
 const WalletConnectBtn: React.FC<WalletConnectProps> = (props: WalletConnectProps) => {
+  const { isWalletConnecting } = useConnectStateContext();
   const { className, connectFunc, label, ready, walletKey } = props;
   const theme = useSelect((store) => store.app.theme);
   return (
@@ -157,7 +163,7 @@ const WalletConnectBtn: React.FC<WalletConnectProps> = (props: WalletConnectProp
         `wallet-connect-btn wallet-connect-btn-${theme} text-body3 md:text-body2 px-3 py-1 md:px-4 md:py-3 rounded-lg font-semibold flex items-center gap-2 drop-shadow-md w-full h-[3rem] md:h-[3.25rem]`,
         className,
       )}
-      disabled={!ready}
+      disabled={!ready || isWalletConnecting}
       onClick={connectFunc}
     >
       <WalletIcon walletKey={walletKey} className="wallet-btn-icon" />

@@ -14,7 +14,7 @@ const SelectTokenPage: React.FC = () => {
 
   const symbolTokenChainEntries = React.useMemo(() => {
     const searchLower = search.toLowerCase();
-    return Object.entries(symbolToTokenAndChainMap).filter(([symbol, _]: [string, TokenAndChain[]]) => {
+    return Object.entries(symbolToTokenAndChainMap).filter(([symbol]: [string, TokenAndChain[]]) => {
       return symbol.toLowerCase().includes(searchLower);
     });
   }, [symbolToTokenAndChainMap, search]);

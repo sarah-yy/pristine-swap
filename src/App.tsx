@@ -1,9 +1,10 @@
 import React, { Suspense, useEffect } from "react";
 import { Theme } from "./constants";
 import { useSelect } from "./hooks";
+import Layout from "./layout";
+import { ConnectStateProvider, ToastProvider } from "./provider";
 import { PreLoader } from "./views";
 
-const Layout = React.lazy(() => import("./layout"));
 const Swap = React.lazy(() => import("./views/Swap"));
 
 function App() {
@@ -27,11 +28,15 @@ function App() {
     <React.Fragment>
       <PreLoader />
 
-      <Suspense>
-        <Layout>
-          <Swap />
-        </Layout>
-      </Suspense>
+      <ToastProvider>
+        <ConnectStateProvider>
+          <Layout>
+            <Suspense>
+              <Swap />
+            </Suspense>
+          </Layout>
+        </ConnectStateProvider>
+      </ToastProvider>
     </React.Fragment>
   );
 }

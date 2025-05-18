@@ -296,3 +296,20 @@
 .blank-input {
   background-color: transparent;
 }
+
+/*
+  Toastify styles
+*/
+
+.Toastify__toast {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  position: relative;
+}
+
+.Toastify__toast-theme--dark {
+  background-color: #1F2A37;
+}
+
+.Toastify__toast-theme--light {
+  background-color: #FFFFFF;
+}

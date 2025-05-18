@@ -261,3 +261,19 @@
 .blank-input {
   background-color: transparent;
 }
+
+/*
+  Toastify styles
+*/
+.Toastify__toast {
+  font-family: theme(fontFamily.display);
+  position: relative;
+}
+
+.Toastify__toast-theme--dark {
+  background-color: theme(colors.darkBackground.primary);
+}
+
+.Toastify__toast-theme--light {
+  background-color: theme(colors.lightBackground.primary);
+}

@@ -32,7 +32,7 @@ const TokenIcon: React.FC<Props> = (props: Props) => {
         <FallbackImg className={className} />
       )}
     </React.Fragment>
-  )
+  );
 };
 
 export default TokenIcon;

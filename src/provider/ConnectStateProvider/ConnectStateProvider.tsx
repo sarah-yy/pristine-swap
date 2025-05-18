@@ -1,6 +1,7 @@
 import React from "react";
 import { useAccount, useDisconnect } from "wagmi";
 import { WalletKey, WalletKeyEnumType } from "../../constants";
+import { useToastContext } from "../../hooks";
 import { KeplrTypes, LeapTypes } from "../../types";
 import { getWalletType, truncateStr } from "../../utils";
 
@@ -19,7 +20,7 @@ interface ConnectStateContextProps {
 
   handleOpenConnectDialog: () => void;
   handleCloseConnectDialog: () => void;
-  openConnectDialog: boolean
+  openConnectDialog: boolean;
 }
 
 interface WalletDetails {
@@ -33,11 +34,12 @@ const tempCosmosChain: string = "cosmoshub-4";
 // eslint-disable-next-line react-refresh/only-export-components
 export const ConnectStateContext = React.createContext<ConnectStateContextProps | undefined>(undefined);
 
-export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
+const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
 
   const { address: evmAddress, connector, isConnected, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
+  const toast = useToastContext();
 
   const [cosmosWalletDetails, setCosmosWalletDetails] = React.useState<WalletDetails | undefined>(undefined);
   const [isCosmosWalletConnecting, setIsCosmosWalletConnecting] = React.useState<boolean>(false);
@@ -86,16 +88,25 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
     // Disconnect all other wallets before reconnecting
     handleDisconnect();
   
-    await keplrInstance.enable(tempCosmosChain);
-    const key = await keplrInstance.getKey(tempCosmosChain);
-    setCosmosWalletDetails({
-      address: key.bech32Address,
-      connectorId: WalletKey.Keplr,
-      shortAddress: truncateStr(key.bech32Address, 5, 2),
-    });
-  
-    setIsCosmosWalletConnecting(false);
-  }, [handleDisconnect]);
+    try {
+      await keplrInstance.enable(tempCosmosChain);
+      const key = await keplrInstance.getKey(tempCosmosChain);
+      setCosmosWalletDetails({
+        address: key.bech32Address,
+        connectorId: WalletKey.Keplr,
+        shortAddress: truncateStr(key.bech32Address, 5, 2),
+      });
+    } catch (err) {
+      const errMsg = (err as Error).message;
+      console.error(errMsg);
+      toast.error({
+        title: "Keplr Error",
+        message: errMsg,
+      });
+    } finally {
+      setIsCosmosWalletConnecting(false);
+    }
+  }, [handleDisconnect]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleConnectLeap = React.useCallback(async () => {
     if (!(window as any).leap) throw new Error("Pls download Leap extension.");
@@ -106,16 +117,25 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
     // Disconnect all other wallets before reconnecting
     handleDisconnect();
 
-    await leapInstance.enable(tempCosmosChain);
-    const key = await leapInstance.getKey(tempCosmosChain);
-    setCosmosWalletDetails({
-      address: key.bech32Address,
-      connectorId: WalletKey.Leap,
-      shortAddress: truncateStr(key.bech32Address, 5, 2),
-    });
-
-    setIsCosmosWalletConnecting(false);
-  }, [handleDisconnect]);
+    try {
+      await leapInstance.enable(tempCosmosChain);
+      const key = await leapInstance.getKey(tempCosmosChain);
+      setCosmosWalletDetails({
+        address: key.bech32Address,
+        connectorId: WalletKey.Leap,
+        shortAddress: truncateStr(key.bech32Address, 5, 2),
+      });
+    } catch (err) {
+      const errMsg = (err as Error).message;
+      console.error(errMsg);
+      toast.error({
+        title: "Leap Error",
+        message: (err as Error).message,
+      });
+    } finally {
+      setIsCosmosWalletConnecting(false);
+    }
+  }, [handleDisconnect]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleOpenConnectDialog = () => setOpenConnectDialog(true);
   const handleCloseConnectDialog = () => setOpenConnectDialog(false);
@@ -142,3 +162,5 @@ export const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: R
     </ConnectStateContext.Provider>
   );
 };
+
+export default ConnectStateProvider;
