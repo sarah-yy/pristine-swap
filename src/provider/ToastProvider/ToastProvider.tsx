@@ -29,7 +29,7 @@ const ToastProvider: React.FC<React.PropsWithChildren> = (props: React.PropsWith
       {children}
 
       <ToastContainer
-        autoClose={1000000000}
+        autoClose={10000}
         theme={theme}
         transition={Slide}
         icon={false}
