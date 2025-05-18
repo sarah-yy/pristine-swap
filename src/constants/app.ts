@@ -15,3 +15,8 @@ export type ThemeValue = typeof Theme[keyof typeof Theme];
 export const localStorageKeys: { [key: string]: string } = {
   theme: "@app/SET_THEME",
 };
+
+export interface ToastData {
+  title: string;
+  message: string | React.ReactNode;
+}

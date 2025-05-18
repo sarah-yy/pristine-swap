@@ -41,6 +41,8 @@ export const ExchangeTx: ExchangeTxType = {
   Sell: "sell",
 };
 
+export type ExchangeKeyType = typeof ExchangeTx[keyof typeof ExchangeTx];
+
 export interface FillTypeProps {
   fillType?: typeof PathColor[keyof typeof PathColor];
 }

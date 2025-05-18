@@ -7,6 +7,26 @@
 }
 
 /*
+  Common button size styles
+*/
+
+.btn-size-xs {
+  padding: 0.125rem 0.25rem;
+}
+
+.btn-size-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-size-md {
+  padding: 0.5rem 0.75rem;
+}
+
+.btn-size-lg {
+  padding: 1rem 2rem;
+}
+
+/*
   OutlinedButton component styles
 */
 
@@ -59,35 +79,22 @@
   ContainedButton component styles
 */
 
-.contained-button-light {
+.default-contained-button-light {
   background: linear-gradient(to right, #36D1DC, #5B86E5);
   color: #FFFFFF;
 }
 
-.contained-button-light:hover {
-  background: linear-gradient(to right, #2ba7b0, #496bb7);
-}
-
-.contained-button-dark {
+.default-contained-button-dark {
   background: linear-gradient(to right, #5C258D, #524E96, #4389A2);
   color: #F3F4F6;
-  overflow: hidden;
 }
 
-.btn-size-xs {
-  padding: 0.125rem 0.25rem;
+.plain-contained-button-light {
+  background-color: #F3F4FF;
 }
 
-.btn-size-sm {
-  padding: 0.25rem 0.5rem;
-}
-
-.btn-size-md {
-  padding: 0.5rem 0.75rem;
-}
-
-.btn-size-lg {
-  padding: 1rem 2rem;
+.plain-contained-button-dark {
+  background-color: #374151;
 }
 
 .contained-btn-base {
@@ -97,7 +104,6 @@
 }
 
 .contained-btn-base::before {
-  background-color: black;
   opacity: 0.05;
   width: 100%;
   height: 100%;
@@ -108,10 +114,22 @@
   top: 0px;
 }
 
+.default-contained-button-dark::before,
+.plain-contained-button-dark::before {
+  background-color: white;
+}
+
+.default-contained-button-light::before,
+.plain-contained-button-light::before {
+  background-color: black;
+}
+
+.contained-btn-base.btn-size-sm::before,
 .contained-btn-base.btn-size-md::before {
   transform: translateX(calc(-100% - 0.75rem));
 }
 
+.contained-btn-base.btn-size-sm:hover::before,
 .contained-btn-base.btn-size-md:hover::before {
   transform: translateX(-0.75rem);
 }
@@ -273,4 +291,25 @@
 
 .white-loader-color {
   fill: #FFFFFF;
+}
+
+.blank-input {
+  background-color: transparent;
+}
+
+/*
+  Toastify styles
+*/
+
+.Toastify__toast {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  position: relative;
+}
+
+.Toastify__toast-theme--dark {
+  background-color: #1F2A37;
+}
+
+.Toastify__toast-theme--light {
+  background-color: #FFFFFF;
 }

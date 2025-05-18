@@ -23,11 +23,14 @@ const StandardDialog: React.FC<DialogProps> = (props: DialogProps) => {
         "standard-dialog-base fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm px-4 py-6",
         className,
       )}
-      onClick={onClose}
     >
-      <Card className={clsx("relative w-full max-w-md rounded-lg shadow-lg", cardClass)}>
+      <Card className={clsx("relative w-full max-w-md rounded-lg shadow-lg z-10", cardClass)}>
         {children}
       </Card>
+
+      {open && (
+        <div className="w-full h-full absolute top-0 left-0 z-5" onClick={onClose} />
+      )}
     </div>
   );
 };

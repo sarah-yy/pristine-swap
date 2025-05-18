@@ -10,18 +10,20 @@ const ConnectWalletDialog: React.FC = () => {
   const { aggWalletDetails, handleDisconnectCosmosWallets, openConnectDialog, handleConnectKeplr, handleConnectLeap, handleCloseConnectDialog } = useConnectStateContext();
   const { disconnect } = useDisconnect();
   const { switchAccount } = useSwitchAccount();
+  const srcToken = useSelect((store) => store.form.form.srcToken);
+  const srcTokenDetails = useSelect((store) => store.token.tokens[srcToken.chainId]?.[srcToken.denom.toLowerCase()]);
 
-  const [hasKeplr, setHasKeplr] = React.useState<boolean>(false);
-  const [hasLeap, setHasLeap] = React.useState<boolean>(false);
+  const [showKeplr, setShowKeplr] = React.useState<boolean>(false);
+  const [showLeap, setShowLeap] = React.useState<boolean>(false);
 
   const isEvenItems = React.useMemo((): boolean => {
     let walletsCount = evmWallets.length + 1;
-    if (hasKeplr) walletsCount++;
-    if (hasLeap) walletsCount++;
+    if (showKeplr) walletsCount++;
+    if (showLeap) walletsCount++;
     // If wallet is already connected, remove the current wallet from the count
     if (aggWalletDetails?.connectorId) walletsCount--;
     return walletsCount % 2 === 0;
-  }, [hasKeplr, hasLeap, aggWalletDetails]);
+  }, [showKeplr, showLeap, aggWalletDetails]);
 
   const onConnectKeplr = async () => {
     await handleConnectKeplr();
@@ -32,17 +34,19 @@ const ConnectWalletDialog: React.FC = () => {
   };
 
   useEffect(() => {
+    const isCosmosToken = !srcTokenDetails?.isEVM && !srcTokenDetails?.isSVM;
+
     const keplrInstance = (window as any).keplr;
-    setHasKeplr(!!keplrInstance);
+    setShowKeplr(!!keplrInstance && isCosmosToken);
 
     const leapInstance = (window as any).leap;
-    setHasLeap(!!leapInstance);
+    setShowLeap(!!leapInstance && isCosmosToken);
 
     return () => {
-      setHasKeplr(false);
-      setHasLeap(false);
+      setShowKeplr(false);
+      setShowLeap(false);
     };
-  }, [openConnectDialog]);
+  }, [openConnectDialog]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <StandardDialog open={openConnectDialog} onClose={handleCloseConnectDialog} cardClass="connect-wallet-dialog">
@@ -50,7 +54,7 @@ const ConnectWalletDialog: React.FC = () => {
         <h4 className="font-semibold text-start text-h5 md:text-h4">Connect Wallet</h4>
 
         <div className="grid grid-cols-2 gap-2">
-          {hasKeplr && aggWalletDetails?.connectorId !== WalletKey.Keplr && (
+          {showKeplr && aggWalletDetails?.connectorId !== WalletKey.Keplr && (
             <WalletConnectBtn
               walletKey={keplrWallet.key}
               ready
@@ -59,7 +63,7 @@ const ConnectWalletDialog: React.FC = () => {
             />
           )}
 
-          {hasLeap && aggWalletDetails?.connectorId !== WalletKey.Leap && (
+          {showLeap && aggWalletDetails?.connectorId !== WalletKey.Leap && (
             <WalletConnectBtn
               walletKey={leapWallet.key}
               ready
@@ -68,63 +72,72 @@ const ConnectWalletDialog: React.FC = () => {
             />
           )}
 
-          {evmWallets.map((wallet: WalletItem) => (
-            <WalletButton.Custom wallet={wallet.key} key={wallet.key}>
-              {({ ready, connect, connected, connector }) => {
-                const handleConnect = () => {
-                  handleDisconnectCosmosWallets();
+          {srcTokenDetails?.isEVM && (
+            <React.Fragment>
+              {evmWallets.map((wallet: WalletItem) => (
+                <WalletButton.Custom wallet={wallet.key} key={wallet.key}>
+                  {({ ready, connect, connected, connector }) => {
+                    const handleConnect = () => {
+                      handleDisconnectCosmosWallets();
 
-                  if (connected && connector) {
-                    switchAccount({ connector });
-                    return;
-                  }
-                  connect();
-                };
+                      if (connected && connector) {
+                        switchAccount({ connector });
+                        return;
+                      }
 
-                if (aggWalletDetails?.connectorId === wallet.key) return null;
+                      try {
+                        connect();
+                      } catch (err) {
+                        console.log(err);
+                      }
+                    };
 
-                return (
-                  <WalletConnectBtn
-                    walletKey={wallet.key}
-                    ready={ready}
-                    connectFunc={handleConnect}
-                    label={wallet.label}
-                  />
-                );
-              }}
-            </WalletButton.Custom>
-          ))}
+                    if (aggWalletDetails?.connectorId === wallet.key) return null;
 
-          {/* In case desired wallet is not found */}
-          <ConnectButton.Custom>
-            {({
-              account,
-              openConnectModal,
-              authenticationStatus,
-              mounted,
-            }) => {
-              // Note: If your app doesn't use authentication, you
-              // can remove all 'authenticationStatus' checks
-              const ready = mounted && authenticationStatus !== "loading";
+                    return (
+                      <WalletConnectBtn
+                        walletKey={wallet.key}
+                        ready={ready}
+                        connectFunc={handleConnect}
+                        label={wallet.label}
+                      />
+                    );
+                  }}
+                </WalletButton.Custom>
+              ))}
 
-              const handleConnectSwitch = () => {
-                handleDisconnectCosmosWallets();
+              {/* In case desired wallet is not found */}
+              <ConnectButton.Custom>
+                {({
+                  account,
+                  openConnectModal,
+                  authenticationStatus,
+                  mounted,
+                }) => {
+                  // Note: If your app doesn't use authentication, you
+                  // can remove all 'authenticationStatus' checks
+                  const ready = mounted && authenticationStatus !== "loading";
 
-                if (!!account) {
-                  disconnect();
-                }
-                openConnectModal();
-              };
+                  const handleConnectSwitch = () => {
+                    handleDisconnectCosmosWallets();
 
-              return (
-                <OthersConnectBtn
-                  connectFunc={handleConnectSwitch}
-                  isEvenItems={isEvenItems}
-                  ready={ready}
-                />
-              );
-            }}
-          </ConnectButton.Custom>
+                    if (!!account) {
+                      disconnect();
+                    }
+                    openConnectModal();
+                  };
+
+                  return (
+                    <OthersConnectBtn
+                      connectFunc={handleConnectSwitch}
+                      isEvenItems={isEvenItems}
+                      ready={ready}
+                    />
+                  );
+                }}
+              </ConnectButton.Custom>
+            </React.Fragment>
+          )}
         </div>
       </div>
     </StandardDialog>
@@ -140,6 +153,7 @@ interface WalletConnectProps {
 }
 
 const WalletConnectBtn: React.FC<WalletConnectProps> = (props: WalletConnectProps) => {
+  const { isWalletConnecting } = useConnectStateContext();
   const { className, connectFunc, label, ready, walletKey } = props;
   const theme = useSelect((store) => store.app.theme);
   return (
@@ -149,7 +163,7 @@ const WalletConnectBtn: React.FC<WalletConnectProps> = (props: WalletConnectProp
         `wallet-connect-btn wallet-connect-btn-${theme} text-body3 md:text-body2 px-3 py-1 md:px-4 md:py-3 rounded-lg font-semibold flex items-center gap-2 drop-shadow-md w-full h-[3rem] md:h-[3.25rem]`,
         className,
       )}
-      disabled={!ready}
+      disabled={!ready || isWalletConnecting}
       onClick={connectFunc}
     >
       <WalletIcon walletKey={walletKey} className="wallet-btn-icon" />

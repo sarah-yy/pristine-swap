@@ -6,6 +6,25 @@
 }
 
 /*
+  Common button size styles
+*/
+.btn-size-xs {
+  padding: 0.125rem 0.25rem;
+}
+
+.btn-size-sm {
+  padding: 0.25rem 0.5rem;
+}
+
+.btn-size-md {
+  padding: 0.5rem 0.75rem;
+}
+
+.btn-size-lg {
+  padding: 1rem 2rem;
+}
+
+/*
   OutlinedButton component styles
 */
 .outlined-btn-base {
@@ -50,35 +69,21 @@
 /*
   ContainedButton component styles
 */
-.contained-button-light {
+.default-contained-button-light {
   background: linear-gradient(to right, theme(colors.lightPrimary.default), theme(colors.lightSecondary.default));
   color: theme(colors.lightBackground.primary);
 }
 
-.contained-button-light:hover {
-  background: linear-gradient(to right, theme(colors.lightPrimary.dark), theme(colors.lightSecondary.dark));
-}
-
-.contained-button-dark {
+.default-contained-button-dark {
   background: linear-gradient(to right, theme(colors.darkTertiary.default), theme(colors.darkSecondary.default), theme(colors.darkPrimary.default));
   color: theme(colors.darkText.primary);
-  overflow: hidden;
 }
 
-.btn-size-xs {
-  padding: 0.125rem 0.25rem;
+.plain-contained-button-light {
+  background-color: theme(colors.lightBackground.secondary);
 }
-
-.btn-size-sm {
-  padding: 0.25rem 0.5rem;
-}
-
-.btn-size-md {
-  padding: 0.5rem 0.75rem;
-}
-
-.btn-size-lg {
-  padding: 1rem 2rem;
+.plain-contained-button-dark {
+  background-color: theme(colors.darkBackground.secondary);
 }
 
 .contained-btn-base {
@@ -88,7 +93,6 @@
 }
 
 .contained-btn-base::before {
-  background-color: black;
   opacity: 0.05;
   width: 100%;
   height: 100%;
@@ -99,10 +103,21 @@
   top: 0px;
 }
 
+.default-contained-button-dark::before,
+.plain-contained-button-dark::before {
+  background-color: white;
+}
+.default-contained-button-light::before,
+.plain-contained-button-light::before {
+  background-color: black;
+}
+
+.contained-btn-base.btn-size-sm::before,
 .contained-btn-base.btn-size-md::before {
   transform: translateX(calc(-100% - 0.75rem));
 }
 
+.contained-btn-base.btn-size-sm:hover::before,
 .contained-btn-base.btn-size-md:hover::before {
   transform: translateX(-0.75rem);
 }
@@ -241,4 +256,24 @@
 
 .white-loader-color {
   fill: #FFFFFF;
+}
+
+.blank-input {
+  background-color: transparent;
+}
+
+/*
+  Toastify styles
+*/
+.Toastify__toast {
+  font-family: theme(fontFamily.display);
+  position: relative;
+}
+
+.Toastify__toast-theme--dark {
+  background-color: theme(colors.darkBackground.primary);
+}
+
+.Toastify__toast-theme--light {
+  background-color: theme(colors.lightBackground.primary);
 }

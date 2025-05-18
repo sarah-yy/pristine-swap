@@ -1,1 +1,2 @@
-export { ConnectStateContext, ConnectStateProvider } from "./ConnectStateProvider";
+export { default } from "./ConnectStateProvider";
+export { ConnectStateContext } from "./ConnectStateProvider";

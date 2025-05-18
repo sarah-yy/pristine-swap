@@ -18,6 +18,7 @@ export default defineConfig({
   ],
   envDir: "./envs",
   build: {
+    chunkSizeWarningLimit: 600,
     rollupOptions: {
       onwarn(warning, warn) {
         // Ignore specific warnings
