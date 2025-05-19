@@ -12,3 +12,8 @@ export const generateId = () => {
     Math.random().toString(36).substring(2, 9)
   );
 };
+
+export const capitalize = (str: string): string => {
+  if (str.length <= 1) return str.toUpperCase();
+  return `${str[0].toUpperCase()}${str.substring(1)}`;
+};

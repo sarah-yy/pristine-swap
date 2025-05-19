@@ -2,7 +2,7 @@ import { ConnectButton, WalletButton } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useDisconnect, useSwitchAccount } from "wagmi";
-import { TokenAndChain, WalletKey, WalletKeyEnumType, WalletItem, evmWallets, keplrWallet, leapWallet } from "../../../../constants";
+import { WalletKey, WalletKeyEnumType, WalletItem, evmWallets, keplrWallet, leapWallet } from "../../../../constants";
 import { StandardDialog, WalletIcon } from "../../../../components";
 import { useConnectStateContext, useSelect } from "../../../../hooks";
 
@@ -84,11 +84,13 @@ const ConnectWalletDialog: React.FC = () => {
 
                       if (connected && connector) {
                         switchAccount({ connector });
+                        handleCloseConnectDialog();
                         return;
                       }
 
                       try {
                         connect();
+                        handleCloseConnectDialog();
                       } catch (err) {
                         console.log(err);
                       }

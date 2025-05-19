@@ -94,6 +94,7 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
         connectorId: WalletKey.Keplr,
         shortAddress: truncateStr(key.bech32Address, 5, 2),
       });
+      handleCloseConnectDialog();
     } catch (err) {
       const errMsg = (err as Error).message;
       console.error(errMsg);
@@ -123,6 +124,7 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
         connectorId: WalletKey.Leap,
         shortAddress: truncateStr(key.bech32Address, 5, 2),
       });
+      handleCloseConnectDialog();
     } catch (err) {
       const errMsg = (err as Error).message;
       console.error(errMsg);

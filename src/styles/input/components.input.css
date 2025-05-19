@@ -265,6 +265,10 @@
 /*
   Toastify styles
 */
+.Toastify__toast-container--top-right {
+  top: 3.5rem;
+}
+
 .Toastify__toast {
   font-family: theme(fontFamily.display);
   position: relative;
