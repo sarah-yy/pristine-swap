@@ -2,7 +2,7 @@ import { ConnectButton, WalletButton } from "@rainbow-me/rainbowkit";
 import clsx from "clsx";
 import React, { useEffect } from "react";
 import { useDisconnect, useSwitchAccount } from "wagmi";
-import { WalletKey, WalletKeyEnumType, WalletItem, evmWallets, keplrWallet, leapWallet } from "../../../../constants";
+import { TokenAndChain, WalletKey, WalletKeyEnumType, WalletItem, evmWallets, keplrWallet, leapWallet } from "../../../../constants";
 import { StandardDialog, WalletIcon } from "../../../../components";
 import { useConnectStateContext, useSelect } from "../../../../hooks";
 
@@ -25,13 +25,15 @@ const ConnectWalletDialog: React.FC = () => {
     return walletsCount % 2 === 0;
   }, [showKeplr, showLeap, aggWalletDetails]);
 
-  const onConnectKeplr = async () => {
-    await handleConnectKeplr();
-  };
+  const onConnectKeplr = React.useCallback(async () => {
+    if (!srcToken?.chainId) return;
+    await handleConnectKeplr(srcToken.chainId);
+  }, [srcToken.chainId]);
 
-  const onConnectLeap = async () => {
-    await handleConnectLeap();
-  };
+  const onConnectLeap = React.useCallback(async () => {
+    if (!srcToken?.chainId) return;
+    await handleConnectLeap(srcToken.chainId);
+  }, [srcToken.chainId]);
 
   useEffect(() => {
     const isCosmosToken = !srcTokenDetails?.isEVM && !srcTokenDetails?.isSVM;
