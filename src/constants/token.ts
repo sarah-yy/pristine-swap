@@ -94,7 +94,37 @@ export interface QueryTokensReq {
 
 export const TokenTaskNames: SimpleMap<string> = {
   QueryTokens: "runQueryTokensMap",
+  QueryCoingeckoMap: "runQueryCoingeckoMap",
 };
+
+export interface CoinMarketData {
+  id: string;
+  symbol: string;
+  name: string;
+  current_price: number;
+  total_volume: number;
+}
+
+export type CoinMarketDataArr = CoinMarketData[];
+
+export class CoingeckoMarketData {
+  readonly id: string;
+  readonly symbol: string;
+  readonly name : string;
+  readonly tokenPrice: number;
+  readonly totalVolume: number;
+
+  constructor(coinMarketData: CoinMarketData) {
+    const { id, symbol, name, current_price, total_volume } = coinMarketData;
+    this.id = id;
+    this.symbol = symbol;
+    this.name = name;
+    this.tokenPrice = current_price;
+    this.totalVolume = total_volume;
+  }
+}
+
+export type CoingeckoMarketDataMap = SimpleMap<CoingeckoMarketData>;
 
 // Blockchain and Token details
 export const ethChainId: number = 1;

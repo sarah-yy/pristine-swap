@@ -5,7 +5,7 @@ import { ChainTaskNames, Theme, TokenTaskNames } from "../../constants";
 import { useSelect, useTaskSubscriber } from "../../hooks";
 
 const PreLoader: React.FC = () => {
-  const loading = useTaskSubscriber(ChainTaskNames.QueryChains, TokenTaskNames.QueryTokens);
+  const loading = useTaskSubscriber(ChainTaskNames.QueryChains, TokenTaskNames.QueryTokens, TokenTaskNames.QueryCoingeckoMap);
   const theme = useSelect((store) => store.app.theme);
 
   return (

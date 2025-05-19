@@ -1,14 +1,16 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SymbolToTokenAndChainMap, TokensMap } from "../../../constants";
+import { CoingeckoMarketDataMap, SymbolToTokenAndChainMap, TokensMap } from "../../../constants";
 
 interface TokenState {
   tokens: TokensMap;
   symbolToTokenAndChainMap: SymbolToTokenAndChainMap;
+  coingeckoMarketDataMap: CoingeckoMarketDataMap;
 }
 
 const initialState: TokenState = {
   tokens: {},
   symbolToTokenAndChainMap: {},
+  coingeckoMarketDataMap: {},
 };
 
 const tokenSlice = createSlice({
@@ -20,6 +22,9 @@ const tokenSlice = createSlice({
     },
     setSymbolToTokenAndChainMap: (state, action: PayloadAction<SymbolToTokenAndChainMap>) => {
       state.symbolToTokenAndChainMap = action.payload;
+    },
+    setCoingeckoMarketDataMap: (state, action: PayloadAction<CoingeckoMarketDataMap>) => {
+      state.coingeckoMarketDataMap = action.payload;
     },
   },
 });

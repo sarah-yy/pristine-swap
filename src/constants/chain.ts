@@ -100,3 +100,72 @@ export interface QueryChainsReq {
 export const ChainTaskNames: SimpleMap<string> = {
   QueryChains: "runQueryChains",
 };
+
+export const keplrChainRegistryUrl = "https://raw.githubusercontent.com/chainapsis/keplr-chain-registry/blob/main/cosmos/:chainId.json";
+export const chainRegistryUrl = "https://raw.githubusercontent.com/cosmos/chain-registry/:chainName/chain.json";
+
+interface ChainRegistryEndpoint {
+  address: string;
+  provider?: string;
+  archive?: boolean;
+}
+
+export interface RegistryChainJson {
+  chain_name: string;
+  chain_type: string;
+  chain_id: string;
+  apis: {
+    rpc: ChainRegistryEndpoint[];
+    rest: ChainRegistryEndpoint[];
+  };
+  bech32_config?: {
+    bech32PrefixAccAddr: string;
+    bech32PrefixAccPub: string;
+    bech32PrefixValAddr: string;
+    bech32PrefixValPub: string;
+    bech32PrefixConsAddr: string;
+    bech32PrefixConsPub: string;
+  };
+  slip44: number;
+  alternative_slip44s?: number[];
+  staking?: {
+    staking_tokens: {
+      denom: string;
+    }[];
+  };
+  fees?: {
+    fee_tokens: {
+      denom: string;
+      fixed_min_gas_price?: number;
+      low_gas_price?: number;
+      average_gas_price?: number;
+      high_gas_price?: number;
+      gas_costs?: {
+        cosmos_send?: number;
+        ibc_transfer?: number;
+      };
+    }[];
+  };
+  images?: {
+    png?: string;
+    svg?: string;
+  }[];
+}
+
+export interface RegistryAssetJson {
+  chain_name: string;
+  assets: {
+    denom_units: {
+      denom: string;
+      exponent: number;
+      aliases?: string[];
+    }[];
+    base: string;
+    symbol: string;
+    coingecko_id?: string;
+    logo_URIs?: {
+      png?: string;
+      svg?: string;
+    };
+  }[];
+}

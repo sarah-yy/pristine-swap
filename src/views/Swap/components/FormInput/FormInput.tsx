@@ -48,7 +48,7 @@ const FormInput: React.FC<Props> = (props: Props) => {
 
           <div className="grid grid-cols-1 gap-y-[0.125rem] text-body2 text-ellipsis">
             <div className="flex justify-start items-center gap-[0.125rem]">
-              {tokenInfo?.symbol}
+              <div className="font-semibold">{tokenInfo?.symbol}</div>
               <ThemedSvgIcon className="w-[0.875rem] h-[0.875rem]" svgComponent={ChevronIcon} />
             </div>
 

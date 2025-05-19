@@ -6,18 +6,45 @@ import { ContainedButton, ThemedSvgIcon, TokenIcon } from "../../../../../compon
 import { PathColor, SkipToken, TokenAndChain } from "../../../../../constants";
 import { useSelect, useTokenSelectionContext } from "../../../../../hooks";
 
+type TokenAndChainEntry = [string, TokenAndChain[]];
+
 const SelectTokenPage: React.FC = () => {
   const theme = useSelect((store) => store.app.theme);
   const parentRef = React.useRef<HTMLDivElement>(null);
+  const coingeckoMarketDataMap = useSelect((store) => store.token.coingeckoMarketDataMap);
   const symbolToTokenAndChainMap = useSelect((store) => store.token.symbolToTokenAndChainMap);
+  const tokensMap = useSelect((store) => store.token.tokens);
   const [search, setSearch] = React.useState<string>("");
 
   const symbolTokenChainEntries = React.useMemo(() => {
     const searchLower = search.toLowerCase();
-    return Object.entries(symbolToTokenAndChainMap).filter(([symbol]: [string, TokenAndChain[]]) => {
+    return Object.entries(symbolToTokenAndChainMap).filter(([symbol]: TokenAndChainEntry) => {
       return symbol.toLowerCase().includes(searchLower);
+    }).sort((tokenAndChainA: TokenAndChainEntry, tokenAndChainB: TokenAndChainEntry) => {
+      const tokenAndChainFirstA = tokenAndChainA[1]?.[0];
+      const tokenAndChainFirstB = tokenAndChainB[1]?.[0];
+      const tokenInfoA = tokensMap[tokenAndChainFirstA?.chainId ?? ""]?.[tokenAndChainFirstA?.denom ?? ""];
+      const tokenInfoB = tokensMap[tokenAndChainFirstB?.chainId ?? ""]?.[tokenAndChainFirstB?.denom ?? ""];
+      const coingeckoMarketDataA = coingeckoMarketDataMap[tokenInfoA?.coingeckoId ?? ""];
+      const coingeckoMarketDataB = coingeckoMarketDataMap[tokenInfoB?.coingeckoId ?? ""];
+
+      if (
+        coingeckoMarketDataA?.symbol.toUpperCase() !== tokenInfoA?.symbol
+        && coingeckoMarketDataB?.symbol.toUpperCase() === tokenInfoB?.symbol
+      ) {
+        return 1;  
+      } else if (
+        coingeckoMarketDataA?.symbol.toUpperCase() === tokenInfoA?.symbol
+        && coingeckoMarketDataB?.symbol.toUpperCase() !== tokenInfoB?.symbol
+      ) {
+        return -1;
+      }
+
+      const totalVolumeA = coingeckoMarketDataA?.totalVolume ?? 0;
+      const totalVolumeB = coingeckoMarketDataB?.totalVolume ?? 0;
+      return totalVolumeB - totalVolumeA;
     });
-  }, [symbolToTokenAndChainMap, search]);
+  }, [symbolToTokenAndChainMap, search, coingeckoMarketDataMap, tokensMap]);
 
   const virtualizer = useVirtualizer({
     count: symbolTokenChainEntries.length,

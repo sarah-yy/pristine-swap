@@ -1,11 +1,14 @@
 import React from "react";
-import { Slide, ToastContainer, toast } from "react-toastify";
+import { Slide, ToastContainer, TypeOptions, toast } from "react-toastify";
 import { ToastData } from "../../constants";
 import { useSelect } from "../../hooks";
 import ToastMessage from "./ToastMessage";
 
 interface ToastContainerProps {
+  info: (content: ToastData) => void; // eslint-disable-line no-unused-vars
   error: (content: ToastData) => void; // eslint-disable-line no-unused-vars
+  success: (content: ToastData) => void; // eslint-disable-line no-unused-vars
+  warning: (content: ToastData) => void; // eslint-disable-line no-unused-vars
 }
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -15,16 +18,24 @@ const ToastProvider: React.FC<React.PropsWithChildren> = (props: React.PropsWith
   const { children } = props;
   const theme = useSelect((store) => store.app.theme);
 
-  const errorToast = (content: ToastData) => {
+  const baseToast = (content: ToastData, status: TypeOptions = "info") => {
     toast<ToastData>(ToastMessage, {
-      type: "error",
+      type: status,
       data: content,
     });
   };
 
+  const successToast = (content: ToastData) => baseToast(content, "success");
+  const errorToast = (content: ToastData) => baseToast(content, "error");
+  const warningToast = (content: ToastData) => baseToast(content, "warning");
+  const infoToast = (content: ToastData) => baseToast(content, "info");
+
   return (
     <ToastContext.Provider value={{
+      info: infoToast,
       error: errorToast,
+      success: successToast,
+      warning: warningToast,
     }}>
       {children}
 

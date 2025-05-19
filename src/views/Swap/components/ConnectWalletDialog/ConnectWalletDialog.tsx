@@ -25,13 +25,15 @@ const ConnectWalletDialog: React.FC = () => {
     return walletsCount % 2 === 0;
   }, [showKeplr, showLeap, aggWalletDetails]);
 
-  const onConnectKeplr = async () => {
-    await handleConnectKeplr();
-  };
+  const onConnectKeplr = React.useCallback(async () => {
+    if (!srcToken?.chainId) return;
+    await handleConnectKeplr(srcToken.chainId);
+  }, [srcToken.chainId, handleConnectKeplr]);
 
-  const onConnectLeap = async () => {
-    await handleConnectLeap();
-  };
+  const onConnectLeap = React.useCallback(async () => {
+    if (!srcToken?.chainId) return;
+    await handleConnectLeap(srcToken.chainId);
+  }, [srcToken.chainId, handleConnectLeap]);
 
   useEffect(() => {
     const isCosmosToken = !srcTokenDetails?.isEVM && !srcTokenDetails?.isSVM;
@@ -82,11 +84,13 @@ const ConnectWalletDialog: React.FC = () => {
 
                       if (connected && connector) {
                         switchAccount({ connector });
+                        handleCloseConnectDialog();
                         return;
                       }
 
                       try {
                         connect();
+                        handleCloseConnectDialog();
                       } catch (err) {
                         console.log(err);
                       }

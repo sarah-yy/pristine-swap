@@ -5,7 +5,7 @@ import { IconButton } from "../../components";
 import { ToastData } from "../../constants";
 
 const ToastMessage = (props: ToastContentProps<ToastData>) => {
-  const { toastProps: { type = "info" }, data: { title, message }, closeToast } = props;
+  const { toastProps: { type = "info", theme }, data: { title, message }, closeToast } = props;
 
   const sizeClass = "w-6 h-6";
   let icon = <InfoIcon className={clsx("info-icon", sizeClass)} />;
@@ -34,9 +34,9 @@ const ToastMessage = (props: ToastContentProps<ToastData>) => {
         {icon}
       </div>
 
-      <div className="flex flex-col gap-1">
-        <div className="text-body3 font-semibold text-start">{title}</div>
-        <div className="text-body3 text-start">{message}</div>
+      <div className={clsx("flex", "flex-col", "gap-1", `primary-text--${theme}`)}>
+        <div className={clsx("text-body3", "font-semibold", "text-start")}>{title}</div>
+        <div className={clsx("text-body3", "text-start")}>{message}</div>
       </div>
 
       <IconButton className="absolute top-2 right-2" onClick={closeToast}>

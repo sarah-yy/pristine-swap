@@ -301,6 +301,10 @@
   Toastify styles
 */
 
+.Toastify__toast-container--top-right {
+  top: 3.5rem;
+}
+
 .Toastify__toast {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   position: relative;

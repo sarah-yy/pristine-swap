@@ -12,8 +12,8 @@ interface ConnectStateContextProps {
 
   aggWalletDetails?: WalletDetails;
 
-  handleConnectKeplr: () => Promise<void>;
-  handleConnectLeap: () => Promise<void>;
+  handleConnectKeplr: (tokenChain: string) => Promise<void>; // eslint-disable-line no-unused-vars
+  handleConnectLeap: (tokenChain: string) => Promise<void>; // eslint-disable-line no-unused-vars
 
   handleDisconnect: () => void;
   handleDisconnectCosmosWallets: () => void;
@@ -28,8 +28,6 @@ interface WalletDetails {
   connectorId?: WalletKeyEnumType;
   shortAddress?: string;
 }
-
-const tempCosmosChain: string = "cosmoshub-4";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ConnectStateContext = React.createContext<ConnectStateContextProps | undefined>(undefined);
@@ -79,7 +77,7 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
     }
   }, [disconnect, isConnected]);
 
-  const handleConnectKeplr = React.useCallback(async () => {
+  const handleConnectKeplr = React.useCallback(async (chainId: string) => {
     if (!(window as any).keplr) throw new Error("Pls download Keplr extension.");
     const keplrInstance = (window as any).keplr as KeplrTypes.Keplr.Keplr;
 
@@ -89,13 +87,14 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
     handleDisconnect();
   
     try {
-      await keplrInstance.enable(tempCosmosChain);
-      const key = await keplrInstance.getKey(tempCosmosChain);
+      await keplrInstance.enable(chainId);
+      const key = await keplrInstance.getKey(chainId);
       setCosmosWalletDetails({
         address: key.bech32Address,
         connectorId: WalletKey.Keplr,
         shortAddress: truncateStr(key.bech32Address, 5, 2),
       });
+      handleCloseConnectDialog();
     } catch (err) {
       const errMsg = (err as Error).message;
       console.error(errMsg);
@@ -108,7 +107,7 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
     }
   }, [handleDisconnect]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleConnectLeap = React.useCallback(async () => {
+  const handleConnectLeap = React.useCallback(async (chainId: string) => {
     if (!(window as any).leap) throw new Error("Pls download Leap extension.");
     const leapInstance = (window as any).leap as LeapTypes.Leap.Leap;
 
@@ -118,13 +117,14 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
     handleDisconnect();
 
     try {
-      await leapInstance.enable(tempCosmosChain);
-      const key = await leapInstance.getKey(tempCosmosChain);
+      await leapInstance.enable(chainId);
+      const key = await leapInstance.getKey(chainId);
       setCosmosWalletDetails({
         address: key.bech32Address,
         connectorId: WalletKey.Leap,
         shortAddress: truncateStr(key.bech32Address, 5, 2),
       });
+      handleCloseConnectDialog();
     } catch (err) {
       const errMsg = (err as Error).message;
       console.error(errMsg);
