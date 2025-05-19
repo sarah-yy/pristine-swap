@@ -28,12 +28,12 @@ const ConnectWalletDialog: React.FC = () => {
   const onConnectKeplr = React.useCallback(async () => {
     if (!srcToken?.chainId) return;
     await handleConnectKeplr(srcToken.chainId);
-  }, [srcToken.chainId]);
+  }, [srcToken.chainId, handleConnectKeplr]);
 
   const onConnectLeap = React.useCallback(async () => {
     if (!srcToken?.chainId) return;
     await handleConnectLeap(srcToken.chainId);
-  }, [srcToken.chainId]);
+  }, [srcToken.chainId, handleConnectLeap]);
 
   useEffect(() => {
     const isCosmosToken = !srcTokenDetails?.isEVM && !srcTokenDetails?.isSVM;

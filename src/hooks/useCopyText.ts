@@ -28,7 +28,7 @@ export default () => {
     } finally {
       document.body.removeChild(textarea);
     }
-  }, [toast])
+  }, [toast]);
 
   return useCallback((text?: string, type: string = "text"): void => {
     if (!text?.length) return;
@@ -44,5 +44,5 @@ export default () => {
     } else {
       fallbackCopy(text, type);
     }
-  }, [fallbackCopy]);
+  }, [fallbackCopy, toast]);
 };

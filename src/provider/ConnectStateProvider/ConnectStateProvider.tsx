@@ -12,8 +12,8 @@ interface ConnectStateContextProps {
 
   aggWalletDetails?: WalletDetails;
 
-  handleConnectKeplr: (tokenChain: string) => Promise<void>;
-  handleConnectLeap: (tokenChain: string) => Promise<void>;
+  handleConnectKeplr: (tokenChain: string) => Promise<void>; // eslint-disable-line no-unused-vars
+  handleConnectLeap: (tokenChain: string) => Promise<void>; // eslint-disable-line no-unused-vars
 
   handleDisconnect: () => void;
   handleDisconnectCosmosWallets: () => void;

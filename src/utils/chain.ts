@@ -26,4 +26,4 @@ export const getKeplrChainInfo = async (chainInfo: SkipChain): Promise<KeplrType
     const fallbackData = await fallbackResponse.json();
     return fallbackData;
   }
-}
+};
