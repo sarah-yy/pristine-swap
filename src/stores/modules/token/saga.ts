@@ -1,5 +1,5 @@
 import { all, call, put, select } from "redux-saga/effects";
-import { SkipTokenJson, SymbolToTokenAndChainMap, TokenAndChain, TokensMap, TokenTaskNames, SkipToken, SimpleMap } from "../../../constants";
+import { CoingeckoMarketData, CoinMarketDataArr, SkipTokenJson, SymbolToTokenAndChainMap, TokenAndChain, TokensMap, TokenTaskNames, SkipToken, SimpleMap, CoinMarketData } from "../../../constants";
 import { SkipClient, generateId } from "../../../utils";
 import { tokenActions } from "./slice";
 import { loadingTaskActions } from "../loadingTask";
@@ -44,8 +44,35 @@ function* handleQueryTokensMap() {
   }
 }
 
+async function queryCoingeckoMarketData(): Promise<CoinMarketDataArr> {
+  const response = await fetch("https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd");
+  const result = await response.json();
+  return result as CoinMarketDataArr;
+}
+
+function* handleCoingeckoMarketData() {
+  const coingeckoUuid = generateId();
+
+  yield put(loadingTaskActions.addBackgroundLoading({ name: TokenTaskNames.QueryCoingeckoMap, uuid: coingeckoUuid }));
+  try {
+    const coingeckoResponse = (yield call(queryCoingeckoMarketData)) as CoinMarketDataArr;
+    const coingeckoMap = coingeckoResponse.reduce((prev: SimpleMap<CoingeckoMarketData>, indiv: CoinMarketData) => {
+      const coingeckoData = new CoingeckoMarketData(indiv);
+      prev[indiv.id] = coingeckoData;
+      return prev;
+    }, {});
+    yield put(tokenActions.setCoingeckoMarketDataMap(coingeckoMap));
+  } catch (err) {
+    console.error((err as Error).message);
+    yield put(tokenActions.setCoingeckoMarketDataMap({}));
+  } finally {
+    yield put(loadingTaskActions.removeBackgroundLoading(coingeckoUuid));
+  }
+}
+
 export default function* tokenSaga() {
   yield all([
     call(handleQueryTokensMap),
+    call(handleCoingeckoMarketData),
   ]);
 }
