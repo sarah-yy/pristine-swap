@@ -1,6 +1,7 @@
-import { QueryChainsReq, SkipChainJson, QueryTokensReq, SkipTokenJson, SimpleMap } from "../constants";
+import { QueryBalanceReq, QueryChainsReq, SkipBalancesByChain, SkipChainJson, QueryTokensReq, SkipTokenJson, SimpleMap } from "../constants";
 
 const Paths: SimpleMap<string> = {
+  Balances: "info/balances",
   ChainList: "info/chains",
   TokenList: "fungible/assets",
 };
@@ -23,12 +24,23 @@ export class SkipClient {
     const json = await response.json();
     return json.chain_to_assets_map as SimpleMap<{ assets: SkipTokenJson[] }>;
   }
+
+  public async Balances(req: QueryBalanceReq): Promise<SimpleMap<SkipBalancesByChain>> {
+    const queryUrl = getReqUrl(this.url, Paths.Balances);
+    const response = await fetch(queryUrl, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ chains: req }),
+    });
+    const json = await response.json();
+    return json.chains as SimpleMap<SkipBalancesByChain>;
+  }
 }
 
 type RequestValue = string | boolean;
 type BaseRequest = SimpleMap<RequestValue>;
 
-const getReqUrl = (domain: string, path: string, req: BaseRequest): string => {
+const getReqUrl = (domain: string, path: string, req: BaseRequest = {}): string => {
   let queryUrl = `${domain}/${path}`;
   if (Object.keys(req).length > 0) {
     const queryStrArr = Object.entries(req).map(([key, value]: [string, RequestValue]) => {

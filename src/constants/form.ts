@@ -5,6 +5,11 @@ export interface SwapFormState {
   destToken: TokenAndChain;
 }
 
+export interface SetSrcTokenPayload {
+  address?: string;
+  token: TokenAndChain;
+}
+
 export const defaultSwapFormState: SwapFormState = {
   srcToken: {
     chainId: ethChainId.toString(10),

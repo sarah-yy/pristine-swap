@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { SwapFormState, TokenAndChain, defaultSwapFormState } from "../../../constants";
+import { SetSrcTokenPayload, SwapFormState, TokenAndChain, defaultSwapFormState } from "../../../constants";
 
 interface FormState {
   form: SwapFormState;
@@ -9,17 +9,15 @@ const initialState: FormState = {
   form: defaultSwapFormState,
 };
 
-interface SetFormTokenPayload {
-  type: "srcToken" | "destToken";
-  token: TokenAndChain;
-}
-
 const formSlice = createSlice({
   name: "form",
   initialState,
   reducers: {
-    setFormToken: (state, action: PayloadAction<SetFormTokenPayload>) => {
-      state.form[action.payload.type] = action.payload.token;
+    setSrcToken: (state, action: PayloadAction<SetSrcTokenPayload>) => {
+      state.form.srcToken = action.payload.token;
+    },
+    setDestToken: (state, action: PayloadAction<TokenAndChain>) => {
+      state.form.destToken = action.payload;
     },
   },
 });

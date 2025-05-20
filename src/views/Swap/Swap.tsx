@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { ExchangeIcon, SkipConnectLogo } from "../../assets";
 import { ExchangeTx, Theme, TokenAndChain } from "../../constants";
 import { Card, ThemedSvgIcon } from "../../components";
-import { useSelect } from "../../hooks";
+import { useConnectStateContext, useSelect } from "../../hooks";
 import { TokenSelectionProvider } from "../../provider";
 import { formActions } from "../../stores";
 import { FormInput, SettingsBar, SwapCTASection } from "./components";
@@ -18,18 +18,16 @@ const Swap: React.FC = () => {
   const srcToken = useSelect((store) => store.form.form.srcToken);
   const destToken = useSelect((store) => store.form.form.destToken);
   const theme = useSelect((store) => store.app.theme);
+  const { aggWalletDetails } = useConnectStateContext();
   const [rotate, setRotate] = React.useState<boolean>(false);
 
   const onClickSwapBtn = () => {
     const destTokenNew = { ...srcToken } as TokenAndChain;
-    dispatch(formActions.setFormToken({
-      type: "srcToken",
+    dispatch(formActions.setSrcToken({
+      address: aggWalletDetails?.address,
       token: { ...destToken } as TokenAndChain,
     }));
-    dispatch(formActions.setFormToken({
-      type: "destToken",
-      token: destTokenNew,
-    }));
+    dispatch(formActions.setDestToken(destTokenNew));
     setRotate((prev: boolean) => !prev);
   };
 

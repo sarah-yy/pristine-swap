@@ -1,4 +1,5 @@
 export * from "./app";
+export * from "./balance";
 export * from "./chain";
 export * from "./component";
 export * from "./form";
