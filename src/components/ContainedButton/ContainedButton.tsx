@@ -6,10 +6,11 @@ import CircularLoader from "../CircularLoader";
 
 interface ContainedButtonProps extends RectangleButtonProps {
   color?: "default" | "plain";
+  customLoaderSize?: number;
 }
 
 const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonProps) => {
-  const { children, color = "default", className, loading, size = Size.MD, ...rest } = props;
+  const { children, color = "default", className, customLoaderSize, loading, size = Size.MD, ...rest } = props;
   const theme = useSelect((state) => state.app.theme);
   const isDefaultColor = color === "default";
   const isPlainColor = color === "plain";
@@ -50,7 +51,7 @@ const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonP
       {...rest}
     >
       {loading ? (
-        <CircularLoader color="white" size={loaderSize} />
+        <CircularLoader color="white" size={customLoaderSize ?? loaderSize} />
       ) : children}
     </button>
   );

@@ -9,6 +9,7 @@ import { useConnectStateContext, useSelect } from "../../../hooks";
 import { WalletDropdown } from "./components";
 
 const Header: React.FC = () => {
+  const primaryWallet = useSelect((store) => store.app.primaryWallet);
   const theme = useSelect((store) => store.app.theme);
   const { handleOpenConnectDialog, isWalletConnecting, isWalletConnected } = useConnectStateContext();
 
@@ -22,10 +23,15 @@ const Header: React.FC = () => {
         <img className="w-[2.25rem]" src={theme === Theme.Dark ? PristineSwapLogoMobileDark : PristineSwapLogoMobileLight} />
       </div>
 
-      {!!isWalletConnected ? (
+      {!!isWalletConnected && !!primaryWallet?.shortAddress ? (
         <WalletDropdown />
       ) : (
-        <ContainedButton className="header-connect-btn" disabled={isWalletConnecting} onClick={handleOpenConnectDialog} loading={isWalletConnecting}>
+        <ContainedButton
+          className="header-connect-btn"
+          disabled={isWalletConnecting}
+          onClick={() => handleOpenConnectDialog()}
+          loading={isWalletConnecting}
+        >
           Connect Wallet
         </ContainedButton>
       )}

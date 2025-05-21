@@ -3,7 +3,7 @@ import React from "react";
 import { ChevronIcon } from "../../../../../assets";
 import { ThemedSvgIcon, WalletIcon } from "../../../../../components";
 import { Theme } from "../../../../../constants";
-import { useConnectStateContext, useSelect } from "../../../../../hooks";
+import { useSelect } from "../../../../../hooks";
 
 interface Props {
   handleClose: () => void;
@@ -14,7 +14,7 @@ interface Props {
 const ConnectedWalletBtn: React.FC<Props> = (props: Props) => {
   const { handleClose, handleOpen, open } = props;
   const theme = useSelect((store) => store.app.theme);
-  const { aggWalletDetails } = useConnectStateContext();
+  const primaryWallet = useSelect((store) => store.app.primaryWallet);
 
   const handleToggleOpen = () => {
     if (open) {
@@ -41,11 +41,11 @@ const ConnectedWalletBtn: React.FC<Props> = (props: Props) => {
       "gap-2")}
       onClick={handleToggleOpen}
     >
-      {!!aggWalletDetails?.connectorId && (
-        <WalletIcon className="connected-wallet-btn-icon" walletKey={aggWalletDetails.connectorId} />
+      {!!primaryWallet?.connectorId && (
+        <WalletIcon className="connected-wallet-btn-icon" walletKey={primaryWallet.connectorId} />
       )}
-      {!!aggWalletDetails?.shortAddress && (
-        <div className="mt-[0.25rem]">{aggWalletDetails.shortAddress}</div>
+      {!!primaryWallet?.shortAddress && (
+        <div className="mt-[0.25rem]">{primaryWallet.shortAddress}</div>
       )}
       <ThemedSvgIcon className="w-[1rem] h-[1rem] connected-wallet-dropdown-arrow" svgComponent={ChevronIcon} />
     </div>

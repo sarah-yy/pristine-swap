@@ -1,3 +1,5 @@
+import { SimpleMap } from "./types";
+
 export type WalletKeyType = {
   Coinbase: string;
   Metamask: string;
@@ -50,3 +52,11 @@ export const evmWallets: WalletItem[] = [{
   key: WalletKey.Coinbase,
   label: "Coinbase",
 }];
+
+export const overrideWalletKeys: SimpleMap<WalletKeyEnumType> = {
+  coinbaseWalletSDK: WalletKey.Coinbase,
+  "io.metamask": WalletKey.Metamask,
+  "me.rainbow": WalletKey.Rainbow,
+  "app.keplr": WalletKey.Keplr,
+  "io.leapwallet.LeapWallet": WalletKey.Leap,
+};

@@ -1,8 +1,8 @@
 import clsx from "clsx";
 import React from "react";
 import { ChevronIcon } from "../../../../assets";
-import { ChainIcon, ThemedSvgIcon, TokenIcon } from "../../../../components";
-import { BaseDivProps, ExchangeKeyType, ExchangeTx, Theme } from "../../../../constants";
+import { ChainIcon, OutlinedButton, ThemedSvgIcon, TokenIcon } from "../../../../components";
+import { BaseDivProps, ExchangeKeyType, ExchangeTx, Size, Theme } from "../../../../constants";
 import { useSelect, useTokenSelectionContext } from "../../../../hooks";
 
 interface Props extends BaseDivProps {
@@ -13,9 +13,12 @@ const FormInput: React.FC<Props> = (props: Props) => {
   const { className, type = ExchangeTx.Buy } = props;
   const theme = useSelect((store) => store.app.theme);
   const { handleOpenTokenDialog } = useTokenSelectionContext();
+  const isConnected = useSelect((store) => !!store.app.primaryWallet);
   const formToken = useSelect((store) => store.form.form[type === ExchangeTx.Sell ? "srcToken" : "destToken"]);
   const chainInfo = useSelect((store) => store.chain.chains[formToken.chainId]);
   const tokenInfo = useSelect((store) => store.token.tokens[formToken.chainId]?.[formToken.denom.toLowerCase()]);
+  const tokenBalance = useSelect((store) => type === ExchangeTx.Sell ? store.balance.balances[formToken.chainId]?.[formToken.denom] : undefined)
+
   return (
     <div
       className={clsx({
@@ -69,8 +72,19 @@ const FormInput: React.FC<Props> = (props: Props) => {
       </div>
 
       {/* Right Section */}
-      <div className="grid grid-cols-1 gap-y-[0.25rem] justify-end">
-        <div className="text-body3">&nbsp;</div>
+      <div className="grid grid-cols-1 gap-y-[0.375rem] justify-end">
+        <div className="flex justify-end items-center text-body3 font-semibold gap-[0.375rem]">
+          {isConnected && tokenBalance ? (
+            <React.Fragment>
+              <div>Balance: {tokenBalance.formattedAmount}</div>
+              <OutlinedButton size={Size.XS}>
+                Max
+              </OutlinedButton>
+            </React.Fragment>
+          ) : (
+            <React.Fragment>&nbsp;</React.Fragment>
+          )}
+        </div>
 
         <input type="number" className="blank-input text-h4 font-semibold text-right" />
 

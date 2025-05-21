@@ -33,6 +33,7 @@ export class SkipClient {
       body: JSON.stringify({ chains: req }),
     });
     const json = await response.json();
+    console.log("json", json);
     return json.chains as SimpleMap<SkipBalancesByChain>;
   }
 }

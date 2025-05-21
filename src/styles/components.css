@@ -67,11 +67,13 @@
   background-color: black;
 }
 
-.outlined-btn-base.btn-size-sm::before {
+.outlined-btn-base.btn-size-sm::before,
+.outlined-btn-base.btn-size-xs::before {
   transform: translateX(calc(-100% - 0.75rem));
 }
 
-.outlined-btn-base.btn-size-sm:hover::before {
+.outlined-btn-base.btn-size-sm:hover::before,
+.outlined-btn-base.btn-size-xs:hover::before {
   transform: translateX(-0.75rem);
 }
 

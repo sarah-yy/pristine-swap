@@ -14,7 +14,7 @@ const formSlice = createSlice({
   initialState,
   reducers: {
     setSrcToken: (state, action: PayloadAction<SetSrcTokenPayload>) => {
-      state.form.srcToken = action.payload.token;
+      state.form.srcToken = action.payload;
     },
     setDestToken: (state, action: PayloadAction<TokenAndChain>) => {
       state.form.destToken = action.payload;

@@ -1,10 +1,11 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { all, call, put, select, takeLatest } from "redux-saga/effects";
-import { TokenBalanceMap, SetSrcTokenPayload, SkipBalanceObj, SkipBalancesByChain, BalanceTaskNames, QueryBalanceReq, SimpleMap, TokenBalance } from "../../../constants";
+import { BalanceTaskNames, QueryBalanceReq, SimpleMap, SkipBalanceObj, SkipBalancesByChain, TokenBalance, TokenBalanceMap, TokenAndChain } from "../../../constants";
 import { generateId, SkipClient } from "../../../utils";
-import { balanceActions } from "./slice";
-import { loadingTaskActions } from "../loadingTask";
+import { appActions } from "../app";
 import { formActions } from "../form";
+import { loadingTaskActions } from "../loadingTask";
+import { balanceActions } from "./slice";
 
 function* handleQueryBalances(action: PayloadAction<QueryBalanceReq>) {
   const balanceUuid = generateId();
@@ -18,7 +19,8 @@ function* handleQueryBalances(action: PayloadAction<QueryBalanceReq>) {
     Object.entries(balanceResponse).forEach(([chain, balanceObj]: [string, SkipBalancesByChain]) => {
       const currentBalanceObj = currentBalancesMap[chain] ? { ...currentBalancesMap[chain] } : {};
       Object.entries(balanceObj.denoms).forEach(([denom, balance]: [string, SkipBalanceObj]) => {
-        currentBalanceObj[denom] = new TokenBalance(balance);
+        const tokenBalanceObj = new TokenBalance(balance);
+        currentBalanceObj[denom] = tokenBalanceObj;
       });
       newBalancesMap[chain] = currentBalanceObj;
     });
@@ -31,13 +33,15 @@ function* handleQueryBalances(action: PayloadAction<QueryBalanceReq>) {
   }
 }
 
-function* handleGetBalanceParams(action: PayloadAction<SetSrcTokenPayload>) {
-  if (!action.payload.address) return;
-  const { token, address } = action.payload;
+function* handleGetBalanceParams() {
+  const address = (yield select((state) => state.app.primaryWallet?.address)) as string | undefined;
+  const srcToken = (yield select((state) => state.form.form.srcToken)) as TokenAndChain;
+  if (!address) return;
+
   const balanceReq: QueryBalanceReq = {
-    [token.chainId]: {
+    [srcToken.chainId]: {
       address,
-      denoms: [token.denom],
+      denoms: [srcToken.denom],
     },
   };
   yield put(balanceActions.queryBalances(balanceReq));
@@ -46,6 +50,9 @@ function* handleGetBalanceParams(action: PayloadAction<SetSrcTokenPayload>) {
 export default function* balanceSaga() {
   yield all([
     takeLatest(balanceActions.queryBalances.type, handleQueryBalances),
-    takeLatest(formActions.setSrcToken.type, handleGetBalanceParams),
+    takeLatest([
+      formActions.setSrcToken.type,
+      appActions.setPrimaryWallet.type
+    ], handleGetBalanceParams),
   ]);
 }

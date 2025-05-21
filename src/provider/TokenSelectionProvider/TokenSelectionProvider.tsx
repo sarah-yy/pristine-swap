@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { ExchangeKeyType, ExchangeTx, TokenAndChain } from "../../constants";
-import { useConnectStateContext } from "../../hooks";
+import { useConnectStateContext, useSelect } from "../../hooks";
 import { formActions } from "../../stores";
 
 interface TokenSelectionContextProps {
@@ -28,7 +28,7 @@ export const TokenSelectionContext = React.createContext<TokenSelectionContextPr
 export const TokenSelectionProvider: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
   const dispatch = useDispatch();
-  const { aggWalletDetails } = useConnectStateContext();
+  const primaryWallet = useSelect((store) => store.app.primaryWallet);
 
   const [openTokenDialog, setOpenTokenDialog] = React.useState<boolean>(false);
   const [currentPage, setCurrentPage] = React.useState<SlideNum>(0);
@@ -56,10 +56,7 @@ export const TokenSelectionProvider: React.FC<React.PropsWithChildren> = (props:
     if (!inputType) return;
 
     if (inputType === ExchangeTx.Sell) {
-      dispatch(formActions.setSrcToken({
-        address: aggWalletDetails?.address,
-        token: formToken,
-      }));
+      dispatch(formActions.setSrcToken(formToken));
     } else {
       dispatch(formActions.setDestToken(formToken));
     }

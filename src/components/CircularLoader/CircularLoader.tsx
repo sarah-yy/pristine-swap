@@ -3,13 +3,13 @@ import React from "react";
 import { Theme } from "../../constants";
 import { useSelect } from "../../hooks";
 
-interface Props {
+interface Props extends PropsWithClassName {
   size: number;
   color: "default" | "white";
 }
 
 const CircularLoader: React.FC<Props> = (props: Props) => {
-  const { color, size } = props;
+  const { className, color, size } = props;
   const theme = useSelect((state) => state.app.theme);
 
   const colorStyles = React.useMemo(() => {
@@ -26,7 +26,7 @@ const CircularLoader: React.FC<Props> = (props: Props) => {
   return (
     <svg
       aria-hidden="true"
-      className={clsx("inline animate-spin", colorStyles)}
+      className={clsx("inline animate-spin", colorStyles, className)}
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

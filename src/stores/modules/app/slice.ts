@@ -1,11 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Theme, ThemeValue, localStorageKeys } from "../../../constants";
+import { Theme, ThemeValue, WalletKeyEnumType, localStorageKeys } from "../../../constants";
 import { SkipClient } from "../../../utils";
 
 interface AppState {
   theme: ThemeValue;
 
   skipClient: SkipClient;
+
+  primaryWallet?: WalletDetails;
+}
+
+interface WalletDetails {
+  address: string;
+  connectorId?: WalletKeyEnumType;
+  shortAddress: string;
+  isEVM: boolean;
 }
 
 let defaultTheme: string = window.matchMedia("(prefers-color-scheme: dark)").matches ? Theme.Dark : Theme.Light;
@@ -32,6 +41,12 @@ const appSlice = createSlice({
     setTheme: (state, action: PayloadAction<ThemeValue>) => {
       localStorage.setItem(localStorageKeys.theme, action.payload);
       state.theme = action.payload;
+    },
+    setPrimaryWallet: (state, action: PayloadAction<WalletDetails>) => {
+      state.primaryWallet = action.payload;
+    },
+    disconnectPrimaryWallet: (state) => {
+      state.primaryWallet = undefined;
     },
   },
 });

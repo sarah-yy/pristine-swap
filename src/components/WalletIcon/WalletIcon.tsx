@@ -26,6 +26,8 @@ const WalletIcon: React.FC<Props> = (props: Props) => {
   const WalletSvg = walletIcons[walletKey];
   const addBorderRadius: boolean = walletKey !== WalletKey.Metamask;
 
+  if (!WalletSvg) return null;
+
   return (
     <WalletSvg
       className={clsx(

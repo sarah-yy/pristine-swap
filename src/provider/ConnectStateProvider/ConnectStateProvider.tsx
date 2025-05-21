@@ -1,16 +1,19 @@
 import React from "react";
+import { useDispatch } from "react-redux";
 import { useAccount, useDisconnect } from "wagmi";
 import { WalletKey, WalletKeyEnumType } from "../../constants";
-import { useToastContext } from "../../hooks";
+import { useSelect, useToastContext } from "../../hooks";
 import { KeplrTypes, LeapTypes } from "../../types";
-import { getWalletType, truncateStr } from "../../utils";
+import { truncateStr } from "../../utils";
+import { appActions } from "../../stores";
 
 interface ConnectStateContextProps {
   // Wallet connection status
   isWalletConnecting: boolean;
   isWalletConnected: boolean;
 
-  aggWalletDetails?: WalletDetails;
+  connectingId?: WalletKeyEnumType;
+  setConnectingId: React.Dispatch<React.SetStateAction<WalletKeyEnumType | undefined>>;
 
   handleConnectKeplr: (tokenChain: string) => Promise<void>; // eslint-disable-line no-unused-vars
   handleConnectLeap: (tokenChain: string) => Promise<void>; // eslint-disable-line no-unused-vars
@@ -18,16 +21,12 @@ interface ConnectStateContextProps {
   handleDisconnect: () => void;
   handleDisconnectCosmosWallets: () => void;
 
-  handleOpenConnectDialog: () => void;
+  handleOpenConnectDialog: (isGetAddressMode?: boolean) => void;
   handleCloseConnectDialog: () => void;
-  openConnectDialog: boolean;
+  openConnectMode: OpenConnectMode;
 }
 
-interface WalletDetails {
-  address?: string;
-  connectorId?: WalletKeyEnumType;
-  shortAddress?: string;
-}
+type OpenConnectMode = false | "open_getAddress" | "open_setPrimary";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ConnectStateContext = React.createContext<ConnectStateContextProps | undefined>(undefined);
@@ -35,29 +34,20 @@ export const ConnectStateContext = React.createContext<ConnectStateContextProps 
 const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.PropsWithChildren) => {
   const { children } = props;
 
-  const { address: evmAddress, connector, isConnected, isConnecting } = useAccount();
+  const dispatch = useDispatch();
+  const { isConnected, isConnecting } = useAccount();
   const { disconnect } = useDisconnect();
   const toast = useToastContext();
+  const primaryWallet = useSelect((store) => store.app.primaryWallet);
 
-  const [cosmosWalletDetails, setCosmosWalletDetails] = React.useState<WalletDetails | undefined>(undefined);
   const [isCosmosWalletConnecting, setIsCosmosWalletConnecting] = React.useState<boolean>(false);
-  const [openConnectDialog, setOpenConnectDialog] = React.useState<boolean>(false);
-
-  const aggWalletDetails = React.useMemo((): WalletDetails => {
-    const address: string | undefined = cosmosWalletDetails?.address ?? evmAddress;
-    return {
-      address,
-      connectorId: cosmosWalletDetails?.connectorId ?? getWalletType(connector?.id),
-      shortAddress: cosmosWalletDetails?.shortAddress ?? (
-        address ? truncateStr(address, 5, 2) : undefined
-      ),
-    };
-  }, [cosmosWalletDetails, connector, evmAddress]);
+  const [connectingId, setConnectingId] = React.useState<WalletKeyEnumType | undefined>(undefined);
+  const [openConnectMode, setOpenConnectMode] = React.useState<OpenConnectMode>(false);
 
   const isWalletConnected = React.useMemo(() => {
-    if (cosmosWalletDetails) return true;
+    if (!!primaryWallet) return true;
     return isConnected;
-  }, [cosmosWalletDetails, isConnected]);
+  }, [primaryWallet, isConnected]);
 
   const isWalletConnecting = React.useMemo(() => {
     if (isCosmosWalletConnecting) return true;
@@ -66,15 +56,14 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
   }, [isCosmosWalletConnecting, isConnecting]);
 
   const handleDisconnectCosmosWallets = () => {
-    setCosmosWalletDetails(undefined);
+    dispatch(appActions.disconnectPrimaryWallet());
   };
 
   const handleDisconnect = React.useCallback(() => {
-    handleDisconnectCosmosWallets();
-
     if (isConnected) {
       disconnect();
     }
+    dispatch(appActions.disconnectPrimaryWallet());
   }, [disconnect, isConnected]);
 
   const handleConnectKeplr = React.useCallback(async (chainId: string) => {
@@ -82,18 +71,22 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
     const keplrInstance = (window as any).keplr as KeplrTypes.Keplr.Keplr;
 
     setIsCosmosWalletConnecting(true);
+    setConnectingId(WalletKey.Keplr);
 
     // Disconnect all other wallets before reconnecting
-    handleDisconnect();
+    if (openConnectMode === "open_setPrimary") handleDisconnect();
   
     try {
       await keplrInstance.enable(chainId);
       const key = await keplrInstance.getKey(chainId);
-      setCosmosWalletDetails({
-        address: key.bech32Address,
-        connectorId: WalletKey.Keplr,
-        shortAddress: truncateStr(key.bech32Address, 5, 2),
-      });
+      if (openConnectMode === "open_setPrimary") {
+        dispatch(appActions.setPrimaryWallet({
+          address: key.bech32Address,
+          connectorId: WalletKey.Keplr,
+          shortAddress: truncateStr(key.bech32Address, 5, 2),
+          isEVM: false,
+        }));
+      }
       handleCloseConnectDialog();
     } catch (err) {
       const errMsg = (err as Error).message;
@@ -104,6 +97,7 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
       });
     } finally {
       setIsCosmosWalletConnecting(false);
+      setConnectingId(undefined);
     }
   }, [handleDisconnect]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -112,6 +106,7 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
     const leapInstance = (window as any).leap as LeapTypes.Leap.Leap;
 
     setIsCosmosWalletConnecting(true);
+    setConnectingId(WalletKey.Leap);
 
     // Disconnect all other wallets before reconnecting
     handleDisconnect();
@@ -119,11 +114,14 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
     try {
       await leapInstance.enable(chainId);
       const key = await leapInstance.getKey(chainId);
-      setCosmosWalletDetails({
-        address: key.bech32Address,
-        connectorId: WalletKey.Leap,
-        shortAddress: truncateStr(key.bech32Address, 5, 2),
-      });
+      if (openConnectMode === "open_setPrimary") {
+        dispatch(appActions.setPrimaryWallet({
+          address: key.bech32Address,
+          connectorId: WalletKey.Leap,
+          shortAddress: truncateStr(key.bech32Address, 5, 2),
+          isEVM: false,
+        }));
+      }
       handleCloseConnectDialog();
     } catch (err) {
       const errMsg = (err as Error).message;
@@ -134,18 +132,20 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
       });
     } finally {
       setIsCosmosWalletConnecting(false);
+      setConnectingId(undefined);
     }
   }, [handleDisconnect]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const handleOpenConnectDialog = () => setOpenConnectDialog(true);
-  const handleCloseConnectDialog = () => setOpenConnectDialog(false);
+  const handleOpenConnectDialog = (isGetAddressMode?: boolean) => setOpenConnectMode(isGetAddressMode ? "open_getAddress" : "open_setPrimary");
+  const handleCloseConnectDialog = () => setOpenConnectMode(false);
 
   return (
     <ConnectStateContext.Provider value={{
       isWalletConnecting,
       isWalletConnected,
 
-      aggWalletDetails,
+      connectingId,
+      setConnectingId,
 
       handleConnectKeplr,
 
@@ -156,7 +156,7 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
 
       handleCloseConnectDialog,
       handleOpenConnectDialog,
-      openConnectDialog,
+      openConnectMode,
     }}>
       {children}
     </ConnectStateContext.Provider>
