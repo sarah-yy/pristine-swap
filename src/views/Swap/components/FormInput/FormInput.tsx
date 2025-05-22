@@ -1,9 +1,10 @@
 import clsx from "clsx";
 import React from "react";
 import { ChevronIcon } from "../../../../assets";
-import { ChainIcon, OutlinedButton, ThemedSvgIcon, TokenIcon } from "../../../../components";
+import { ChainIcon, OutlinedButton, ThemedSvgIcon, TokenIcon, ValueFormatter } from "../../../../components";
 import { BaseDivProps, ExchangeKeyType, ExchangeTx, Size, Theme } from "../../../../constants";
 import { useSelect, useTokenSelectionContext } from "../../../../hooks";
+import { bnOrZero } from "../../../../utils";
 
 interface Props extends BaseDivProps {
   type?: ExchangeKeyType;
@@ -76,7 +77,7 @@ const FormInput: React.FC<Props> = (props: Props) => {
         <div className="flex justify-end items-center text-body3 font-semibold gap-[0.375rem]">
           {isConnected && tokenBalance ? (
             <React.Fragment>
-              <div>Balance: {tokenBalance.formattedAmount}</div>
+              <div>Balance: <ValueFormatter value={bnOrZero(tokenBalance.formattedAmount)} /></div>
               <OutlinedButton size={Size.XS}>
                 Max
               </OutlinedButton>

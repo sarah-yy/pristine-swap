@@ -10,4 +10,5 @@ export { default as OutlinedButton } from "./OutlinedButton";
 export { default as StandardDialog } from "./StandardDialog";
 export { default as ThemedSvgIcon } from "./ThemedSvgIcon";
 export { default as TokenIcon } from "./TokenIcon";
+export { default as ValueFormatter } from "./ValueFormatter";
 export { default as WalletIcon } from "./WalletIcon";

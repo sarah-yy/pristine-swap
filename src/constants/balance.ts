@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { SimpleMap } from "./types";
 
 export interface SkipBalanceObj {
@@ -33,7 +34,9 @@ export const BalanceTaskNames: SimpleMap<string> = {
 
 export class TokenBalance {
   readonly amount: string;
+  readonly amountBN: BigNumber;
   readonly formattedAmount: string;
+  readonly formattedAmountBN: BigNumber;
   readonly price?: string;
   readonly decimals?: number;
   readonly usdValue?: string;
@@ -41,7 +44,9 @@ export class TokenBalance {
   constructor(balanceObj: SkipBalanceObj) {
     const { amount, decimals, formatted_amount, price, value_usd } = balanceObj;
     this.amount = amount;
+    this.amountBN = new BigNumber(amount);
     this.formattedAmount = formatted_amount;
+    this.formattedAmountBN = new BigNumber(formatted_amount);
     if (decimals) this.decimals = decimals;
     if (price) this.price = price;
     if (value_usd) this.usdValue = value_usd;

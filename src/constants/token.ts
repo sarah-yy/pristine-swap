@@ -1,3 +1,4 @@
+import BigNumber from "bignumber.js";
 import { SimpleMap } from "./types";
 
 export interface SkipTokenJson {
@@ -111,16 +112,16 @@ export class CoingeckoMarketData {
   readonly id: string;
   readonly symbol: string;
   readonly name : string;
-  readonly tokenPrice: number;
-  readonly totalVolume: number;
+  readonly tokenPrice: BigNumber;
+  readonly totalVolume: BigNumber;
 
   constructor(coinMarketData: CoinMarketData) {
     const { id, symbol, name, current_price, total_volume } = coinMarketData;
     this.id = id;
     this.symbol = symbol;
     this.name = name;
-    this.tokenPrice = current_price;
-    this.totalVolume = total_volume;
+    this.tokenPrice = new BigNumber(current_price);
+    this.totalVolume = new BigNumber(total_volume);
   }
 }
 

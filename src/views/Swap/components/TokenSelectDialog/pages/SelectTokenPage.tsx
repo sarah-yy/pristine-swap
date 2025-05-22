@@ -5,6 +5,7 @@ import { SearchIcon } from "../../../../../assets";
 import { ContainedButton, ThemedSvgIcon, TokenIcon } from "../../../../../components";
 import { PathColor, SkipToken, TokenAndChain } from "../../../../../constants";
 import { useSelect, useTokenSelectionContext } from "../../../../../hooks";
+import { bnOrZero } from "../../../../../utils";
 
 type TokenAndChainEntry = [string, TokenAndChain[]];
 
@@ -40,9 +41,9 @@ const SelectTokenPage: React.FC = () => {
         return -1;
       }
 
-      const totalVolumeA = coingeckoMarketDataA?.totalVolume ?? 0;
-      const totalVolumeB = coingeckoMarketDataB?.totalVolume ?? 0;
-      return totalVolumeB - totalVolumeA;
+      const totalVolumeA = bnOrZero(coingeckoMarketDataA?.totalVolume);
+      const totalVolumeB = bnOrZero(coingeckoMarketDataB?.totalVolume);
+      return totalVolumeB.minus(totalVolumeA).toNumber();
     });
   }, [symbolToTokenAndChainMap, search, coingeckoMarketDataMap, tokensMap]);
 
