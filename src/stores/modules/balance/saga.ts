@@ -52,7 +52,7 @@ export default function* balanceSaga() {
     takeLatest(balanceActions.queryBalances.type, handleQueryBalances),
     takeLatest([
       formActions.setSrcToken.type,
-      appActions.setPrimaryWallet.type
+      appActions.setPrimaryWallet.type,
     ], handleGetBalanceParams),
   ]);
 }

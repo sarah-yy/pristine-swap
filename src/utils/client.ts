@@ -1,9 +1,10 @@
-import { QueryBalanceReq, QueryChainsReq, SkipBalancesByChain, SkipChainJson, QueryTokensReq, SkipTokenJson, SimpleMap } from "../constants";
+import { QueryBalanceReq, QueryChainsReq, SkipBalancesByChain, SkipChainJson, SkipQuoteResponse, QueryQuoteReq, QueryTokensReq, SkipTokenJson, SimpleMap } from "../constants";
 
 const Paths: SimpleMap<string> = {
   Balances: "info/balances",
   ChainList: "info/chains",
   TokenList: "fungible/assets",
+  Route: "fungible/route",
 };
 
 export class SkipClient {
@@ -33,8 +34,18 @@ export class SkipClient {
       body: JSON.stringify({ chains: req }),
     });
     const json = await response.json();
-    console.log("json", json);
     return json.chains as SimpleMap<SkipBalancesByChain>;
+  }
+
+  public async Quote(req: QueryQuoteReq): Promise<SkipQuoteResponse> {
+    const queryUrl = getReqUrl(this.url, Paths.Route);
+    const response = await fetch(queryUrl, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify(req),
+    });
+    const json = await response.json();
+    return json as SkipQuoteResponse;
   }
 }
 

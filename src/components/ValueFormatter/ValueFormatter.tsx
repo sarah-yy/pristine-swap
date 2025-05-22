@@ -5,13 +5,14 @@ interface Props {
   value: BigNumber;
   nonSubscriptDecimals?: number
   subscriptDecimals?: number;
+  prefix?: string;
 }
 
 const secondThreshold: number = 0.01;
 const subscriptThreshold: number = 0.001;
 
 const ValueFormatter: React.FC<Props> = (props: Props) => {
-  const { nonSubscriptDecimals = 3, subscriptDecimals = 3, value } = props;
+  const { nonSubscriptDecimals = 3, subscriptDecimals = 3, value, prefix = "" } = props;
 
   const { numZeroes, nonZeroesStr } = React.useMemo(() => {
     const decimalPart = value.toString(10).substring(2);
@@ -35,29 +36,29 @@ const ValueFormatter: React.FC<Props> = (props: Props) => {
       numZeroes,
       nonZeroesStr,
     };
-  }, [value, subscriptDecimals])
+  }, [value, subscriptDecimals]);
 
   // Handle zero value
   if (value.isZero()) {
-    return "0.00";
+    return `${prefix}0.00`;
   }
 
   // Non-subscript value handling (i.e. value >= 0.01)
   // Round to number of decimals, then return string
   if (value.gte(secondThreshold)) {
-    return value.decimalPlaces(nonSubscriptDecimals, BigNumber.ROUND_DOWN).toString(10);
+    return `${prefix}${value.decimalPlaces(nonSubscriptDecimals, BigNumber.ROUND_DOWN).toString(10)}`;
   }
 
   // Non-subscript, small value handling (i.e. 0.001 <= value < 0.01)
   if (value.gte(subscriptThreshold) && value.lt(secondThreshold)) {
     const zeroesStr = numZeroes === 2 ? "00" : "0";
-    return `0.${zeroesStr}${nonZeroesStr}`;
+    return `${prefix}0.${zeroesStr}${nonZeroesStr}`;
   }
 
   // Subscript value handling (i.e. < 0.001)
   return (
     <React.Fragment>
-      <span>0.0</span>
+      <span>{prefix}0.0</span>
       <sub>{numZeroes}</sub>
       <span>{nonZeroesStr}</span>
     </React.Fragment>

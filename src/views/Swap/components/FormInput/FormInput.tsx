@@ -1,9 +1,12 @@
+import BigNumber from "bignumber.js";
 import clsx from "clsx";
 import React from "react";
+import { useDispatch } from "react-redux";
 import { ChevronIcon } from "../../../../assets";
 import { ChainIcon, OutlinedButton, ThemedSvgIcon, TokenIcon, ValueFormatter } from "../../../../components";
 import { BaseDivProps, ExchangeKeyType, ExchangeTx, Size, Theme } from "../../../../constants";
-import { useSelect, useTokenSelectionContext } from "../../../../hooks";
+import { useDebounce, useSelect, useTokenSelectionContext } from "../../../../hooks";
+import { formActions } from "../../../../stores";
 import { bnOrZero } from "../../../../utils";
 
 interface Props extends BaseDivProps {
@@ -12,13 +15,56 @@ interface Props extends BaseDivProps {
 
 const FormInput: React.FC<Props> = (props: Props) => {
   const { className, type = ExchangeTx.Buy } = props;
+  const isSellTx = type === ExchangeTx.Sell;
+  const dispatch = useDispatch();
+
   const theme = useSelect((store) => store.app.theme);
   const { handleOpenTokenDialog } = useTokenSelectionContext();
   const isConnected = useSelect((store) => !!store.app.primaryWallet);
-  const formToken = useSelect((store) => store.form.form[type === ExchangeTx.Sell ? "srcToken" : "destToken"]);
+  const formToken = useSelect((store) => store.form.form[isSellTx ? "srcToken" : "destToken"]);
+  const formAmtInput = useSelect((store) => store.form.form[isSellTx ? "srcAmount" : "destAmount"]);
+  const formAmtBN = useSelect((store) => store.form.form[isSellTx ? "srcAmountBN" : "destAmountBN"]);
+
   const chainInfo = useSelect((store) => store.chain.chains[formToken.chainId]);
   const tokenInfo = useSelect((store) => store.token.tokens[formToken.chainId]?.[formToken.denom.toLowerCase()]);
-  const tokenBalance = useSelect((store) => type === ExchangeTx.Sell ? store.balance.balances[formToken.chainId]?.[formToken.denom] : undefined)
+  const tokenBalance = useSelect((store) => isSellTx ? store.balance.balances[formToken.chainId]?.[formToken.denom] : undefined);
+
+  const handleClickMax = React.useCallback(() => {
+    if (!isSellTx || !tokenBalance) return;
+    const tokenBalanceBN = tokenBalance.formattedAmountBN;
+    dispatch(formActions.setSrcAmountBN(tokenBalanceBN));
+    dispatch(formActions.setSrcAmountInput(tokenBalanceBN.toString(10)));
+  }, [isSellTx, tokenBalance]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const debounceInputQuery = useDebounce((inputValue: BigNumber, isSell: boolean) => {
+    const valueBN = inputValue.decimalPlaces(tokenInfo?.decimals ?? 0, BigNumber.ROUND_DOWN);
+    if (isSell) {
+      dispatch(formActions.setSrcAmountBN(valueBN));
+    } else {
+      dispatch(formActions.setDestAmountBN(valueBN));
+    }
+  }, 500);
+
+  const handleOnChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.currentTarget.value;
+    const inputBN = bnOrZero(inputValue);
+    if (isSellTx) {
+      dispatch(formActions.setSrcAmountInput(inputValue));
+    } else {
+      dispatch(formActions.setDestAmountInput(inputValue));
+    }
+    debounceInputQuery(inputBN, isSellTx);
+  }, [isSellTx]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (["e", "E", "+", "-"].includes(e.key)) {
+      e.preventDefault();
+    }
+  };
+
+  const usdValue = React.useMemo(() => {
+    return formAmtBN.times(bnOrZero(tokenBalance?.price));
+  }, [tokenBalance?.price, formAmtBN]);
 
   return (
     <div
@@ -77,8 +123,12 @@ const FormInput: React.FC<Props> = (props: Props) => {
         <div className="flex justify-end items-center text-body3 font-semibold gap-[0.375rem]">
           {isConnected && tokenBalance ? (
             <React.Fragment>
-              <div>Balance: <ValueFormatter value={bnOrZero(tokenBalance.formattedAmount)} /></div>
-              <OutlinedButton size={Size.XS}>
+              <div>
+                Balance:&nbsp;
+                <ValueFormatter value={bnOrZero(tokenBalance.formattedAmount)} />
+              </div>
+
+              <OutlinedButton size={Size.XS} onClick={handleClickMax}>
                 Max
               </OutlinedButton>
             </React.Fragment>
@@ -87,9 +137,17 @@ const FormInput: React.FC<Props> = (props: Props) => {
           )}
         </div>
 
-        <input type="number" className="blank-input text-h4 font-semibold text-right" />
+        <input
+          type="number"
+          className="blank-input text-h4 font-semibold text-right"
+          value={formAmtInput}
+          onChange={handleOnChange}
+          onKeyDown={handleOnKeyDown}
+        />
 
-        <div className="text-body3 secondary-text--light flex items-end justify-end">$0</div>
+        <div className="text-body3 secondary-text--light flex items-end justify-end">
+          <ValueFormatter value={usdValue} prefix="$" />
+        </div>
       </div>
     </div>
   );

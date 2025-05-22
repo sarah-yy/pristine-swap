@@ -21,7 +21,7 @@ interface ConnectStateContextProps {
   handleDisconnect: () => void;
   handleDisconnectCosmosWallets: () => void;
 
-  handleOpenConnectDialog: (isGetAddressMode?: boolean) => void;
+  handleOpenConnectDialog: (isGetAddressMode?: boolean) => void; // eslint-disable-line no-unused-vars
   handleCloseConnectDialog: () => void;
   openConnectMode: OpenConnectMode;
 }
@@ -64,7 +64,7 @@ const ConnectStateProvider: React.FC<React.PropsWithChildren> = (props: React.Pr
       disconnect();
     }
     dispatch(appActions.disconnectPrimaryWallet());
-  }, [disconnect, isConnected]);
+  }, [disconnect, isConnected]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleConnectKeplr = React.useCallback(async (chainId: string) => {
     if (!(window as any).keplr) throw new Error("Pls download Keplr extension.");

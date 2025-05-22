@@ -186,7 +186,7 @@ const ConnectWalletDialog: React.FC = () => {
                     setConnectRainbowkit(true);
                   };
 
-                  useEffect(() => {
+                  useEffect(() => { // eslint-disable-line react-hooks/rules-of-hooks
                     if (connectRainbowkit && account?.address) {
                       if (openConnectMode === "open_setPrimary") {
                         dispatch(appActions.setPrimaryWallet({
@@ -199,7 +199,7 @@ const ConnectWalletDialog: React.FC = () => {
                       handleCloseConnectDialog();
                       setConnectRainbowkit(false);
                     }
-                  }, [connectRainbowkit, account?.address])
+                  }, [connectRainbowkit, account?.address]); // eslint-disable-line react-hooks/exhaustive-deps
 
                   return (
                     <OthersConnectBtn
@@ -237,7 +237,7 @@ const WalletConnectBtn: React.FC<WalletConnectProps> = (props: WalletConnectProp
         { "justify-center": loading },
         "gap-2",
         "h-[3.25rem]",
-        className
+        className,
       )}
       disabled={isWalletConnecting}
       onClick={connectFunc}

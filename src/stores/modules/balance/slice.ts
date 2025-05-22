@@ -13,7 +13,8 @@ const balanceSlice = createSlice({
   name: "balance",
   initialState,
   reducers: {
-    queryBalances: (_state, _action: PayloadAction<QueryBalanceReq>) => {},
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    queryBalances: (_state, _action: PayloadAction<QueryBalanceReq>) => {}, // eslint-disable-line no-unused-vars
     setBalances: (state, action: PayloadAction<TokenBalanceMap>) => {
       state.balances = {
         ...state.balances,

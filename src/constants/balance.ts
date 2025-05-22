@@ -37,19 +37,21 @@ export class TokenBalance {
   readonly amountBN: BigNumber;
   readonly formattedAmount: string;
   readonly formattedAmountBN: BigNumber;
-  readonly price?: string;
+  readonly price?: BigNumber;
   readonly decimals?: number;
-  readonly usdValue?: string;
+  readonly usdValue?: BigNumber;
 
   constructor(balanceObj: SkipBalanceObj) {
     const { amount, decimals, formatted_amount, price, value_usd } = balanceObj;
+    const decimalNum = decimals ?? 0;
+
     this.amount = amount;
-    this.amountBN = new BigNumber(amount);
+    this.amountBN = new BigNumber(amount).dp(0, BigNumber.ROUND_DOWN);
     this.formattedAmount = formatted_amount;
-    this.formattedAmountBN = new BigNumber(formatted_amount);
+    this.formattedAmountBN = new BigNumber(formatted_amount).dp(decimalNum, BigNumber.ROUND_DOWN);
     if (decimals) this.decimals = decimals;
-    if (price) this.price = price;
-    if (value_usd) this.usdValue = value_usd;
+    if (price) this.price = new BigNumber(price);
+    if (value_usd) this.usdValue = new BigNumber(value_usd);
   }
 }
 
