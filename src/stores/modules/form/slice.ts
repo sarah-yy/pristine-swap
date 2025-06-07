@@ -1,9 +1,11 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import BigNumber from "bignumber.js";
-import { GetQuotePartialPayload, SetSrcTokenPayload, SwapFormState, TokenAndChain, defaultSwapFormState } from "../../../constants";
+import { GetQuotePartialPayload, QuoteResponse, SetSrcTokenPayload, SwapFormState, TokenAndChain, defaultSwapFormState } from "../../../constants";
 
 interface FormState {
   form: SwapFormState;
+  
+  quote?: QuoteResponse;
 }
 
 const initialState: FormState = {
@@ -33,6 +35,9 @@ const formSlice = createSlice({
     },
     setDestAmountBN: (state, action: PayloadAction<BigNumber>) => {
       state.form.destAmountBN = action.payload;
+    },
+    setQuote: (state, action: PayloadAction<QuoteResponse>) => {
+      state.quote = action.payload;
     },
   },
 });

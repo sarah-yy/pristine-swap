@@ -81,13 +81,6 @@
   color: theme(colors.darkText.primary);
 }
 
-.plain-contained-button-light {
-  background-color: theme(colors.lightBackground.secondary);
-}
-.plain-contained-button-dark {
-  background-color: theme(colors.darkBackground.secondary);
-}
-
 .contained-btn-base {
   border: none;
   border-radius: 0.5rem;
@@ -106,11 +99,11 @@
 }
 
 .default-contained-button-dark::before,
-.plain-contained-button-dark::before {
+.plain-contained-button.tertiary-bg--dark::before {
   background-color: white;
 }
 .default-contained-button-light::before,
-.plain-contained-button-light::before {
+.plain-contained-button.tertiary-bg--light::before {
   background-color: black;
 }
 
@@ -141,10 +134,10 @@
   transition: background-color 0.2s;
 }
 .icon-button-light:hover {
-  background-color: theme(colors.lightBackground.secondary);
+  background-color: theme(colors.lightBackground.tertiary);
 }
 .icon-button-dark:hover {
-  background-color: theme(colors.darkBackground.secondary);
+  background-color: theme(colors.darkBackground.tertiary);
 }
 .icon-button-dark.fill > svg path {
   fill: theme(colors.darkText.secondary);

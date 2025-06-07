@@ -2,12 +2,13 @@ import clsx from "clsx";
 import React, { Suspense } from "react";
 import { useDispatch } from "react-redux";
 import { ExchangeIcon, SkipConnectLogo } from "../../assets";
-import { ExchangeTx, Theme, TokenAndChain } from "../../constants";
-import { Card, ThemedSvgIcon } from "../../components";
+import { ExchangeTx, SkipErrorState, Theme, TokenAndChain } from "../../constants";
+import { Alert, Card, ThemedSvgIcon } from "../../components";
 import { useSelect } from "../../hooks";
 import { TokenSelectionProvider } from "../../provider";
 import { formActions } from "../../stores";
 import { FormInput, SettingsBar, SwapCTASection } from "./components";
+import { capitalize } from "../../utils";
 
 const ConnectSubsection = React.lazy(() => import("./components/ConnectSubsection"));
 const ConnectWalletDialog = React.lazy(() => import("./components/ConnectWalletDialog"));
@@ -15,9 +16,20 @@ const TokenSelectDialog = React.lazy(() => import("./components/TokenSelectDialo
 
 const Swap: React.FC = () => {
   const dispatch = useDispatch();
-  const srcToken = useSelect((store) => store.form.form.srcToken);
-  const destToken = useSelect((store) => store.form.form.destToken);
+
   const theme = useSelect((store) => store.app.theme);
+
+  const srcToken = useSelect((store) => store.form.form.srcToken);
+  const srcAmtInput = useSelect((store) => store.form.form.srcAmount);
+  const srcAmtBN = useSelect((store) => store.form.form.srcAmountBN);
+
+  const destAmtBN = useSelect((store) => store.form.form.destAmountBN);
+  const destToken = useSelect((store) => store.form.form.destToken);
+  const destAmtInput = useSelect((store) => store.form.form.destAmount);
+
+  const quote = useSelect((store) => store.form.quote);
+  console.log("quote", quote);
+
   const [rotate, setRotate] = React.useState<boolean>(false);
 
   const onClickSwapBtn = () => {
@@ -44,7 +56,12 @@ const Swap: React.FC = () => {
               {/* Form Inputs */}
               <div className="mt-[0.375rem] grid grid-cols-1">
                 {/* Sell Input */}
-                <FormInput type={ExchangeTx.Sell} />
+                <FormInput
+                  type={ExchangeTx.Sell}
+                  formToken={srcToken}
+                  formAmtInput={srcAmtInput}
+                  formAmtBN={srcAmtBN}
+                />
 
                 <div className="flex justify-center h-[1.125rem] w-full z-50 items-center">
                   <button
@@ -60,10 +77,22 @@ const Swap: React.FC = () => {
                 </div>
 
                 {/* Buy Input */}
-                <FormInput />
+                <FormInput
+                  formToken={destToken}
+                  formAmtInput={destAmtInput}
+                  formAmtBN={destAmtBN}
+                />
               </div>
             </div>
 
+            {quote?.status === "error" && (
+              <Alert
+                title="Quote Error"
+                message={capitalize((quote as SkipErrorState).response)}
+                status={quote.status}
+                className="mt-[0.625rem]"
+              />
+            )}
 
             {/* CTA Button section */}
             <SwapCTASection />

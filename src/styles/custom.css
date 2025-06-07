@@ -99,14 +99,6 @@
   padding: 1rem 1.25rem;
 }
 
-.form-input-light {
-  background-color: #F3F4FF;
-}
-
-.form-input-dark {
-  background-color: #374151;
-}
-
 .header-connect-btn {
   width: 7.5rem;
 }
@@ -213,11 +205,11 @@
 }
 
 .wallet-connect-btn-dark {
-  background-color: #374151;
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .wallet-connect-btn-light {
-  background-color: #F3F4FF;
+  background-color: rgba(99, 115, 129, 0.12);
 }
 
 .wallet-btn-icon {

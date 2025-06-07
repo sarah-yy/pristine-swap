@@ -64,7 +64,7 @@ const SelectTokenPage: React.FC = () => {
     <React.Fragment>
       <div
         className={clsx(
-          `secondary-bg--${theme}`,
+          `tertiary-bg--${theme}`,
           "drop-shadow-lg",
           "px-3",
           "py-2",

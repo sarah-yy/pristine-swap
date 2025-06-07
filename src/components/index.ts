@@ -1,3 +1,4 @@
+export { default as Alert } from "./Alert";
 export { default as Card } from "./Card";
 export { default as ChainIcon } from "./ChainIcon";
 export { default as CircularLoader } from "./CircularLoader";

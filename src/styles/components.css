@@ -91,14 +91,6 @@
   color: #F3F4F6;
 }
 
-.plain-contained-button-light {
-  background-color: #F3F4FF;
-}
-
-.plain-contained-button-dark {
-  background-color: #374151;
-}
-
 .contained-btn-base {
   border: none;
   border-radius: 0.5rem;
@@ -117,12 +109,12 @@
 }
 
 .default-contained-button-dark::before,
-.plain-contained-button-dark::before {
+.plain-contained-button.tertiary-bg--dark::before {
   background-color: white;
 }
 
 .default-contained-button-light::before,
-.plain-contained-button-light::before {
+.plain-contained-button.tertiary-bg--light::before {
   background-color: black;
 }
 
@@ -155,11 +147,11 @@
 }
 
 .icon-button-light:hover {
-  background-color: #F3F4FF;
+  background-color: rgba(99, 115, 129, 0.12);
 }
 
 .icon-button-dark:hover {
-  background-color: #374151;
+  background-color: rgba(255, 255, 255, 0.08);
 }
 
 .icon-button-dark.fill > svg path {

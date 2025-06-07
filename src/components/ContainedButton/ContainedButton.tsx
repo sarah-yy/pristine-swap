@@ -28,26 +28,28 @@ const ContainedButton: React.FC<ContainedButtonProps> = (props: ContainedButtonP
 
   return (
     <button
-      className={clsx({
-        "default-contained-button-light": theme === Theme.Light && isDefaultColor,
-        "default-contained-button-dark": theme === Theme.Dark && isDefaultColor,
-        "plain-contained-button-light": theme === Theme.Light && isPlainColor,
-        "plain-contained-button-dark": theme === Theme.Dark && isPlainColor,
+      className={clsx(
+        "contained-btn-base",
+        "drop-shadow-md",
+        "font-semibold",
+        className,
+        {
+          "default-contained-button-light": theme === Theme.Light && isDefaultColor,
+          "default-contained-button-dark": theme === Theme.Dark && isDefaultColor,
+          "tertiary-bg--light": theme === Theme.Light && isPlainColor,
+          "tertiary-bg--dark": theme === Theme.Dark && isPlainColor,
+          "plain-contained-button": isPlainColor,
 
-        "btn-size-sm": size === Size.SM,
-        "btn-size-xs": size === Size.XS,
-        "btn-size-md": size === Size.MD,
-        "btn-size-lg": size === Size.LG,
+          "btn-size-sm": size === Size.SM,
+          "btn-size-xs": size === Size.XS,
+          "btn-size-md": size === Size.MD,
+          "btn-size-lg": size === Size.LG,
 
-        "text-body4": size === Size.SM || size === Size.XS,
-        "text-body3": size === Size.MD,
-        "text-h5": size === Size.LG,
-      },
-      "contained-btn-base",
-      "drop-shadow-md",
-      "font-semibold",
-      className,
-    )}
+          "text-body4": size === Size.SM || size === Size.XS,
+          "text-body3": size === Size.MD,
+          "text-h5": size === Size.LG,
+        },
+      )}
       {...rest}
     >
       {loading ? (

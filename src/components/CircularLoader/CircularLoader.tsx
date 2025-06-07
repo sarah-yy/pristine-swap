@@ -26,7 +26,7 @@ const CircularLoader: React.FC<Props> = (props: Props) => {
   return (
     <svg
       aria-hidden="true"
-      className={clsx("inline animate-spin", colorStyles, className)}
+      className={clsx("inline", "animate-spin", colorStyles, className)}
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

@@ -172,6 +172,14 @@ body.light::-webkit-scrollbar-track,
   background-color: theme(colors.lightBackground.secondary);
 }
 
+.tertiary-bg--dark {
+  background-color: theme(colors.darkBackground.tertiary);
+}
+
+.tertiary-bg--light {
+  background-color: theme(colors.lightBackground.tertiary);
+}
+
 .svg-fill--light path {
   fill: theme(colors.lightText.secondary);
 }

@@ -87,14 +87,6 @@
   padding: 1rem 1.25rem;
 }
 
-.form-input-light {
-  background-color: theme(colors.lightBackground.secondary);
-}
-
-.form-input-dark {
-  background-color: theme(colors.darkBackground.secondary);
-}
-
 .header-connect-btn {
   width: 7.5rem;
 }
@@ -190,10 +182,10 @@
   overflow: hidden;
 }
 .wallet-connect-btn-dark {
-  background-color: theme(colors.darkBackground.secondary);
+  background-color: theme(colors.darkBackground.tertiary);
 }
 .wallet-connect-btn-light {
-  background-color: theme(colors.lightBackground.secondary);
+  background-color: theme(colors.lightBackground.tertiary);
 }
 .wallet-btn-icon {
   width: 1.5rem;

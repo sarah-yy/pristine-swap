@@ -4,30 +4,30 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { ChevronIcon } from "../../../../assets";
 import { ChainIcon, OutlinedButton, ThemedSvgIcon, TokenIcon, ValueFormatter } from "../../../../components";
-import { BaseDivProps, ExchangeKeyType, ExchangeTx, Size, Theme } from "../../../../constants";
+import { BaseDivProps, ExchangeKeyType, ExchangeTx, Size, Theme, TokenAndChain } from "../../../../constants";
 import { useDebounce, useSelect, useTokenSelectionContext } from "../../../../hooks";
 import { formActions } from "../../../../stores";
 import { bnOrZero } from "../../../../utils";
 
 interface Props extends BaseDivProps {
   type?: ExchangeKeyType;
+  formToken: TokenAndChain;
+  formAmtBN: BigNumber;
+  formAmtInput: string;
 }
 
 const FormInput: React.FC<Props> = (props: Props) => {
-  const { className, type = ExchangeTx.Buy } = props;
+  const { className, formAmtBN, formAmtInput, formToken, type = ExchangeTx.Buy } = props;
   const isSellTx = type === ExchangeTx.Sell;
   const dispatch = useDispatch();
 
   const theme = useSelect((store) => store.app.theme);
   const { handleOpenTokenDialog } = useTokenSelectionContext();
   const isConnected = useSelect((store) => !!store.app.primaryWallet);
-  const formToken = useSelect((store) => store.form.form[isSellTx ? "srcToken" : "destToken"]);
-  const formAmtInput = useSelect((store) => store.form.form[isSellTx ? "srcAmount" : "destAmount"]);
-  const formAmtBN = useSelect((store) => store.form.form[isSellTx ? "srcAmountBN" : "destAmountBN"]);
 
-  const chainInfo = useSelect((store) => store.chain.chains[formToken.chainId]);
-  const tokenInfo = useSelect((store) => store.token.tokens[formToken.chainId]?.[formToken.denom.toLowerCase()]);
-  const tokenBalance = useSelect((store) => isSellTx ? store.balance.balances[formToken.chainId]?.[formToken.denom] : undefined);
+  const chainInfo = useSelect((store) => store.chain.chains[formToken?.chainId ?? ""]);
+  const tokenInfo = useSelect((store) => store.token.tokens[formToken?.chainId ?? ""]?.[formToken?.denom.toLowerCase() ?? ""]);
+  const tokenBalance = useSelect((store) => isSellTx ? store.balance.balances[formToken?.chainId ?? ""]?.[formToken?.denom ?? ""] : undefined);
 
   const handleClickMax = React.useCallback(() => {
     if (!isSellTx || !tokenBalance) return;
@@ -40,21 +40,25 @@ const FormInput: React.FC<Props> = (props: Props) => {
     const valueBN = inputValue.decimalPlaces(tokenInfo?.decimals ?? 0, BigNumber.ROUND_DOWN);
     if (isSell) {
       dispatch(formActions.setSrcAmountBN(valueBN));
+      if (!valueBN.isZero()) dispatch(formActions.querySkipQuote({ amountIn: valueBN }));
     } else {
       dispatch(formActions.setDestAmountBN(valueBN));
+      if (!valueBN.isZero()) dispatch(formActions.querySkipQuote({ amountOut: valueBN }));
     }
   }, 500);
 
-  const handleOnChange = React.useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.currentTarget.value;
-    const inputBN = bnOrZero(inputValue);
-    if (isSellTx) {
-      dispatch(formActions.setSrcAmountInput(inputValue));
-    } else {
-      dispatch(formActions.setDestAmountInput(inputValue));
-    }
-    debounceInputQuery(inputBN, isSellTx);
-  }, [isSellTx]); // eslint-disable-line react-hooks/exhaustive-deps
+  const handleOnChange = (isSellTx: boolean) => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      const inputValue = e.currentTarget.value;
+      const inputBN = bnOrZero(inputValue);
+      if (isSellTx) {
+        dispatch(formActions.setSrcAmountInput(inputValue));
+      } else {
+        dispatch(formActions.setDestAmountInput(inputValue));
+      }
+      debounceInputQuery(inputBN, isSellTx);
+    };
+  };
 
   const handleOnKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (["e", "E", "+", "-"].includes(e.key)) {
@@ -68,12 +72,15 @@ const FormInput: React.FC<Props> = (props: Props) => {
 
   return (
     <div
-      className={clsx({
-        "form-input-light": theme === Theme.Light,
-        "form-input-dark": theme === Theme.Dark,
-      },
-      "form-input border-radius w-full grid gap-[1.125rem] grid-cols-[11rem_auto]",
-      className,
+      className={clsx(
+        `tertiary-bg--${theme}`,
+        "form-input",
+        "border-radius",
+        "w-full",
+        "grid",
+        "gap-[1.125rem]",
+        "grid-cols-[11rem_auto]",
+        className,
       )}
     >
       {/* Left Section */}
@@ -141,7 +148,7 @@ const FormInput: React.FC<Props> = (props: Props) => {
           type="number"
           className="blank-input text-h4 font-semibold text-right"
           value={formAmtInput}
-          onChange={handleOnChange}
+          onChange={handleOnChange(isSellTx)}
           onKeyDown={handleOnKeyDown}
         />
 

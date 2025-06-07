@@ -1,13 +1,15 @@
+import clsx from "clsx";
 import React from "react";
 import { useDispatch } from "react-redux";
 import { MoonIcon, ReloadIcon, SunIcon, SettingsIcon } from "../../../../assets";
-import { Theme } from "../../../../constants";
+import { FormTaskNames, Theme } from "../../../../constants";
 import { IconButton } from "../../../../components";
-import { useSelect } from "../../../../hooks";
+import { useSelect, useTaskSubscriber } from "../../../../hooks";
 import { appActions } from "../../../../stores";
 
 const SettingsBar: React.FC = () => {
   const dispatch = useDispatch();
+  const quoteLoading = useTaskSubscriber(FormTaskNames.QueryQuote);
   const theme = useSelect((store) => store.app.theme);
 
   const handleChangeTheme = () => {
@@ -18,7 +20,7 @@ const SettingsBar: React.FC = () => {
   return (
     <div className="flex justify-end items-center gap-x-3">
       <IconButton className="setting-icon-btn">
-        <ReloadIcon />
+        <ReloadIcon className={clsx({ "animate-spin": quoteLoading })} />
       </IconButton>
 
       <IconButton className="setting-icon-btn" onClick={handleChangeTheme}>
